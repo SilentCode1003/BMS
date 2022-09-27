@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-xl-6 col-lg-5">
+        <div class="input-area">
+            <fieldset>
+                <legend class="info black-txt">REIMBURSEMENT FORM</legend>
+                <div class="report-entry">
+                        <label class="register-label" for="price">DATE: </label>
+                        <input class="register-address" type="text" id="datefill" name="datefill">
+                    </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">PERSONEL: </label>
+                    <input class="register-address" type="text" id="personel" name="personel">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">POSITION: </label>
+                    <input class="register-address" type="text" id="position" name="position">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">PETTY CASH: </label>
+                    <input class="register-address" type="text" id="pettycash" name="pettycash">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">BUDGET: </label>
+                    <input class="register-address" type="text" id="budget" name="budget">
+                </div>
+                <br>
+            </fieldset>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-5">
+        <div class="input-area">
+            <fieldset>
+                <legend class="info black-txt">TRAVEL INFO</legend>
+                <div class="report-entry">
+                    <label class="register-label" for="price">TICKET: </label>
+                    <input class="register-address" type="text" id="ticket" name="ticket">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">DESTINATION: </label>
+                    <input class="register-address" type="text" id="destination" name="destination">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">TYPE: </label>
+                    <input class="register-address" type="text" id="type" name="type">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">COST: </label>
+                    <input class="register-address" type="text" id="cost" name="cost">
+                </div>
+                <br>
+                <div>
+                    <button class="btn-right btn-glow" id="addBtn" name="addBtn">ADD TO LIST</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<hr class="custom-hr">
+<br>
+<div class="row">
+    <div class="col-xl-6 col-lg-5">
+        <h4>TOTAL BUDGET: PHP <span id="subtotal" style="color: green">00.00</span></h4>
+    </div>
+    <div class="col-xl-6 col-lg-5">
+        <h4>TOTAL COST: PHP <span id="subcost" style="color: red">00.00</span></h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12 col-lg-10">
+        <table id="storeInfoTbl">
+            <thead>
+                <th>Ticket</th>
+                <th>Destination</th>
+                <th>Type</th>
+                <th>Cost</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+</div>
+<br>
+<div class="container-btn">
+    <button class="center print-btn btn-glow" id="saveBtn" name="saveBtn">SAVE</button>
+</div>

@@ -1,0 +1,97 @@
+<script>
+    $(document).ready(function () {
+        let dataArr = [];
+        let pettyCash = 0.00;
+        let budgetCash = 0.00;
+        let totalBudget = 0.00;
+        let subcost = 0.00;
+
+        document.getElementById('pettycash').value = pettyCash;
+        document.getElementById('budget').value = budgetCash;
+
+        var t = $('#storeInfoTbl').DataTable({
+            'destroy': true,
+            'paging': false,
+            'searching': false,
+            'info': false,
+            'scrollY': 400,
+            'scrollCollapse': true,
+        });
+
+        $(document).on('click', "#addBtn", function () {
+            var ticket = $('#ticket').val();
+            var destination = $('#destination').val();
+            var type = $('#type').val();
+            var cost = $('#cost').val();
+
+            dataArr.push({
+                'ticket': ticket,
+                'destination': destination,
+                'type': type,
+                'cost': cost
+            });
+
+            t.row.add([ticket, destination, type, cost]).draw(false);
+
+            subcost += parseFloat(cost);
+
+            document.getElementById('subcost').textContent = parseFloat(subcost);
+            console.log(parseFloat(subcost));
+
+        });
+
+        $(document).on('click', "#saveBtn", function () {
+            var personel = $('#personel').val();
+            var position = $('#position').val();
+            var pettycash = $('#pettycash').val();
+            var budget = $('#budget').val();
+            var datefill = $('#datefill').val();
+
+            var message = "";
+
+            if (personel == "") { message += "Personel "}
+            if (position == "") {message += "Position " }
+            if (datefill == "") { message += "Date "}
+
+
+            if(message != ""){alert("Must fill-up " + message + " field!")}
+            else {
+
+            }
+
+
+        });
+
+        $(document).on('change', '#pettycash', function () {
+            pettyCash = $('#pettycash').val();
+            budgetCash = $('#budget').val();
+
+            var budget = parseFloat(budgetCash);
+            var petty = parseFloat(pettyCash);
+
+            console.log(pettyCash + " " + budgetCash);
+
+            totalBudget = budget + petty;
+
+            document.getElementById('subtotal').textContent = parseFloat(totalBudget);
+
+            console.log(parseFloat(totalBudget));
+
+        })
+
+        $(document).on('change', '#budget', function () {
+            pettyCash = $('#pettycash').val();
+            budgetCash = $('#budget').val();
+
+            var budget = parseFloat(budgetCash);
+            var petty = parseFloat(pettyCash);
+
+            totalBudget = budget + petty;
+
+            document.getElementById('subtotal').textContent = parseFloat(totalBudget);
+
+            console.log(parseFloat(totalBudget));
+
+        })
+    });
+</script>
