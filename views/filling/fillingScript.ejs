@@ -24,19 +24,29 @@
             var type = $('#type').val();
             var cost = $('#cost').val();
 
-            dataArr.push({
-                'ticket': ticket,
-                'destination': destination,
-                'type': type,
-                'cost': cost
-            });
+            var message = "";
 
-            t.row.add([ticket, destination, type, cost]).draw(false);
+            if (ticket == "") { message += "Ticket " }
+            if (destination == "") { message += "Destination " }
+            if (type == "") { message += "Type " }
+            if (cost == "") { message += "Cost " }
 
-            subcost += parseFloat(cost);
+            if (message != "") { alert("Must fill-up " + message + " field!") }
+            else {
+                dataArr.push({
+                    'ticket': ticket,
+                    'destination': destination,
+                    'type': type,
+                    'cost': cost
+                });
 
-            document.getElementById('subcost').textContent = parseFloat(subcost);
-            console.log(parseFloat(subcost));
+                t.row.add([ticket, destination, type, cost]).draw(false);
+
+                subcost += parseFloat(cost);
+
+                document.getElementById('subcost').textContent = parseFloat(subcost);
+                console.log(parseFloat(subcost));
+            }
 
         });
 
@@ -46,16 +56,44 @@
             var pettycash = $('#pettycash').val();
             var budget = $('#budget').val();
             var datefill = $('#datefill').val();
+            var dataRaw = [];
+
+            dataRaw.push({
+                date: datefill,
+                personel: personel,
+                position: position,
+                pettycash: pettycash,
+                budget: budget,
+                data: dataArr
+            })
+
+            var data = JSON.stringify(dataRaw);
 
             var message = "";
 
-            if (personel == "") { message += "Personel "}
-            if (position == "") {message += "Position " }
-            if (datefill == "") { message += "Date "}
+            if (personel == "") { message += "Personel " }
+            if (position == "") { message += "Position " }
+            if (datefill == "") { message += "Date " }
 
 
-            if(message != ""){alert("Must fill-up " + message + " field!")}
+            if (message != "") { alert("Must fill-up " + message + " field!") }
             else {
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3000/filling/save",
+                    data: {
+                        date: datefill,
+                        personel: personel,
+                        data: data
+                    },
+                    success: function (result) {
+                        alert("Data Saved!");
+                    },
+                    error: function (result) {
+                        alert('error: ' + result.data);
+                    }
+                });
 
             }
 
