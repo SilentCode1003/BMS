@@ -18,10 +18,6 @@
         </table>
     </div>
 </div>
-<br>
-<div class="container-btn">
-    <button class="center print-btn btn-glow" id="reportBtn" name="reportBtn">GENERATE REPORT</button>
-</div>
 
 <!-- The Modal -->
 <div id="reportModal" class="modal card shadow mb-4">
@@ -54,26 +50,21 @@
                             <div class="col-xl-4 col-lg-3 small-modal-text">
                                 <strong>
                                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PETTY CASH:
-                                </strong> <span></span></p>
+                                </strong> <span id="modalPettyCash"></span></p>
                                 <strong>
                                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUDGET:
-                                </strong> <span></span></p>
+                                </strong> <span id="modalBudget"></span></p>
                                 <strong>
                                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL BUDGET:
-                                </strong> <span></span></p>
-                            </div>
-                            <div class="col-xl-4 col-lg-3">
-
-                            </div>
-                            <div class="col-xl-4 col-lg-3 small-modal-text">
+                                </strong> <span id="modalTotalBudget"></span></p>
                                 <strong>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRAVEL
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRAVEL
                                         COST:
-                                </strong> <span></span></p>
+                                </strong> <span id="modalCost"></span></p>
                                 <strong>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REMAINING
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REMAINING
                                         BALANCE:
-                                </strong> <span></span></p>
+                                </strong> <span id="modalBalance"></span></p>
                             </div>
                         </div>
                         <div id="table-wrapper-modal" class="col-xl-12 col-lg-4">
@@ -89,6 +80,7 @@
                             <br>
                             <br>
                             <div class="small-modal-text">
+                                    <p><strong>&nbsp;&nbsp;Reason:&nbsp;</strong><span id="reasonTxt"></span>
                                 <p><strong>&nbsp;&nbsp;Personel:&nbsp;</strong><span id="personelTxt"></span>
                                     <p><strong>&nbsp;&nbsp;Position:&nbsp;</strong><span id="positionTxt"></span>&nbsp;
                                     </p>

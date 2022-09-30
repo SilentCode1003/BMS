@@ -56,6 +56,9 @@
             var pettycash = $('#pettycash').val();
             var budget = $('#budget').val();
             var datefill = $('#datefill').val();
+            var reason= $('#travelreason').val();
+
+
             var dataRaw = [];
 
             dataRaw.push({
@@ -64,16 +67,18 @@
                 position: position,
                 pettycash: pettycash,
                 budget: budget,
+                reason: reason,
                 data: dataArr
             })
 
-            var data = JSON.stringify(dataRaw);
+            var data = JSON.stringify(dataRaw, null, 2);
 
             var message = "";
 
             if (personel == "") { message += "Personel " }
             if (position == "") { message += "Position " }
             if (datefill == "") { message += "Date " }
+            if (reason == "") { message += "Travel Reason  " }
 
 
             if (message != "") { alert("Must fill-up " + message + " field!") }

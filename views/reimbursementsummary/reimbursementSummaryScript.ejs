@@ -1,108 +1,71 @@
 <script>
     $(document).ready(function () {
-        // $("#updateArea").toggle(0, function () { });
-        // var simStatus = 'NO'; ''
-
+        var table;
+        var dataTable;
         $(document).on('click', "#serachBtn", function () {
             var personel = $('#personel').val();
 
             console.log(personel);
 
-            var dataTable = $('#equipmentTbl').DataTable({
-            'destroy': true,
-            'processing': true,
-            'serverSide': true,
-            'paging': false,
-            'searching': false,
-            'info': false,
-            'serverMethod': 'POST',
-            'ajax': {
-                'url': '/reimbursementsummary/LoadData',
-                'data': {
-                    personel: personel
-                }
-            },
-            'columns': [
-                { data: 'date' },
-                { data: 'personel' },
-            ]
+            dataTable = $('#equipmentTbl').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'serverMethod': 'POST',
+                'ajax': {
+                    'url': '/reimbursementsummary/LoadData',
+                    'data': {
+                        personel: personel
+                    }
+                },
+                'columns': [
+                    { data: 'date' },
+                    { data: 'personel' },
+                ]
+            });
         });
-        });
-
-        
-
-        // $(document).on('click', "#addEquipmentBtn", function () {
-        //     var fromstore = $('#fromstore').val();
-        //     var itemname = $('#itemname').val();
-        //     var itemserial = $('#itemserial').val();
-        //     var datepullout = $('#datepullout').val();
-        //     var pulloutby = $('#pulloutby').val();
-        //     var ticket = $('#ticket').val();
-        //     var simtype = $('#simtype').val();
-        //     var simserial = $('#simserial').val();
-
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "http://localhost:3000/NetworksPullout/save",
-        //         data: {
-        //             fromstore: fromstore,
-        //             itemname: itemname,
-        //             itemserial: itemserial,
-        //             datepullout: datepullout,
-        //             pulloutby: pulloutby,
-        //             ticket: ticket,
-        //             simtype: simtype,
-        //             simserial: simserial,
-        //             siminside: simStatus
-        //         },
-        //         success: function (result) {
-        //             alert("Data Saved!");
-        //         },
-        //         error: function (result) {
-        //             alert('error: ' + result.data);
-        //         }
-        //     });
-        // });
-
 
         // Get the modal
         var modal = document.getElementById("reportModal");
 
         // Get the button that opens the modal
-        var btn = document.getElementById("reportBtn");
+        // var btn = document.getElementById("reportBtn");
 
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
 
         // When the user clicks the button, open the modal 
-        btn.onclick = function () {
-            modal.style.display = "block";
+        // btn.onclick = function () {
+        //     modal.style.display = "block";
 
-            //Load active data
-            var table = $('#modalNetworkDeviceTbl').DataTable({
-                'destroy': true,
-                    'processing' : true,
-                    'serverSide' : true,
-                    'paging' : false,
-                    'searching': false,
-                    'info': false,
-                    'scrollY': 380,
-                    'scrollCollapse': false,
-                    'serverMethod' : 'POST',
-                    'ajax' : {
-                        'url' : '/reimbursementsummary/retrieveFile',
-                        'data': {
-                            filename: filename
-                        }
-                    },
-                    'columns' : [
-                        { data : 'Ticket'},
-                        { data : 'Destination' },
-                        { data : 'Type' },
-                        { data : 'Cost' }
-                    ] 
-            });
-        }
+        //     //Load active data
+        //     table = $('#modalNetworkDeviceTbl').DataTable({
+        //         'destroy': true,
+        //         'processing': true,
+        //         'serverSide': true,
+        //         'paging': false,
+        //         'searching': false,
+        //         'info': false,
+        //         'scrollY': 380,
+        //         'scrollCollapse': false,
+        //         'serverMethod': 'POST',
+        //         'ajax': {
+        //             'url': '/reimbursementsummary/retrieveFile',
+        //             'data': {
+        //                 filename: filename
+        //             }
+        //         },
+        //         'columns': [
+        //             { data: 'Ticket' },
+        //             { data: 'Destination' },
+        //             { data: 'Type' },
+        //             { data: 'Cost' }
+        //         ]
+        //     });
+        // }
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = function () {
@@ -125,18 +88,77 @@
             location.reload();
         });
 
-        // $(document).on('click', "#simBtn", function () {
-        //     console.log('Before: ' + simStatus)
-        //     if (simStatus == "NO") {
-        //         simStatus = 'YES';
-        //         $("#updateArea").toggle(2000, function () { });
-        //     }
-        //     else if (simStatus == "YES") {
-        //         simStatus = 'NO';
-        //         $("#updateArea").toggle(2000, function () { });
-        //     }
+        $('#equipmentTbl tbody').on('click', 'tr', function () {
+            var date;
+            var personel;
+            var position;
+            var budget;
+            var cost = 0;
+            var petteycash;
+            var balance = 0;
+            var totalbudget = 0;
+            var reason = "";
 
-        //     console.log('After: ' + simStatus)
-        // });
+
+            var data = dataTable.row(this).data();
+            console.log(data);
+
+            var date = data.date;
+            var personel = data.personel;
+
+            selectedFile = date + "_" + personel + ".json";
+
+            console.log(selectedFile);
+
+            modal.style.display = "block";
+
+            var t = $('#modalNetworkDeviceTbl').DataTable({
+                'destroy': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollCollapse': true,
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/reimbursementsummary/retrieveFile",
+                data: {
+                    personel: personel,
+                    filename: selectedFile
+                },
+                success: function (result) {
+                    $.each(result.data, function (key, item) {
+                        date = item.date;
+                        position = item.position;
+                        petteycash = item.pettycash;
+                        personel = item.personel;
+                        budget = item.budget;
+                        reason = item.reason;
+
+                        $.each(item.data, function (key, item) {
+                            cost += parseFloat(item.cost)
+
+                            t.row.add([item.ticket, item.destination, item.type, item.cost]).draw(false);
+                        })
+                    })
+                    totalbudget = parseFloat(budget) + parseFloat(petteycash);
+                    balance = parseFloat(totalbudget) - parseFloat(cost);
+
+                    document.getElementById('reasonTxt').innerText = "\n" + reason;
+                    document.getElementById('personelTxt').innerText = personel;
+                    document.getElementById('positionTxt').innerText = position;
+                    document.getElementById('dateTxt').innerText = date;
+                    document.getElementById('modalPettyCash').innerText = "₱ " + petteycash;
+                    document.getElementById('modalBudget').innerText = "₱ " + budget;
+                    document.getElementById('modalCost').innerText = "₱ " + cost;
+                    document.getElementById('modalTotalBudget').innerText = "₱ " + totalbudget;
+                    document.getElementById('modalBalance').innerText = "₱ " + balance;
+                },
+                error: function (result) {
+                    alert('error: ' + result.data);
+                }
+            });
+        });
     });
 </script>

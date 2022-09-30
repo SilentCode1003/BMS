@@ -50,5 +50,23 @@ router.post('/LoadData', function (req, res, next) {
 });
 
 router.post('/retrieveFile', function (req, res, next) {
+  var filepath = targetPath + `/${req.body.personel}/${req.body.filename}`;
 
+  console.log(filepath);
+
+  fs.readFile(filepath, 'utf8', function (err, jsStr) {
+    if (err) {
+      res.json({
+        msg: 'error',
+        data: err
+      })
+    }
+    const data = JSON.parse(jsStr);
+
+    
+    res.json({
+      msg: 'success',
+      data: data
+    })
+  });
 });
