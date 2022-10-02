@@ -20,7 +20,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/personel/positions",
+            url: "/personel/positions",
             success: function (result) {
                 console.log(result.data);
 
@@ -37,7 +37,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/personel/personels",
+            url: "/personel/personels",
             success: function (result) {
                 console.log(result.data);
 
@@ -54,7 +54,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/personel/transportations",
+            url: "/personel/transportations",
             success: function (result) {
                 console.log(result.data);
 

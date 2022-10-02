@@ -64,6 +64,8 @@ router.get('/locations', function (req, res, next) {
       })
     });
 
+    console.log(dataArr);
+
     setTimeout(function () {
       res.json({
         msg: 'success',
@@ -89,6 +91,8 @@ router.get('/positions', function (req, res, next) {
         dataArr.push(dataRaw[0]);
       })
     });
+
+    console.log(dataArr);
 
     setTimeout(function () {
       res.json({
@@ -117,6 +121,8 @@ router.get('/personels', function (req, res, next) {
         dataArr.push(dataRaw2[1]);
       })
     });
+
+    console.log(dataArr);
 
     setTimeout(function () {
       res.json({

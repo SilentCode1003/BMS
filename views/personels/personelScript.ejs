@@ -4,7 +4,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/personel/locations",
+            url: "/personel/locations",
             success: function (result) {
                 console.log(result.data);
 
@@ -21,7 +21,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/personel/positions",
+            url: "/personel/positions",
             success: function (result) {
                 console.log(result.data);
 
@@ -38,7 +38,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/personel/personels",
+            url: "/personel/personels",
             success: function (result) {
                 console.log(result.data);
 
@@ -100,7 +100,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:3000/personel/register",
+                    url: "/personel/register",
                     data: {
                         idnumber: idnumber,
                         fullname: fullname,
