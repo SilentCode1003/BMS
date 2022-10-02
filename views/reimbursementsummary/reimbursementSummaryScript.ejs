@@ -120,6 +120,8 @@
                 'scrollCollapse': true,
             });
 
+            
+
             $.ajax({
                 type: "POST",
                 url: "/reimbursementsummary/retrieveFile",
@@ -128,6 +130,7 @@
                     filename: selectedFile
                 },
                 success: function (result) {
+                    t.clear().draw();
                     $.each(result.data, function (key, item) {
                         date = item.date;
                         position = item.position;

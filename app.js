@@ -12,6 +12,8 @@ var fillingRouter = require('./routes/filling');
 var reimbursementsummaryRouter = require('./routes/reimbursementsummary');
 var requestRouter = require('./routes/request');
 var budgetsummaryRouter = require('./routes/budgetsummary');
+var positionRouter = require('./routes/position');
+var transportationRouter = require('./routes/transportation');
 
 var app = express();
 
@@ -33,6 +35,8 @@ app.use('/filling', fillingRouter);
 app.use('/reimbursementsummary', reimbursementsummaryRouter);
 app.use('/request', requestRouter);
 app.use('/budgetsummary', budgetsummaryRouter);
+app.use('/position', positionRouter);
+app.use('/transportation', transportationRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

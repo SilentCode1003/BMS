@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-xl-6 col-lg-5">
+        <div class="input-area">
+            <h6 id="date"><%= moment().format('YYYY-DD-MM');%></h6>
+            <fieldset>
+                <legend class="info black-txt">Position Info</legend>
+                <div class="report-entry">
+                    <label class="register-label" for="price">Position Code: </label>
+                    <input class="register-address" type="text" id="positioncode" name="positioncode">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">Position Name: </label>
+                    <input class="register-address" type="text" id="positionname" name="positionname">
+                </div>
+                <br>
+                <div>
+                    <button class="btn-right btn-glow" id="registerBtn" name="registerBtn">REGISTER</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<hr class="custom-hr">
+<div class="row">
+    <div class="col-xl-12 col-lg-10">
+        <table id="storeInfoTbl">
+            <thead>
+                <th>POSITION CODE</th>
+                <th>POSITION NAME</th>
+                <th>CREATED BY</th>
+                <th>CREATED DATE</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+</div>

@@ -9,11 +9,17 @@
                 </div>
                 <div class="report-entry">
                     <label class="register-label" for="price">PERSONEL: </label>
-                    <input class="register-address" type="text" id="personel" name="personel">
+                    <select class="register-address" id=personel>
+                        <option value="-" id="listpersonel">NAME</option>
+                    </select>
+                    <!-- <input class="register-address" type="text" id="personel" name="personel"> -->
                 </div>
                 <div class="report-entry">
                     <label class="register-label" for="price">POSITION: </label>
-                    <input class="register-address" type="text" id="position" name="position">
+                    <select class="register-address" id=position>
+                        <option value="-" id="listposition">POSITION</option>
+                    </select>
+                    <!-- <input class="register-address" type="text" id="position" name="position"> -->
                 </div>
                 <div class="report-entry">
                     <label class="register-label" for="price">PETTY CASH: </label>
@@ -41,7 +47,10 @@
                 </div>
                 <div class="report-entry">
                     <label class="register-label" for="price">TYPE: </label>
-                    <input class="register-address" type="text" id="type" name="type">
+                    <select class="register-address" id=type>
+                        <option value="-" id="listtranspotation">TRANSPORTATION</option>
+                    </select>
+                    <!-- <input class="register-address" type="text" id="type" name="type"> -->
                 </div>
                 <div class="report-entry">
                     <label class="register-label" for="price">COST: </label>
@@ -61,7 +70,7 @@
             <fieldset>
                 <legend class="info black-txt">REASON FOR TRAVEL</legend>
                 <div class="report-entry">
-                   <textarea id="travelreason" style="width: 50rem;height: 5rem;"></textarea>
+                    <textarea id="travelreason" style="width: 50rem;height: 5rem;"></textarea>
                 </div>
             </fieldset>
         </div>

@@ -18,6 +18,57 @@
             'scrollCollapse': true,
         });
 
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:3000/personel/positions",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#position').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:3000/personel/personels",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#personel').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:3000/personel/transportations",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#type').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
+        });
+
         $(document).on('click', "#addBtn", function () {
             var ticket = $('#ticket').val();
             var destination = $('#destination').val();
@@ -56,7 +107,7 @@
             var pettycash = $('#pettycash').val();
             var budget = $('#budget').val();
             var datefill = $('#datefill').val();
-            var reason= $('#travelreason').val();
+            var reason = $('#travelreason').val();
 
 
             var dataRaw = [];
