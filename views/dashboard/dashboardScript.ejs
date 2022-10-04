@@ -1,0 +1,64 @@
+<script>
+
+    $(document).ready(function () {
+        var table;
+        var dataTable;
+        var FileDate = "";
+        var PersonelName = "";
+        var data = [];
+
+        dataTable = $('#equipmentTbl').DataTable({
+            'destroy': true,
+            'processing': true,
+            'serverSide': true,
+            'paging': false,
+            'searching': false,
+            'info': false,
+            'serverMethod': 'GET',
+            'ajax': {
+                'url': '/budgetsummary/LoadPendingBudgetRequest',
+            },
+            'columns': [
+                { data: 'date' },
+                { data: 'ticketnum' },
+                { data: 'personel' },
+                { data: 'location' },
+                { data: 'budget' },
+                { data: 'status' },
+                {
+                    data: null, title: 'Action', wrap: false, "render": function () {
+                        return '<button class="btn-glow" id="updateBtn" name="updateBtn">APPROVED</button>'
+                    }
+                }
+            ]
+        });
+
+        $(document).on('click', "#updateBtn", function () {
+            $.ajax({
+                type: "POST",
+                url: "/budgetsummary/approved",
+                data: {
+                    date: FileDate,
+                    personel: PersonelName,
+                },
+                success: function (result) {
+                    success('Approved!','Budget was successfully apporved!')
+                    $('#equipmentTbl').DataTable().ajax.reload();
+                },
+                error: function (result) {
+                    error(result.data);
+                }
+            });
+
+        });
+
+        $('#equipmentTbl tbody').on('click', 'tr', function () {
+            var data = dataTable.row(this).data();
+            console.log(data);
+            FileDate = data.date;
+            PersonelName = data.personel;
+            console.log(FileDate);
+            console.log(PersonelName);
+        });
+    });
+</script>

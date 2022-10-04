@@ -1,0 +1,155 @@
+<script>
+    $(document).ready(function () {
+        var table;
+        var dataTable;
+        $(document).on('click', "#serachBtn", function () {
+            var personel = $('#personel').val();
+
+            console.log(personel);
+
+            dataTable = $('#equipmentTbl').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'serverMethod': 'POST',
+                'ajax': {
+                    'url': '/budgetsummary/LoadData',
+                    'data': {
+                        personel: personel
+                    }
+                },
+                'columns': [
+                    { data: 'date' },
+                    { data: 'personel' },
+                    { data: 'budget' },
+                ]
+            });
+        });
+
+        // Get the modal
+        var modal = document.getElementById("reportModal");
+
+        // Get the button that opens the modal
+        // var btn = document.getElementById("reportBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        $(document).on('click', "#printBtn", function () {
+            var printContents = document.getElementById('printArea').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload();
+        });
+
+        $('#equipmentTbl tbody').on('click', 'tr', function () {
+            var date;
+            var personel;
+            var position;
+            var budget;
+            var cost = 0;
+            var petteycash;
+            var balance = 0;
+            var totalbudget = 0;
+            var reason = "";
+
+
+            var data = dataTable.row(this).data();
+            console.log(data);
+
+            var date = data.date;
+            var personel = data.personel;
+
+            selectedFile = date + "_" + personel + ".json";
+
+            console.log(selectedFile);
+
+            modal.style.display = "block";
+
+            var t = $('#modalNetworkDeviceTbl').DataTable({
+                'destroy': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollCollapse': true,
+            });
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/reimbursementsummary/retrieveFile",
+                data: {
+                    personel: personel,
+                    filename: selectedFile
+                },
+                success: function (result) {
+                    t.clear().draw();
+                    $.each(result.data, function (key, item) {
+                        date = item.date;
+                        position = item.position;
+                        petteycash = item.pettycash;
+                        personel = item.personel;
+                        budget = item.budget;
+                        reason = item.reason;
+
+                        $.each(item.data, function (key, item) {
+                            cost += parseFloat(item.cost)
+
+                            t.row.add([item.ticket, item.destination, item.type, item.cost]).draw(false);
+                        })
+                    })
+                    totalbudget = parseFloat(budget) + parseFloat(petteycash);
+                    balance = parseFloat(totalbudget) - parseFloat(cost);
+
+                    document.getElementById('reasonTxt').innerText = "\n" + reason;
+                    document.getElementById('personelTxt').innerText = personel;
+                    document.getElementById('positionTxt').innerText = position;
+                    document.getElementById('dateTxt').innerText = date;
+                    document.getElementById('modalPettyCash').innerText = "₱ " + petteycash;
+                    document.getElementById('modalBudget').innerText = "₱ " + budget;
+                    document.getElementById('modalCost').innerText = "₱ " + cost;
+                    document.getElementById('modalTotalBudget').innerText = "₱ " + totalbudget;
+                    document.getElementById('modalBalance').innerText = "₱ " + balance;
+                },
+                error: function (result) {
+                    alert('error: ' + result.data);
+                }
+            });
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/personel/personels",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#personel').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
+        });
+    });
+</script>

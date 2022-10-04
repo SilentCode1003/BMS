@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-xl-6 col-lg-5">
+        <select class="register-address" id=personel>
+            <option value="-" id="listpersonel">SELECT NAME</option>
+        </select>
+        <!-- <input class="register-address" type="text" id="personel" name="personel" placeholder="ENTER PERSONEL NAME"> -->
+        <button class="search-btn btn-glow" id="serachBtn" name="serachBtn"><i class="fa fa-search"></i>
+            SEARCH</button>
+    </div>
+</div>
+<hr class="custom-hr">
+<div class="row">
+    <div class="col-xl-6 col-lg-5">
+        <table id="equipmentTbl">
+            <thead>
+                <th>Date</th>
+                <th>Personel</th>
+                <th>Budget</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div id="reportModal" class="modal card shadow mb-4">
+    <dvi class="row">
+        <div class="col-xl-12 col-lg-6">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-button-container">
+                    <span class="close">&times;</span>
+                </div>
+                <!-- AREA TO PRINT ONLY -->
+                <div id="printArea">
+                    <div class="modal-header">
+                        <img class="displayed" src="/images/img/5L_logo.png" alt="...">
+                        <p><strong><span class="report-header">5L SOLUTIONS SUPPLY &amp; ALLIED SERVICES
+                                    CORP.</span></strong></p>
+                    </div>
+                    <div class="modal-header-address small-modal-text">
+                        <p><span class="report-subheader">Phase 3B Block 18 Lot 15, Golf Drive Street Pacita Complex 1,
+                                City of Bi&ntilde;an, Laguna</span></p>
+                    </div>
+                    <div class="modal-header-contact small-modal-text">
+                        <p><span class="report-subheader">Tel.Nos: 273-44-69/952-15-60</span></p>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class='report-header' style="text-align: center">
+                            <%= reportTitle %>
+                        </h2>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-3 small-modal-text">
+                                <strong>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PETTY CASH:
+                                </strong> <span id="modalPettyCash"></span></p>
+                                <strong>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUDGET:
+                                </strong> <span id="modalBudget"></span></p>
+                                <strong>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL BUDGET:
+                                </strong> <span id="modalTotalBudget"></span></p>
+                                <strong>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRAVEL
+                                        COST:
+                                </strong> <span id="modalCost"></span></p>
+                                <strong>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REMAINING
+                                        BALANCE:
+                                </strong> <span id="modalBalance"></span></p>
+                            </div>
+                        </div>
+                        <div id="table-wrapper-modal" class="col-xl-12 col-lg-4">
+                            <table id="modalNetworkDeviceTbl" class="col-xl-12 col-lg-4 col-sm-12">
+                                <thead style="font-size: 9.5px;">
+                                    <th>DATE</th>
+                                    <th>TICKET</th>
+                                    <th>PERSONEL</th>
+                                    <th>BUDGET</th>
+                                </thead>
+                                <tbody style="font-size: 8.5px;"></tbody>
+                            </table>
+                            <br>
+                            <br>
+                            <div class="small-modal-text">
+                                <p><strong>&nbsp;&nbsp;Reason:&nbsp;</strong><span id="reasonTxt"></span>
+                                <p><strong>&nbsp;&nbsp;Personel:&nbsp;</strong><span id="personelTxt"></span>
+                                <p><strong>&nbsp;&nbsp;Position:&nbsp;</strong><span id="positionTxt"></span>&nbsp;
+                                </p>
+                                <p><strong>&nbsp;&nbsp;Date:&nbsp;</strong><span id="dateTxt"></span>&nbsp;</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <p><strong><span class="report-footer">5L SOLUTIONS SUPPLY &amp; ALLIED SERVICES
+                                    CORP.</span></strong></p>
+                    </div>
+                    <div class="modal-footer-address">
+                        <p><span class="report-footer-subheader">Phase 3B Block 18 Lot 15, Golf Drive Street Pacita
+                                Complex 1, City of Bi&ntilde;an, Laguna</span></p>
+                    </div>
+                    <div class="modal-footer-contact">
+                        <p><span class="report-footer-subheader">Tel.Nos: 273-44-69/952-15-60</span></p>
+                    </div>
+                </div>
+
+                <div id="modal-button-container" class="modal-buttons">
+                    <!-- <a class="success btn-glow" href="/EquipmentPullout/returnReport"> GENERATE RETURN </a> -->
+                    <button class="btn-glow-modal" id="printBtn" name="printBtn">PRINT</button>
+                </div>
+            </div>
+        </div>
+    </dvi>
+
+</div>
