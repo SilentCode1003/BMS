@@ -15,7 +15,13 @@ router.get('/', function (req, res, next) {
 module.exports = router;
 
 router.post('/LoadData', function (req, res, next) {
-  var targetDir = targetPath + `/${req.body.personel}/`;
+  var personel = req.body.personel;
+  var targetDir = targetPath + `/${personel}/`;
+  var targetDir2 = targetPath + `/${personel}`;
+
+  if (!fs.existsSync(targetDir2)) {
+    fs.mkdirSync(targetDir2);
+  }
 
   console.log(targetDir);
 
@@ -50,8 +56,11 @@ router.post('/LoadData', function (req, res, next) {
 });
 
 router.post('/retrieveFile', function (req, res, next) {
-  var filepath = targetPath + `/${req.body.personel}/${req.body.filename}`;
+  var filename = req.body.filename;
+  var personel = req.body.personel;
 
+  var filepath = targetPath + `/${personel}/${filename}`;
+ 
   console.log(filepath);
 
   fs.readFile(filepath, 'utf8', function (err, jsStr) {
@@ -63,7 +72,7 @@ router.post('/retrieveFile', function (req, res, next) {
     }
     const data = JSON.parse(jsStr);
 
-    
+    console.log(data);
     res.json({
       msg: 'success',
       data: data

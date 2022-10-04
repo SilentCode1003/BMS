@@ -120,7 +120,7 @@
                 'scrollCollapse': true,
             });
 
-            
+
 
             $.ajax({
                 type: "POST",
@@ -162,6 +162,23 @@
                     alert('error: ' + result.data);
                 }
             });
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/personel/personels",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#personel').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
         });
     });
 </script>

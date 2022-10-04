@@ -82,10 +82,10 @@
 
             var message = "";
 
-            if (idnumber == "") { idnumber += "ID " }
-            if (fullname == "") { fullname += "Fullname " }
-            if (position == "") { position += "Position " }
-            if (assignedlocation == "-" || assignedlocation == "") { assignedlocation += "Assigned Location " }
+            if (idnumber == "") { message += "ID " }
+            if (fullname == "") { message += "Fullname " }
+            if (position == "") { message += "Position " }
+            if (assignedlocation == "-" || assignedlocation == "") { message += "Assigned Location " }
 
             if (message != "") { alert("Must fill-up " + message + " field!") }
             else {

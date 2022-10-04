@@ -1,0 +1,24 @@
+[
+  {
+    "date": "2022-10-04",
+    "personel": "JETHRAY CRUZ",
+    "position": "IT FIELD ENGINEER",
+    "pettycash": "0",
+    "budget": "200",
+    "reason": "ST1111 TWO SANPARQ CASHDRAWER ISOLATION",
+    "data": [
+      {
+        "ticket": "INC-4521352",
+        "destination": "BAHAY TO TWO SANPARQ",
+        "type": "JEEP",
+        "cost": "27"
+      },
+      {
+        "ticket": "INC-4521352",
+        "destination": "TWO SANPARQ TO BAHAY",
+        "type": "JEEP",
+        "cost": "27"
+      }
+    ]
+  }
+]

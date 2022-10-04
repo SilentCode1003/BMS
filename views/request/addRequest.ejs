@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-xl-6 col-lg-5">
+        <div class="input-area">
+            <fieldset>
+                <h6 class="datetime" id="date"><%= moment().format('YYYY-DD-MM');%></h6>
+                <legend class="info black-txt">BUDGET REQUEST FORM</legend>
+                <div class="report-entry">
+                    <label class="register-label" for="price">TICKET NO: </label>
+                    <input class="register-address" type="text" id="ticketnum" name="ticketnum">
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">PERSONEL: </label>
+                    <select class="register-address" id=personel>
+                        <option value="-" id="listpersonel"></option>
+                    </select>
+                    <!-- <input class="register-address" type="text" id="personel" name="personel"> -->
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">LOCATION: </label>
+                    <select class="register-address" id=location>
+                        <option value="-" id="assignelocation"></option>
+                    </select>
+                    <!-- <input class="register-address" type="text" id="location" name="location"> -->
+                </div>
+                <div class="report-entry">
+                    <label class="register-label" for="price">BUDGET: </label>
+                    <input class="register-address" type="text" id="budget" name="budget">
+                </div>
+                <br>
+                <div>
+                    <button class="btn-right btn-glow" id="registerBtn" name="registerBtn">REQUEST</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<hr class="custom-hr">
+<div class="row">
+    <div class="col-xl-12 col-lg-10">
+        <table id="storeInfoTbl">
+            <thead>
+                <th>DATE</th>
+                <th>TICKET NO</th>
+                <th>PERSONEL</th>
+                <th>LOCATION</th>
+                <th>BUDGET</th>
+                <th>STATUS</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+</div>
