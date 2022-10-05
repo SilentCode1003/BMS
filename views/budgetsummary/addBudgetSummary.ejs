@@ -13,9 +13,9 @@
     <div class="col-xl-6 col-lg-5">
         <table id="equipmentTbl">
             <thead>
-                <th>Date</th>
-                <th>Personel</th>
-                <th>Budget</th>
+                <th>YEAR-MONTH</th>
+                <th>PERSONEL</th>
+                <th>TOTAL BUDGET</th>
             </thead>
             <tbody></tbody>
         </table>
@@ -54,22 +54,11 @@
                         <div class="row">
                             <div class="col-xl-4 col-lg-3 small-modal-text">
                                 <strong>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PETTY CASH:
-                                </strong> <span id="modalPettyCash"></span></p>
-                                <strong>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUDGET:
-                                </strong> <span id="modalBudget"></span></p>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YEAR & MONTH:
+                                </strong> <span id="modalyearmonth"></span></p>
                                 <strong>
                                     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOTAL BUDGET:
                                 </strong> <span id="modalTotalBudget"></span></p>
-                                <strong>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRAVEL
-                                        COST:
-                                </strong> <span id="modalCost"></span></p>
-                                <strong>
-                                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REMAINING
-                                        BALANCE:
-                                </strong> <span id="modalBalance"></span></p>
                             </div>
                         </div>
                         <div id="table-wrapper-modal" class="col-xl-12 col-lg-4">
@@ -85,11 +74,11 @@
                             <br>
                             <br>
                             <div class="small-modal-text">
-                                <p><strong>&nbsp;&nbsp;Reason:&nbsp;</strong><span id="reasonTxt"></span>
+                                <p><strong>&nbsp;&nbsp;ID:&nbsp;</strong><span id="IDTxt"></span>
                                 <p><strong>&nbsp;&nbsp;Personel:&nbsp;</strong><span id="personelTxt"></span>
-                                <p><strong>&nbsp;&nbsp;Position:&nbsp;</strong><span id="positionTxt"></span>&nbsp;
-                                </p>
-                                <p><strong>&nbsp;&nbsp;Date:&nbsp;</strong><span id="dateTxt"></span>&nbsp;</p>
+                                <p><strong>&nbsp;&nbsp;Position:&nbsp;</strong><span id="positionTxt"></span>&nbsp;</p>
+                                <p><strong>&nbsp;&nbsp;Assigned Location:&nbsp;</strong><span id="locationTxt"></span>&nbsp;</p>
+                                <p><strong>&nbsp;&nbsp;Date:&nbsp;</strong><span id="dateTxt"><%= moment().format('YYYY-MM-DD');%></span>&nbsp;</p>
                             </div>
 
                         </div>

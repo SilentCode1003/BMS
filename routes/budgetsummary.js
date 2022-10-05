@@ -4,13 +4,16 @@ var router = express.Router();
 const { create } = require('xmlbuilder2');
 var xml2js = require('xml2js');
 var fs = require('fs');
+const { KeyObject } = require('crypto');
+
+var moment = require('moment');
 
 var budgetAprrovePath = __dirname + '/data/budget/request/approved/';
 var budgetPedingPath = __dirname + '/data/budget/request/pending/';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('budgetsummary', { title: 'Budget Monitoring System', reportTitle: 'BUDGET REQUEST SUMMARY' });
+  res.render('budgetsummary', { title: 'Budget Monitoring System', reportTitle: 'BUDGET REQUEST SUMMARY', moment: moment });
 });
 
 module.exports = router;
@@ -145,6 +148,132 @@ router.post('/approved', function (req, res, next) {
 
     });
 
+
+  } catch (err) {
+    setTimeout(function () {
+      res.json({
+        msg: err
+      })
+    }, 1000);
+  }
+});
+
+router.post('/LoadData', function (req, res, next) {
+  try {
+    var dataArr = [];
+    var personel = req.body.personel;
+    var targetDir = `${budgetAprrovePath}${personel}/`;
+
+
+    //Get contents of personel's folder at /budget/approved folder
+    fs.readdir(targetDir, function (err, folders) {
+      if (err) console.log(`stage1: ${err}`);
+      console.log(`stage 1 results: ${targetDir}:\n Contents: ${folders}\n\n`);
+
+      folders.forEach(folder => {
+        var targetDir2 = `${targetDir}${folder}/`;
+        console.log(`stage 2 results: ${targetDir2}:\n Contents: ${folder}`);
+
+        var totalbudget = 0;
+
+        //Get contents of personel's folder at /budget/approved/personel folder
+        fs.readdir(targetDir2, function (err, datas) {
+          console.log(`stage 2 results: ${targetDir2}:\n Contents: ${datas}\n dataLength: ${datas.length}`);
+          if (err) console.log(`stage2: ${err}`);
+
+          var dataLenght = datas.length;
+          var count = 0;
+          datas.forEach(data => {
+
+            var targetDir3 = `${targetDir2}${data}`;
+
+            fs.readFile(targetDir3, 'utf8', function (err, jsStr) {
+              if (err) console.log(`stage3: ${err}`);
+              var jsData = JSON.parse(jsStr);
+              count += 1;
+              console.log(`stage 3 results: ${targetDir3}:\n Contents: ${jsStr}`);
+
+              jsData.forEach(function (key, item) {
+                totalbudget += parseFloat(key.budget);
+              });
+
+              if (count == dataLenght) {
+                console.log(`Total Budget: ${totalbudget}`);
+                console.log(`Status: length: ${dataLenght} count: ${count}`);
+
+                dataArr.push({
+                  date: folder,
+                  personel: personel,
+                  totalbudget: totalbudget
+                });
+              }
+
+            });
+
+          });
+
+        });
+
+      });
+
+      setTimeout(function () {
+        res.json({
+          msg: 'success',
+          data: dataArr
+        })
+      }, 1000);
+
+    });
+
+  } catch (err) {
+    setTimeout(function () {
+      res.json({
+        msg: err
+      })
+    }, 1000);
+  }
+});
+
+router.post('/RetrieveFiles', function (req, res, next) {
+  try {
+    var dataArr = [];
+    var date = req.body.date;
+    var personel = req.body.personel;
+
+    var targetDir = `${budgetAprrovePath}/${personel}/${date}/`
+    fs.readdir(targetDir, function (err, files) {
+      console.log(`stage 1 results: ${targetDir}:\n Contents: ${files}`);
+
+      if (err) console.log(`stage 1: ${err}`);
+
+      files.forEach(file => {
+        var filepath = `${targetDir}/${file}`;
+        fs.readFile(filepath, 'utf8', function (err, jsStr) {
+          if (err) console.log(`stage 2: ${err}`);
+          console.log(`stage 2 results: ${filepath}:\n Contents: ${jsStr}`);
+
+          var data = JSON.parse(jsStr);
+          data.forEach(function (key, item) {
+            dataArr.push({
+              date: key.date,
+              ticketnum: key.ticketnum,
+              personel: key.personel,
+              budget: key.budget
+            });
+          });
+        })
+      });
+
+      setTimeout(function () {
+        res.json({
+          msg: 'success',
+          date: date,
+          personel: personel,
+          data: dataArr
+        })
+      }, 1000);
+
+    });
 
   } catch (err) {
     setTimeout(function () {

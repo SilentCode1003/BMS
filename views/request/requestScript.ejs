@@ -63,12 +63,12 @@
                         data: data
                     },
                     success: function (result) {
-                        alert("Data Saved!");
+                        success('Request Sent!','Budget request for pending!')
                         $('#storeInfoTbl').DataTable().ajax.reload();
                         dataArr = [];
                     },
                     error: function (result) {
-                        alert('error: ' + result.data);
+                        error(result.data);
                     }
                 });
             }

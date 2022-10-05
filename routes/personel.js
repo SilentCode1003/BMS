@@ -58,7 +58,7 @@ router.get('/locations', function (req, res, next) {
   var dataArr = [];
   try {
     fs.readdir(locationsPath, function (err, files) {
-      files.forEach(file =>{
+      files.forEach(file => {
         var dataRaw = file.split('.');
         dataArr.push(dataRaw[0]);
       })
@@ -72,7 +72,7 @@ router.get('/locations', function (req, res, next) {
         data: dataArr
       })
     }, 1000);
-    
+
   } catch (err) {
     setTimeout(function () {
       res.json({
@@ -86,7 +86,7 @@ router.get('/positions', function (req, res, next) {
   var dataArr = [];
   try {
     fs.readdir(positionsPath, function (err, files) {
-      files.forEach(file =>{
+      files.forEach(file => {
         var dataRaw = file.split('.');
         dataArr.push(dataRaw[0]);
       })
@@ -100,7 +100,7 @@ router.get('/positions', function (req, res, next) {
         data: dataArr
       })
     }, 1000);
-    
+
   } catch (err) {
     setTimeout(function () {
       res.json({
@@ -114,7 +114,7 @@ router.get('/personels', function (req, res, next) {
   var dataArr = [];
   try {
     fs.readdir(fillingPath, function (err, files) {
-      files.forEach(file =>{
+      files.forEach(file => {
         var dataRaw = file.split('.');
         var dataRaw2 = dataRaw[0].split('_');
         console.log(dataRaw2);
@@ -130,7 +130,7 @@ router.get('/personels', function (req, res, next) {
         data: dataArr
       })
     }, 1000);
-    
+
   } catch (err) {
     setTimeout(function () {
       res.json({
@@ -144,7 +144,7 @@ router.get('/transportations', function (req, res, next) {
   var dataArr = [];
   try {
     fs.readdir(transportationPath, function (err, files) {
-      files.forEach(file =>{
+      files.forEach(file => {
         var dataRaw = file.split('.');
         dataArr.push(dataRaw[0]);
       })
@@ -156,7 +156,7 @@ router.get('/transportations', function (req, res, next) {
         data: dataArr
       })
     }, 1000);
-    
+
   } catch (err) {
     setTimeout(function () {
       res.json({
@@ -220,3 +220,56 @@ router.get('/LoadData', function (req, res, next) {
     }, 1000);
   }
 });
+
+router.post('/getPersonel', function (req, res, next) {
+  try {
+    var dataArr = [];
+    var personel = req.body.personel;
+
+    fs.readdir(fillingPath, function (err, files) {
+      if (err) throw err;
+      console.log(files);
+
+      files.forEach(file => {
+        if (file.includes(personel)) {
+          var filepath = `${fillingPath}${file}`;
+
+          fs.readFile(filepath, function (err, jsStr) {
+            if (err) throw err;
+
+            console.log(`path: ${filepath}\nContent: ${jsStr}`)
+
+            var data = JSON.parse(jsStr);
+
+            data.forEach(function (key, item) {
+              dataArr.push({
+                'id': key.idnumber,
+                'personel': key.fullname,
+                'position': key.position,
+                'location': key.assignedlocation
+              })
+              console.log(dataArr);
+            });
+
+            setTimeout(function () {
+              res.json({
+                msg: 'success',
+                data: dataArr
+              });
+            }, 1000);
+
+          })
+        }
+      })
+    });
+
+  }
+  catch (err) {
+    setTimeout(function () {
+      res.json({
+        msg: err
+      });
+    }, 1000);
+  }
+});
+
