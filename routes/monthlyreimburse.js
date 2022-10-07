@@ -51,7 +51,7 @@ router.post('/LoadData', function (req, res, next) {
 
             jsData.forEach(function (key, item) {
               totalbudget += (parseFloat(key.budget) + parseFloat(key.pettycash));
-              key.data.forEach(function(key, item){
+              key.data.forEach(function (key, item) {
                 totalreimburse += parseFloat(key.cost);
               });
             });
@@ -93,3 +93,107 @@ router.post('/LoadData', function (req, res, next) {
     }, 1000);
   }
 });
+
+router.post('/LoadMonthlyFiles', function (req, res, next) {
+  try {
+    var dataArr = [];
+    var personel = req.body.personel;
+    var subfolder = req.body.subfolder;
+    var targetDir = `${fillingPath}${personel}/${subfolder}/`;
+    var activeFiles = helper.GetFiles(targetDir);
+
+    activeFiles.forEach(file => {
+      var targetDir2 = `${targetDir}${file}`;
+      var data = helper.ReadJSONFile(targetDir2);
+
+      data.forEach((key, items) => {
+        var date = key.date;
+        var budget = key.budget;
+        var pettycash = key.pettycash;
+        var totalbudget = parseFloat(budget) + parseFloat(pettycash);
+        var totalcost = 0;
+        var balance = 0;
+
+        key.data.forEach((key, item) => {
+          totalcost += parseFloat(key.cost);
+        })
+
+        balance = parseFloat(totalbudget) - parseFloat(totalcost);
+
+        dataArr.push({
+          date: date,
+          personel: personel,
+          pettycash: pettycash,
+          budget: budget,
+          totalbudget: totalbudget,
+          totalcost: totalcost,
+          balance: balance
+        });
+      });
+    });
+
+    setTimeout(() => {
+      res.json({
+        msg: 'success',
+        data: dataArr
+      })
+    })
+
+  } catch (err) {
+    setTimeout(function () {
+      res.json({
+        msg: err
+      })
+    }, 1000);
+  }
+});
+
+router.post('/GetMonthlyData', (req, res, next) => {
+  try {
+    var dataArr = [];
+    var personel = req.body.personel;
+    var subfolder = req.body.subfolder;
+    var targetDir = `${fillingPath}${personel}/${subfolder}/`;
+    var activeFiles = helper.GetFiles(targetDir);
+    
+    var totalbudget = 0
+    var totalcost = 0;
+    var balance = 0;
+
+    activeFiles.forEach(file => {
+      var targetDir2 = `${targetDir}${file}`;
+      var data = helper.ReadJSONFile(targetDir2);
+      data.forEach((key, items) => {
+        totalbudget += parseFloat(key.budget) + parseFloat(key.pettycash);
+        key.data.forEach((key, item) => {
+          totalcost += parseFloat(key.cost);
+        })
+      });
+    });
+
+    balance = parseFloat(totalbudget) - parseFloat(totalcost);
+
+
+    dataArr.push({
+      totalbudget: totalbudget,
+      totalcost: totalcost,
+      balance: balance
+    });
+
+    console.log(dataArr);
+
+    setTimeout(() => {
+      res.json({
+        msg: 'success',
+        data: dataArr
+      })
+    })
+  }
+  catch (err) {
+    setTimeout(() => {
+      res.json({
+        msg: err
+      });
+    });
+  }
+})

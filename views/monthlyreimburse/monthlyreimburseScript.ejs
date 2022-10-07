@@ -92,6 +92,7 @@
         });
 
         $('#equipmentTbl tbody').on('click', 'tr', function () {
+
             var date;
             var personel;
             var position;
@@ -106,12 +107,8 @@
             var data = dataTable.row(this).data();
             console.log(data);
 
-            var date = data.date;
+            var subfolder = data.date;
             var personel = data.personel;
-
-            selectedFile = date + "_" + personel + ".json";
-
-            console.log(selectedFile);
 
             modal.style.display = "block";
 
@@ -123,43 +120,77 @@
                 'scrollCollapse': true,
             });
 
-
+            $.ajax({
+                type: "POST",
+                url: "/personel/getPersonel",
+                data: {
+                    personel: personel
+                },
+                success: function (result) {
+                    console.log(`getPersonel: ${JSON.stringify(result.data)}}`)
+                    $.each(result.data, function(key, item){
+                        document.getElementById('IDTxt').innerText = item.id;
+                        document.getElementById('personelTxt').innerText = item.id;
+                        document.getElementById('positionTxt').innerText = item.position;
+                        document.getElementById('locationTxt').innerText = item.location;
+                    });
+                },
+                error: function (result) {
+                    error(result.msg);
+                }
+            });
 
             $.ajax({
                 type: "POST",
-                url: "/reimbursementsummary/retrieveFile",
+                url: "/monthlyreimburse/GetMonthlyData",
                 data: {
                     personel: personel,
-                    filename: selectedFile
+                    subfolder: subfolder,
+                },
+                success: function (result) {
+                    console.log(`GetMonthlyData: ${JSON.stringify(result.data)}}}`)
+                    $.each(result.data, function(key, item){
+                        // (12345.67).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
+                        // amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        var totalbudget = (item.totalbudget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                        var totalcost = (item.totalcost).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                        var balance = (item.balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+                        document.getElementById('modalTotalBudget').innerText = `₱ ${totalbudget}`;
+                        document.getElementById('modalCost').innerText = `₱ ${totalcost}`;
+                        document.getElementById('modalBalance').innerText = `₱ ${balance}`;
+                    });
+                },
+                error: function (result) {
+                    error(result.msg);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/monthlyreimburse/LoadMonthlyFiles",
+                data: {
+                    personel: personel,
+                    subfolder: subfolder,
                 },
                 success: function (result) {
                     t.clear().draw();
                     $.each(result.data, function (key, item) {
-                        date = item.date;
-                        position = item.position;
-                        petteycash = item.pettycash;
-                        personel = item.personel;
-                        budget = item.budget;
-                        reason = item.reason;
-
-                        $.each(item.data, function (key, item) {
-                            cost += parseFloat(item.cost)
-
-                            t.row.add([item.ticket, item.destination, item.type, item.cost]).draw(false);
-                        })
+                        t.row.add([item.date, item.personel, item.pettycash, item.budget, item.totalbudget, item.totalcost, item.balance]).draw(false);
                     })
-                    totalbudget = parseFloat(budget) + parseFloat(petteycash);
-                    balance = parseFloat(totalbudget) - parseFloat(cost);
 
-                    document.getElementById('reasonTxt').innerText = "\n" + reason;
-                    document.getElementById('personelTxt').innerText = personel;
-                    document.getElementById('positionTxt').innerText = position;
-                    document.getElementById('dateTxt').innerText = date;
-                    document.getElementById('modalPettyCash').innerText = "₱ " + petteycash;
-                    document.getElementById('modalBudget').innerText = "₱ " + budget;
-                    document.getElementById('modalCost').innerText = "₱ " + cost;
-                    document.getElementById('modalTotalBudget').innerText = "₱ " + totalbudget;
-                    document.getElementById('modalBalance').innerText = "₱ " + balance;
+                    // totalbudget = parseFloat(budget) + parseFloat(petteycash);
+                    // balance = parseFloat(totalbudget) - parseFloat(cost);
+
+                    // document.getElementById('reasonTxt').innerText = "\n" + reason;
+                    // document.getElementById('personelTxt').innerText = personel;
+                    // document.getElementById('positionTxt').innerText = position;
+                    // document.getElementById('dateTxt').innerText = date;
+                    // document.getElementById('modalPettyCash').innerText = "₱ " + petteycash;
+                    // document.getElementById('modalBudget').innerText = "₱ " + budget;
+                    // document.getElementById('modalCost').innerText = "₱ " + cost;
+                    // document.getElementById('modalTotalBudget').innerText = "₱ " + totalbudget;
+                    // document.getElementById('modalBalance').innerText = "₱ " + balance;
                 },
                 error: function (result) {
                     alert('error: ' + result.data);
