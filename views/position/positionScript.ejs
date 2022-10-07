@@ -35,7 +35,7 @@
                 if (positioncode == "") { message += "Position Code " }
                 if (positionname == "") { message += "Position Name " }
                    
-                if (message != "") { alert("Must fill-up " + message + " field!") }
+                if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
                 else {
                     dataArr.push({
                         'positioncode': positioncode,
@@ -54,12 +54,12 @@
                             data: data
                         },
                         success: function (result) {
-                            alert("Data Saved!");
+                            success("Data Saved!","Data successfully saved...");
                             $('#storeInfoTbl').DataTable().ajax.reload();
                             dataArr = [];
                         },
                         error: function (result) {
-                            alert('error: ' + result.data);
+                            error(result.data);
                         }
                     });
                 }

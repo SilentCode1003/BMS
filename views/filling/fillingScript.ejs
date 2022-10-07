@@ -9,7 +9,7 @@
         document.getElementById('pettycash').value = pettyCash;
         document.getElementById('budget').value = budgetCash;
 
-        var t = $('#storeInfoTbl').DataTable({
+        var t = $('#equipmentTbl').DataTable({
             'destroy': true,
             'paging': false,
             'searching': false,
@@ -82,7 +82,7 @@
             if (type == "") { message += "Type " }
             if (cost == "") { message += "Cost " }
 
-            if (message != "") { alert("Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'ticket': ticket,
@@ -134,7 +134,7 @@
             if (reason == "") { message += "Travel Reason  " }
 
 
-            if (message != "") { alert("Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
             else {
 
                 $.ajax({
@@ -146,10 +146,10 @@
                         data: data
                     },
                     success: function (result) {
-                        alert("Data Saved!");
+                        success("Data Saved!","Data successfully saved...");
                     },
                     error: function (result) {
-                        alert('error: ' + result.data);
+                        error(result.data);
                     }
                 });
 

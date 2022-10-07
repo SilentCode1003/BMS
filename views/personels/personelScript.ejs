@@ -87,7 +87,7 @@
             if (position == "") { message += "Position " }
             if (assignedlocation == "-" || assignedlocation == "") { message += "Assigned Location " }
 
-            if (message != "") { alert("Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'idnumber': idnumber,
@@ -107,12 +107,12 @@
                         data: data
                     },
                     success: function (result) {
-                        alert("Data Saved!");
+                        success("Data Saved!","Data successfully saved...");
                         $('#storeInfoTbl').DataTable().ajax.reload();
                         dataArr = [];
                     },
                     error: function (result) {
-                        alert('error: ' + result.data);
+                       error(result.data);
                     }
                 });
             }

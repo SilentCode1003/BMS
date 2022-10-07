@@ -4,6 +4,7 @@ var router = express.Router();
 const { create } = require('xmlbuilder2');
 var xml2js = require('xml2js');
 var fs = require('fs');
+var helper = require('./repository/customhelper');
 
 var targetPath = __dirname + '/data/reimbursement/filling/';
 
@@ -18,64 +19,47 @@ router.post('/LoadData', function (req, res, next) {
   var personel = req.body.personel;
   var targetDir = targetPath + `/${personel}/`;
   var targetDir2 = targetPath + `/${personel}`;
+  var activeFolder = helper.GetFolderList(targetDir);
+  var dataArr = [];
 
-  if (!fs.existsSync(targetDir2)) {
-    fs.mkdirSync(targetDir2);
-  }
-
-  console.log(targetDir);
-
-  var data_arr = [];
-  fs.readdir(targetDir, (err, files) => {
-    if (err) {
-      res.json({
-        msg: 'error',
-        data: err
-      });
-    }
-
-    files.forEach(file => {
-      console.log(file);
-      var rawTxt = file.split('.');
-      console.log(rawTxt);
-      var txt = rawTxt[0].split('_');
-      console.log(txt);
-      data_arr.push({
-        'date': txt[0],
-        'personel': txt[1]
+  activeFolder.forEach(folder => {
+    var targetDir3 = `${targetDir2}/${folder}/`;
+    var activeFiles = helper.GetFiles(targetDir3);
+    console.log(`Folder: ${targetDir3}\nFiles: ${activeFiles}`);
+    activeFiles.forEach(file => {
+      var filenameArr = file.split('.');
+      var filenameArr2 = filenameArr[0].split('_');
+      dataArr.push({
+        date: filenameArr2[0],
+        personel: filenameArr2[1]
       });
     });
   });
 
-  setTimeout(function () {
+
+  console.log(activeFolder);
+
+  setTimeout(() => {
     res.json({
       msg: 'success',
-      data: data_arr
-    });
-  }, 1000);
+      data: dataArr
+    })
+  }, 1000)
 });
 
 router.post('/retrieveFile', function (req, res, next) {
   var filename = req.body.filename;
   var personel = req.body.personel;
+  var subfolder = req.body.subfolder
+  var filepath = `${targetPath}/${personel}/${subfolder}/${filename}`;
+  var data = helper.ReadJSONFile(filepath);
 
-  var filepath = targetPath + `/${personel}/${filename}`;
- 
   console.log(filepath);
 
-  fs.readFile(filepath, 'utf8', function (err, jsStr) {
-    if (err) {
-      res.json({
-        msg: 'error',
-        data: err
-      })
-    }
-    const data = JSON.parse(jsStr);
-
-    console.log(data);
+  setTimeout(()=>{
     res.json({
       msg: 'success',
       data: data
     })
-  });
+  })
 });

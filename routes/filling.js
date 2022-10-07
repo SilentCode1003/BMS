@@ -28,8 +28,12 @@ router.post('/save', function (req, res, next) {
     var personel = req.body.personel;
     var date = req.body.date;
     var data = req.body.data;
+    var dateArr = date.split('-');
+    var year = dateArr[0];
+    var month= dateArr[1];
 
     var targetDir = fillingPath + personel;
+    var targetDir2 = `${targetDir}/${year}${month}`
 
     console.log(targetDir);
 
@@ -37,8 +41,14 @@ router.post('/save', function (req, res, next) {
       fs.mkdirSync(targetDir);
     }
 
+    if (!fs.existsSync(targetDir2)) {
+      fs.mkdirSync(targetDir2);
+    }
+
+
+
     try {
-      let fullFileNameFinal = `${targetDir}/${date}_${personel}.json`;
+      let fullFileNameFinal = `${targetDir2}/${date}_${personel}.json`;
       fs.writeFileSync(fullFileNameFinal, data, function (err) {
         if (err) throw err;
         res.json({

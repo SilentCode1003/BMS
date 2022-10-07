@@ -8,6 +8,8 @@ const { KeyObject } = require('crypto');
 
 var moment = require('moment');
 
+var helper = require('./repository/customhelper');
+
 var budgetAprrovePath = __dirname + '/data/budget/request/approved/';
 var budgetPedingPath = __dirname + '/data/budget/request/pending/';
 
@@ -36,27 +38,19 @@ router.get('/LoadPendingBudgetRequest', function (req, res, next) {
         var filepath = budgetPedingPath + `${file}`;
         console.log(filepath);
 
-        fs.readFile(filepath, 'utf8', function (err, jsStr) {
-          if (err) {
-            res.json({
-              msg: 'error',
-              data: err
-            })
-          }
+        var data = helper.ReadJSONFile(filepath);
 
-          var data = JSON.parse(jsStr);
-
-          data.forEach(function (key, item) {
-            dataArr.push({
-              'date': key.date,
-              'ticketnum': key.ticketnum,
-              'personel': key.personel,
-              'location': key.location,
-              'budget': key.budget,
-              'status': key.status
-            });
-            console.log(dataArr);
+        data.forEach(function (key, item) {
+          dataArr.push({
+            'date': key.date,
+            'ticketnum': key.ticketnum,
+            'personel': key.personel,
+            'location': key.location,
+            'budget': key.budget,
+            'status': key.status
           });
+          console.log(dataArr);
+
         });
       })
 
@@ -253,6 +247,7 @@ router.post('/RetrieveFiles', function (req, res, next) {
           console.log(`stage 2 results: ${filepath}:\n Contents: ${jsStr}`);
 
           var data = JSON.parse(jsStr);
+          
           data.forEach(function (key, item) {
             dataArr.push({
               date: key.date,

@@ -16,7 +16,7 @@
                 'info': false,
                 'serverMethod': 'POST',
                 'ajax': {
-                    'url': '/reimbursementsummary/LoadData',
+                    'url': '/monthlyreimburse/LoadData',
                     'data': {
                         personel: personel
                     }
@@ -24,6 +24,9 @@
                 'columns': [
                     { data: 'date' },
                     { data: 'personel' },
+                    { data: 'totalbudget' },
+                    { data: 'totalreimburse' },
+                    { data: 'remaining' },
                 ]
             });
         });
@@ -104,8 +107,6 @@
             console.log(data);
 
             var date = data.date;
-            var subfolderArr = date.split('-');
-            var subfolder = subfolderArr[0] + subfolderArr[1];
             var personel = data.personel;
 
             selectedFile = date + "_" + personel + ".json";
@@ -129,7 +130,6 @@
                 url: "/reimbursementsummary/retrieveFile",
                 data: {
                     personel: personel,
-                    subfolder: subfolder,
                     filename: selectedFile
                 },
                 success: function (result) {

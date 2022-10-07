@@ -1,0 +1,78 @@
+[
+  {
+    "date": "2022-10-01",
+    "personel": "JOSEPH ORENCIO",
+    "position": "IT FIELD ENGINEER",
+    "pettycash": "100",
+    "budget": "2800",
+    "reason": "ST ANTHONY ABAD PHARMACY DEVICE INSTALLATION",
+    "data": [
+      {
+        "ticket": "20221001-A083",
+        "destination": "BAHAY TO TISA",
+        "type": "TRICYCLE",
+        "cost": "15"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "TISA TO PIER 1",
+        "type": "TAXI",
+        "cost": "120"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "PIER 1 TO ORMOC PORT (W/ TERMINAL FEE)",
+        "type": "SHIP",
+        "cost": "1125"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "ORMOC PORT TO TACLOBAN ROBINSON",
+        "type": "VAN",
+        "cost": "200"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "TACLOBAN ROBINSON TO DOWN TOWN",
+        "type": "JEEP",
+        "cost": "11"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "DOWN TOWN TO ST ANTHONY ABAD PHARMACY",
+        "type": "TRICYCLE",
+        "cost": "20"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "ST ANTHONY ABAD PHARMACY TO VAN VAN TERMINAL",
+        "type": "TRICYCLE",
+        "cost": "20"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "VAN VAN TERMINAL TO ORMOC PORT ",
+        "type": "VAN",
+        "cost": "200"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "ORMOC PORT TO PIER 1 (W/ TERMINAL FEE)",
+        "type": "SHIP",
+        "cost": "1130"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "PIER 1 TO GAISANO TISA",
+        "type": "TAXI",
+        "cost": "130"
+      },
+      {
+        "ticket": "20221001-A083",
+        "destination": "GAISANO TISA TO BAHAY",
+        "type": "TRICYCLE",
+        "cost": "20"
+      }
+    ]
+  }
+]

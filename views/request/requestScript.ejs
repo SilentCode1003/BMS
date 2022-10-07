@@ -41,7 +41,7 @@
             if (location == "") { message += "Location " }
             if (budget == "") { message += "Budget " }
 
-            if (message != "") { alert("Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'date': date,
