@@ -1,0 +1,127 @@
+<script>
+    $(document).ready(function () {
+        var dataArr = [];
+
+        $.ajax({
+            type: "GET",
+            url: "/personel/locations",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#assignedlocation').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "/personel/positions",
+            success: function (result) {
+                console.log(result.data);
+
+                $.each(result.data, function (key, item) {
+                    var options = new Option(item, item);
+                    $(options).html(item);
+                    $('#position').append(options);
+                });
+            },
+            error: function (result) {
+                alert('error: ' + result.data);
+            }
+        });
+
+        // $.ajax({
+        //     type: "GET",
+        //     url: "/personel/personels",
+        //     success: function (result) {
+        //         console.log(result.data);
+
+        //         $.each(result.data, function (key, item) {
+        //             var options = new Option(item, item);
+        //             $(options).html(item);
+        //             $('#personel').append(options);
+        //         });
+        //     },
+        //     error: function (result) {
+        //         alert('error: ' + result.data);
+        //     }
+        // });
+
+        var dataTable = $('#storeInfoTbl').DataTable({
+            'destroy': true,
+            'processing': true,
+            'serverSide': true,
+            'paging': false,
+            'searching': false,
+            'info': false,
+            'scrollY': 400,
+            'scrollCollapse': true,
+            'serverMethod': 'GET',
+            'ajax': {
+                'url': '/register/LoadData',
+            },
+            'columns': [
+                { data: 'idnumber' },
+                { data: 'fullname' },
+                { data: 'position' },
+                { data: 'password' },
+                { data: 'assignedlocation' }
+            ]
+        });
+
+        $(document).on('click', "#registerBtn", function () {
+            var idnumber = $('#idnumber').val();
+            var fullname = $('#fullname').val();
+            var position = $('#position').val();
+            var password = $('#password').val();
+            var assignedlocation = $('#assignedlocation').val();
+
+            var message = "";
+
+            if (idnumber == "") { message += "ID " }
+            if (fullname == "") { message += "Fullname " }
+            if (position == "") { message += "Position " }
+            if (password == "") { message += "Password " }
+            if (assignedlocation == "-" || assignedlocation == "") { message += "Assigned Location " }
+
+            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
+            else {
+                dataArr.push({
+                    'idnumber': idnumber,
+                    'fullname': fullname,
+                    'position': position,
+                    'password': password,
+                    'assignedlocation': assignedlocation
+                });
+
+                var data = JSON.stringify(dataArr, null, 2);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/register/registeruser",
+                    data: {
+                        idnumber: idnumber,
+                        fullname: fullname,
+                        data: data
+                    },
+                    success: function (result) {
+                        success("Data Saved!","Data successfully saved...");
+                        $('#storeInfoTbl').DataTable().ajax.reload();
+                        dataArr = [];
+                    },
+                    error: function (result) {
+                       error(result.data);
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>

@@ -6,14 +6,27 @@ exports.ReadJSONFile = function (filepath) {
     return JSON.parse(data);
 };
 
-exports.GetFolderList = function(dir){
+exports.GetFolderList = function (dir) {
     console.log(`Content: ${dir}`);
     var data = fs.readdirSync(dir);
     return data;
 };
 
-exports.GetFiles = function(dir){
+exports.GetFiles = function (dir) {
     console.log(`Content: ${dir}`);
     var data = fs.readdirSync(dir);
     return data;
 };
+
+exports.CreateJSON = (filenamepath, data) => {
+    console.log(`Path: ${filenamepath} Content: ${data}`);
+    fs.writeFileSync(filenamepath, data, (err) => {
+        return err;
+    })
+
+    return 'Success';
+};
+
+exports.GetUser = (id, password) => {
+    
+}

@@ -9,9 +9,23 @@ var fillingPath = __dirname + '/data/masters/personel/';
 var locationsPath = __dirname + '/data/masters/branch/';
 var positionsPath = __dirname + '/data/masters/position/';
 var transportationPath = __dirname + '/data/masters/transportation/';
+var app = express();
+app.use(setUser);
+
+const { users } = require('./controller/data')
+const {authUser} = require('./controller/authBasic')
+
+
+function setUser(req, res, next) {
+  const userId = req.body.userId
+  if (userId) {
+    req.user = users.find(user => user.id === userId)
+  }
+  next();
+};
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', authUser, function (req, res, next) {
   res.render('personels', { title: 'Budget Monitoring System' });
 });
 
