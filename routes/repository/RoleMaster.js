@@ -1,8 +1,4 @@
-const ROLE_LIST = {
-    "Creator": 9999,
-    "Administrator": 9990,
-    "SE":5,
-    "HR":1
+exports.roles = () => {
+    var data = ["CREATOR", "HR", "SYSTEMADMIN", "IT", "CABLING", "DRIVER"];
+    return data;
 }
-
-module.exports = ROLE_LIST

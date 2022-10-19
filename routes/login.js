@@ -7,7 +7,7 @@ var helper = require('./repository/customhelper')
 var UserPath = `${__dirname}/data/masters/users/`;
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
   res.render('login', { title: 'Budget Monitoring System' });
 });
 
@@ -34,6 +34,9 @@ router.post('/authentication', (req, res) => {
           message = 'success';
           res.json({
             msg: 'success'
+          }).render('index', { 
+            title: 'Budget Monitoring System',
+            position: 'Admin'
           });
         }
       })

@@ -2,22 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 var app = express();
-app.use(setUser);
 
 const { users } = require('./controller/data')
-const {notLogin} = require('./controller/authBasic')
+const { authPage, authUser } = require('./controller/authBasic');
+const data = require('./controller/data');
 
 /* GET home page. */
-router.get('/', notLogin , function(req, res, next) {
-  res.render('index', { title: 'Budget Monitoring System' });
+router.get('/', function (req, res, next) {
+  res.render('index', {title: 'Budget Monitoring System', position: 'Admin'});
 });
 
 module.exports = router;
-
-function setUser(req, res, next) {
-  const userId = req.body.userId
-  if (userId) {
-    req.user = users.find(user => user.id === userId)
-  }
-  next();
-};

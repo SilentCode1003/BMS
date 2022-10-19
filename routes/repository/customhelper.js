@@ -1,5 +1,6 @@
-var fs = require('fs');
+const fs = require('fs');
 
+//#region READ & WRITE JSON FILES
 exports.ReadJSONFile = function (filepath) {
     console.log(`Read JSON file: ${filepath}`);
     var data = fs.readFileSync(filepath, 'utf-8');
@@ -28,5 +29,6 @@ exports.CreateJSON = (filenamepath, data) => {
 };
 
 exports.GetUser = (id, password) => {
-    
+
 }
+//#endregion

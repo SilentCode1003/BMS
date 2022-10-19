@@ -25,7 +25,7 @@ function setUser(req, res, next) {
 };
 
 /* GET home page. */
-router.get('/', authUser, function (req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('personels', { title: 'Budget Monitoring System' });
 });
 

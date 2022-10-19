@@ -1,11 +1,16 @@
 <script>
-
     $(document).ready(function () {
+        let position = '<%- position%>';
         var table;
         var dataTable;
         var FileDate = "";
         var PersonelName = "";
         var data = [];
+
+        if(position != 'Admin'){
+            $("#masters").toggle(0, function () {
+        });
+        }
 
         dataTable = $('#equipmentTbl').DataTable({
             'destroy': true,

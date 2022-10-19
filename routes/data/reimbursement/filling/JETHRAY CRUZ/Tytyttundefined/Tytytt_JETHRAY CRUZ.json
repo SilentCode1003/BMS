@@ -1,0 +1,30 @@
+[
+  {
+    "date": "Tytytt",
+    "personel": "JETHRAY CRUZ",
+    "position": "-",
+    "pettycash": "05500",
+    "budget": "0550",
+    "reason": "Tatae",
+    "data": [
+      {
+        "ticket": "5845",
+        "destination": "Fhdg",
+        "type": "MISC",
+        "cost": "500"
+      },
+      {
+        "ticket": "5845",
+        "destination": "Fhdg",
+        "type": "MISC",
+        "cost": "500"
+      },
+      {
+        "ticket": "5845",
+        "destination": "Fhdg",
+        "type": "MISC",
+        "cost": "500"
+      }
+    ]
+  }
+]

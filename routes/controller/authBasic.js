@@ -16,5 +16,19 @@ function notLogin(req, res, next) {
     next();
 }
 
+const authPage = (permissions) =>{
+    console.log(permissions);
+    return (req, res, next) => {
+        const userRole = req.data;
+        console.log(`Position: ${userRole}`)
+        if(permissions.includes(userRole)){
+            next();
+        }
+        else{
+            return  res.render('login', { title: 'Budget Monitoring System' });
+        }
+    }
+};
 
-module.exports = { authUser, notLogin }
+
+module.exports = { authUser, notLogin, authPage }
