@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var helper = require('./repository/customhelper')
 const { users } = require('./controller/data');
-const { authUser } = require('./controller/authBasic');
+const { isAuthAdmin } = require('./controller/authBasic');
 // const pool = require('./controller/dbconnect');
 
 var app = express();
@@ -19,7 +19,7 @@ function setUser(req, res, next) {
 var UserPath = __dirname + '/data/masters/users/';
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', isAuthAdmin, function (req, res, next) {
   res.render('registeruser', { title: 'Budget Monitoring System' });
 });
 
@@ -66,7 +66,7 @@ router.post('/registeruser', async (req, res, next) => {
     var data = req.body.data;
     var fullname = req.body.fullname;
     var filename = `${UserPath}${fullname}.json`;
-    
+
     helper.CreateJSON(filename, data);
 
     setTimeout(() => {

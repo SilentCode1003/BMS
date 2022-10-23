@@ -1,0 +1,36 @@
+[
+  {
+    "date": "2022-10-19",
+    "personel": "JOSEPH ORENCIO",
+    "position": "IT",
+    "pettycash": "0",
+    "budget": "200",
+    "reason": "INSTALLATION OF AIMAZING DEVICE",
+    "data": [
+      {
+        "ticket": "INC-2521234",
+        "destination": "BAHAY TO TISA",
+        "type": "TRICYCLE",
+        "cost": "20"
+      },
+      {
+        "ticket": "INC-2521234",
+        "destination": "TISA TO SM MABOLO",
+        "type": "JEEP",
+        "cost": "17"
+      },
+      {
+        "ticket": "INC-2521234",
+        "destination": "SM MABOLO TO TISA",
+        "type": "JEEP",
+        "cost": "17"
+      },
+      {
+        "ticket": "INC-2521234",
+        "destination": "TISA TO BAHAY",
+        "type": "TRICYCLE",
+        "cost": "20"
+      }
+    ]
+  }
+]

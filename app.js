@@ -4,7 +4,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoDBSession = require('connect-mongodb-session')(session);
 
 
 var indexRouter = require('./routes/index');
@@ -22,6 +24,29 @@ var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register')
 
 var app = express();
+
+//mongodb
+mongoose.connect('mongodb://localhost:27017/sessions')
+  .then((res) => {
+    console.log("MongoDB Connected!");
+  });
+
+  const store = new MongoDBSession({
+    uri: 'mongodb://localhost:27017/sessions',
+    collection: 'mySessions',
+  });
+
+//Session
+app.use(
+  session({
+    secret: "5L Secret Key",
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

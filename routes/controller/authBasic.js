@@ -30,5 +30,24 @@ const authPage = (permissions) =>{
     }
 };
 
+const isAuth = (req, res, next) => {
+    if(req.session.isAuth){
+        next();
+    }else{
+        res.redirect('/login');
+    }
+};
 
-module.exports = { authUser, notLogin, authPage }
+const isAuthAdmin = (req, res, next) => {
+    if(req.session.isAuth && req.session.position == "HR"){
+        next();
+    }else if(req.session.isAuth && req.session.position == "CREATOR"){
+        next();
+    }
+    else{
+        res.redirect('/login');
+    }
+};
+
+
+module.exports = { authUser, notLogin, authPage, isAuth, isAuthAdmin}

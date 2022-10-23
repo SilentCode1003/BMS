@@ -8,24 +8,11 @@ var fs = require('fs');
 var fillingPath = __dirname + '/data/masters/position/';
 
 var moment = require('moment');
+const { isAuthAdmin } = require('./controller/authBasic')
 
-var app = express();
-app.use(setUser);
-
-const { users } = require('./controller/data')
-const { authUser } = require('./controller/authBasic')
-
-
-function setUser(req, res, next) {
-    const userId = req.body.userId
-    if (userId) {
-        req.user = users.find(user => user.id === userId)
-    }
-    next();
-};
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', isAuthAdmin, function (req, res, next) {
     res.render('positions', { title: 'Budget Monitoring System', moment: moment });
 });
 

@@ -11,7 +11,7 @@ var app = express();
 app.use(setUser);
 
 const { users } = require('./controller/data')
-const { authUser } = require('./controller/authBasic')
+const { isAuthAdmin } = require('./controller/authBasic')
 
 
 function setUser(req, res, next) {
@@ -23,7 +23,7 @@ function setUser(req, res, next) {
 };
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', isAuthAdmin, function (req, res, next) {
   res.render('branch', { title: 'Budget Monitoring System' });
 });
 
