@@ -13,7 +13,13 @@ var moment = require('moment');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('request', { title: 'Budget Monitoring System', moment: moment });
+  res.render('request', {
+    title: 'Budget Monitoring System',
+    position: req.session.position,
+    fullname: req.session.fullname,
+    user: req.session.user,
+    moment: moment
+  });
 });
 
 module.exports = router;

@@ -6,6 +6,11 @@
         let totalBudget = 0.00;
         let subcost = 0.00;
 
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
         document.getElementById('pettycash').value = pettyCash;
         document.getElementById('budget').value = budgetCash;
 
@@ -82,7 +87,7 @@
             if (type == "") { message += "Type " }
             if (cost == "") { message += "Cost " }
 
-            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!", "Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'ticket': ticket,
@@ -134,7 +139,7 @@
             if (reason == "") { message += "Travel Reason  " }
 
 
-            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!", "Must fill-up " + message + " field!") }
             else {
 
                 $.ajax({
@@ -146,7 +151,7 @@
                         data: data
                     },
                     success: function (result) {
-                        success("Data Saved!","Data successfully saved...");
+                        success("Data Saved!", "Data successfully saved...");
                     },
                     error: function (result) {
                         error(result.data);

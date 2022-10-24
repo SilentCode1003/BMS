@@ -10,7 +10,13 @@ var targetPath = __dirname + '/data/reimbursement/filling/';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('reimbursementsummary', { title: 'Budget Monitoring System', reportTitle: 'REIMBURSEMENT FORM' });
+  res.render('reimbursementsummary', {
+    title: 'Budget Monitoring System',
+    position: req.session.position,
+    fullname: req.session.fullname,
+    user: req.session.user,
+    reportTitle: 'REIMBURSEMENT FORM'
+  });
 });
 
 module.exports = router;
@@ -56,7 +62,7 @@ router.post('/retrieveFile', function (req, res, next) {
 
   console.log(filepath);
 
-  setTimeout(()=>{
+  setTimeout(() => {
     res.json({
       msg: 'success',
       data: data

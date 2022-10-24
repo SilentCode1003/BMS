@@ -2,6 +2,11 @@
     $(document).ready(function () {
         var dataArr = [];
 
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
         var dataTable = $('#storeInfoTbl').DataTable({
             'destroy': true,
             'processing': true,
@@ -38,7 +43,7 @@
             if (locationaddress == "") { message += "Location Address " }
             if (googleaddress == "") { message += "Google Address " }
 
-            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!", "Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'locationname': locationname,
@@ -56,7 +61,7 @@
                         data: data
                     },
                     success: function (result) {
-                        success("Data Saved!","Data successfully saved...");
+                        success("Data Saved!", "Data successfully saved...");
                         $('#storeInfoTbl').DataTable().ajax.reload();
                         dataArr = [];
                     },

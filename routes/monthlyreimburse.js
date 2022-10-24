@@ -10,7 +10,14 @@ var fillingPath = __dirname + '/data/reimbursement/filling/';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('monthlyreimburse', { title: 'Budget Monitoring System', reportTitle: 'REIMBURSEMENT MONTHLY SUMMARY' });
+  res.render('monthlyreimburse',
+    {
+      title: 'Budget Monitoring System',
+      reportTitle: 'REIMBURSEMENT MONTHLY SUMMARY',
+      position: req.session.position,
+      fullname: req.session.fullname,
+      user: req.session.user
+    });
 });
 
 module.exports = router;
@@ -155,7 +162,7 @@ router.post('/GetMonthlyData', (req, res, next) => {
     var subfolder = req.body.subfolder;
     var targetDir = `${fillingPath}${personel}/${subfolder}/`;
     var activeFiles = helper.GetFiles(targetDir);
-    
+
     var totalbudget = 0
     var totalcost = 0;
     var balance = 0;

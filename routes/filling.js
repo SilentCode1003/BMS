@@ -17,7 +17,12 @@ function xmlFileToJs(filename, cb) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('filling', { title: 'Budget Monitoring System' });
+  res.render('filling', {
+    title: 'Budget Monitoring System',
+    position: req.session.position,
+    fullname: req.session.fullname,
+    user: req.session.user
+  });
 });
 
 module.exports = router;

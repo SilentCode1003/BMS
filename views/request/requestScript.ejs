@@ -2,6 +2,11 @@
     $(document).ready(function () {
         var dataArr = [];
 
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
         var dataTable = $('#storeInfoTbl').DataTable({
             'destroy': true,
             'processing': true,
@@ -41,7 +46,7 @@
             if (location == "") { message += "Location " }
             if (budget == "") { message += "Budget " }
 
-            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!", "Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'date': date,
@@ -63,7 +68,7 @@
                         data: data
                     },
                     success: function (result) {
-                        success('Request Sent!','Budget request for pending!')
+                        success('Request Sent!', 'Budget request for pending!')
                         $('#storeInfoTbl').DataTable().ajax.reload();
                         dataArr = [];
                     },
@@ -108,6 +113,6 @@
                 alert('error: ' + result.data);
             }
         });
-        
+
     });
 </script>

@@ -2,6 +2,11 @@
     $(document).ready(function () {
         var dataArr = [];
 
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
         $.ajax({
             type: "GET",
             url: "/personel/locations",
@@ -90,7 +95,7 @@
             if (password == "") { message += "Password " }
             if (assignedlocation == "-" || assignedlocation == "") { message += "Assigned Location " }
 
-            if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
+            if (message != "") { warning("Warning!", "Must fill-up " + message + " field!") }
             else {
                 dataArr.push({
                     'idnumber': idnumber,
@@ -111,12 +116,12 @@
                         data: data
                     },
                     success: function (result) {
-                        success("Data Saved!","Data successfully saved...");
+                        success("Data Saved!", "Data successfully saved...");
                         $('#storeInfoTbl').DataTable().ajax.reload();
                         dataArr = [];
                     },
                     error: function (result) {
-                       error(result.data);
+                        error(result.data);
                     }
                 });
             }

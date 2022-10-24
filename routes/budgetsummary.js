@@ -15,7 +15,14 @@ var budgetPedingPath = __dirname + '/data/budget/request/pending/';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('budgetsummary', { title: 'Budget Monitoring System', reportTitle: 'BUDGET REQUEST SUMMARY', moment: moment });
+  res.render('budgetsummary', {
+    title: 'Budget Monitoring System', 
+    reportTitle: 'BUDGET REQUEST SUMMARY', 
+    moment: moment, 
+    position: req.session.position,
+    fullname: req.session.fullname,
+    user: req.session.user
+  });
 });
 
 module.exports = router;
@@ -247,7 +254,7 @@ router.post('/RetrieveFiles', function (req, res, next) {
           console.log(`stage 2 results: ${filepath}:\n Contents: ${jsStr}`);
 
           var data = JSON.parse(jsStr);
-          
+
           data.forEach(function (key, item) {
             dataArr.push({
               date: key.date,

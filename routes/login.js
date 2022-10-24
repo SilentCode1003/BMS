@@ -5,8 +5,6 @@ var router = express.Router();
 var helper = require('./repository/customhelper')
 var UserPath = `${__dirname}/data/masters/users/`;
 
-
-
 /* GET home page. */
 router.get('/', function (req, res) {
 
@@ -40,6 +38,7 @@ router.post('/authentication', (req, res) => {
           req.session.isAuth = true;
           req.session.user = key.idnumber;
           req.session.position = key.position;
+          req.session.fullname = key.fullname;
         }
       })
     })

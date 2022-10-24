@@ -2,6 +2,12 @@
     $(document).ready(function () {
         var table;
         var dataTable;
+
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
         $(document).on('click', "#serachBtn", function () {
             var personel = $('#personel').val();
 
@@ -128,7 +134,7 @@
                 },
                 success: function (result) {
                     console.log(`getPersonel: ${JSON.stringify(result.data)}}`)
-                    $.each(result.data, function(key, item){
+                    $.each(result.data, function (key, item) {
                         document.getElementById('IDTxt').innerText = item.id;
                         document.getElementById('personelTxt').innerText = item.id;
                         document.getElementById('positionTxt').innerText = item.position;
@@ -149,7 +155,7 @@
                 },
                 success: function (result) {
                     console.log(`GetMonthlyData: ${JSON.stringify(result.data)}}}`)
-                    $.each(result.data, function(key, item){
+                    $.each(result.data, function (key, item) {
                         // (12345.67).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); 
                         // amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         var totalbudget = (item.totalbudget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');

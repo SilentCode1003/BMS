@@ -1,70 +1,75 @@
 <script>
-        $(document).ready(function () {
-            var dataArr = [];
-    
-            var dataTable = $('#storeInfoTbl').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 400,
-                'scrollCollapse': true,
-                'serverMethod': 'get',
-                'ajax': {
-                    'url': '/position/LoadData',
-                },
-                'columns': [
-                    { data: 'positioncode' },
-                    { data: 'positionname' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-                ]
-            });
-    
-            $(document).on('click', "#registerBtn", function () {
-                var positioncode = $('#positioncode').val();
-                var positionname = $('#positionname').val();
-                var date = (document).querySelector("#date").textContent;
+    $(document).ready(function () {
+        var dataArr = [];
 
-                console.log(date);
-    
-                var message = "";
-    
-                if (positioncode == "") { message += "Position Code " }
-                if (positionname == "") { message += "Position Name " }
-                   
-                if (message != "") { warning("Warning!","Must fill-up " + message + " field!") }
-                else {
-                    dataArr.push({
-                        'positioncode': positioncode,
-                        'positionname': positionname,
-                        'createdby': 'Creator',
-                        'createddate': date
-                    });
-    
-                    var data = JSON.stringify(dataArr, null, 2);
-    
-                    $.ajax({
-                        type: "POST",
-                        url: "/position/register",
-                        data: {
-                            positionname: positionname,
-                            data: data
-                        },
-                        success: function (result) {
-                            success("Data Saved!","Data successfully saved...");
-                            $('#storeInfoTbl').DataTable().ajax.reload();
-                            dataArr = [];
-                        },
-                        error: function (result) {
-                            error(result.data);
-                        }
-                    });
-                }
-    
-            });
-    
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
+        var dataTable = $('#storeInfoTbl').DataTable({
+            'destroy': true,
+            'processing': true,
+            'serverSide': true,
+            'paging': false,
+            'searching': false,
+            'info': false,
+            'scrollY': 400,
+            'scrollCollapse': true,
+            'serverMethod': 'get',
+            'ajax': {
+                'url': '/position/LoadData',
+            },
+            'columns': [
+                { data: 'positioncode' },
+                { data: 'positionname' },
+                { data: 'createdby' },
+                { data: 'createddate' },
+            ]
         });
-    </script>
+
+        $(document).on('click', "#registerBtn", function () {
+            var positioncode = $('#positioncode').val();
+            var positionname = $('#positionname').val();
+            var date = (document).querySelector("#date").textContent;
+
+            console.log(date);
+
+            var message = "";
+
+            if (positioncode == "") { message += "Position Code " }
+            if (positionname == "") { message += "Position Name " }
+
+            if (message != "") { warning("Warning!", "Must fill-up " + message + " field!") }
+            else {
+                dataArr.push({
+                    'positioncode': positioncode,
+                    'positionname': positionname,
+                    'createdby': 'Creator',
+                    'createddate': date
+                });
+
+                var data = JSON.stringify(dataArr, null, 2);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/position/register",
+                    data: {
+                        positionname: positionname,
+                        data: data
+                    },
+                    success: function (result) {
+                        success("Data Saved!", "Data successfully saved...");
+                        $('#storeInfoTbl').DataTable().ajax.reload();
+                        dataArr = [];
+                    },
+                    error: function (result) {
+                        error(result.data);
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>

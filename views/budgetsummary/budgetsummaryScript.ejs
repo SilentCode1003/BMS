@@ -2,6 +2,12 @@
     $(document).ready(function () {
         var table;
         var dataTable;
+
+        let position = '<%- position%>';
+        if (position != 'CREATOR') {
+            $("#masters").toggle(0, function () { });
+        }
+
         $(document).on('click', "#serachBtn", function () {
             var personel = $('#personel').val();
 
@@ -84,7 +90,7 @@
                 },
                 success: function (result) {
                     console.log(result.data);
-                    $.each(result.data, function(key, item){
+                    $.each(result.data, function (key, item) {
                         document.getElementById('IDTxt').innerText = item.id;
                         document.getElementById('positionTxt').innerText = item.position;
                         document.getElementById('locationTxt').innerText = item.location;

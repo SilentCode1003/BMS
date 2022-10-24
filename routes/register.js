@@ -20,7 +20,12 @@ var UserPath = __dirname + '/data/masters/users/';
 
 /* GET home page. */
 router.get('/', isAuthAdmin, function (req, res, next) {
-  res.render('registeruser', { title: 'Budget Monitoring System' });
+  res.render('registeruser', {
+    title: 'Budget Monitoring System',
+    position: req.session.position,
+    fullname: req.session.fullname,
+    user: req.session.user
+  });
 });
 
 module.exports = router;

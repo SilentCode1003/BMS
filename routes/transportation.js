@@ -13,20 +13,27 @@ var app = express();
 app.use(setUser);
 
 const { users } = require('./controller/data')
-const {isAuthAdmin} = require('./controller/authBasic')
+const { isAuthAdmin } = require('./controller/authBasic')
 
 
 function setUser(req, res, next) {
-  const userId = req.body.userId
-  if (userId) {
-    req.user = users.find(user => user.id === userId)
-  }
-  next();
+    const userId = req.body.userId
+    if (userId) {
+        req.user = users.find(user => user.id === userId)
+    }
+    next();
 };
 
 /* GET home page. */
 router.get('/', isAuthAdmin, function (req, res, next) {
-    res.render('transportations', { title: 'Budget Monitoring System', moment: moment });
+    res.render('transportations',
+        {
+            title: 'Budget Monitoring System',
+            position: req.session.position,
+            fullname: req.session.fullname,
+            user: req.session.user,
+            moment: moment
+        });
 });
 
 module.exports = router;
