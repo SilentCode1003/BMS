@@ -26,14 +26,14 @@ var registerRouter = require('./routes/register')
 var app = express();
 
 //mongodb
-mongoose.connect('mongodb://localhost:27017/sessions')
+mongoose.connect('mongodb://localhost:27017/BMS')
   .then((res) => {
     console.log("MongoDB Connected!");
   });
 
   const store = new MongoDBSession({
-    uri: 'mongodb://localhost:27017/sessions',
-    collection: 'mySessions',
+    uri: 'mongodb://localhost:27017/BMS',
+    collection: 'BMSSessions',
   });
 
 //Session
