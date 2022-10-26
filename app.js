@@ -7,6 +7,7 @@ var logger = require('morgan');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoDBSession = require('connect-mongodb-session')(session);
+const { TextEncoder, TextDecoder } = require("util");
 
 
 var indexRouter = require('./routes/index');
