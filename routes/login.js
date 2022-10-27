@@ -46,7 +46,8 @@ router.post('/authentication', (req, res) => {
 
     if (message == "success") {
       res.json({
-        msg: message
+        msg: message,
+        position: req.session.position
       });
     }
 

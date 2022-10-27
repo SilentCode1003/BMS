@@ -15,7 +15,13 @@
                     console.log(result);
                     if(result.msg == 'success') {
                         success('Login', 'Login successfully...')
-                        location.replace("/");
+
+                        if(result.position == 'IT'){
+                            location.replace("/filling");
+                        }else{
+                            location.replace("/");
+                        }
+                        
                     }
                     else{
                         error('ID & Password not match...');
