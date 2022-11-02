@@ -1,0 +1,36 @@
+[
+  {
+    "date": "2022-11-02",
+    "personel": "JOSEPH ORENCIO",
+    "position": "IT",
+    "pettycash": "200",
+    "budget": "500",
+    "reason": "DEVICE INSTALLATION ST1111 TWO SANPARQ",
+    "data": [
+      {
+        "ticket": "INC-5487548",
+        "destination": "BAHAY TO TISA",
+        "type": "TRICYCLE",
+        "cost": "20"
+      },
+      {
+        "ticket": "INC-5487548",
+        "destination": "TISA TO SM MABOLO",
+        "type": "JEEP",
+        "cost": "17"
+      },
+      {
+        "ticket": "INC-5487548",
+        "destination": "SM MABOLO TO TISA",
+        "type": "JEEP",
+        "cost": "17"
+      },
+      {
+        "ticket": "INC-5487548",
+        "destination": "TISA TO BAHAY",
+        "type": "JEEP",
+        "cost": "20"
+      }
+    ]
+  }
+]

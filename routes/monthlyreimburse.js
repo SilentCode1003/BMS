@@ -57,7 +57,13 @@ router.post('/LoadData', function (req, res, next) {
             console.log(`stage 3 results: ${targetDir3}:\n Contents: ${jsData}`);
 
             jsData.forEach(function (key, item) {
-              totalbudget += (parseFloat(key.budget) + parseFloat(key.pettycash));
+              if (key.budget == 0) {
+
+              }
+              else {
+                totalbudget += (parseFloat(key.budget) + parseFloat(key.pettycash));
+              }
+
               key.data.forEach(function (key, item) {
                 totalreimburse += parseFloat(key.cost);
               });
