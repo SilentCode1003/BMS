@@ -5,7 +5,6 @@ var app = express();
 
 const { users } = require('./controller/data')
 const { isAuthAdmin } = require('./controller/authBasic');
-const data = require('./controller/data');
 
 /* GET home page. */
 router.get('/', isAuthAdmin, function (req, res, next) {

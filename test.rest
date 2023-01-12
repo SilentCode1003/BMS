@@ -1,8 +1,0 @@
-POST http://localhost:3001/
-content-type: application/json
-
-{
-    "name": "Joseph",
-    "position": "Software Developer",
-    "role": "tambay"
-}

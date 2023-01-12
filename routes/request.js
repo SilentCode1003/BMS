@@ -5,9 +5,10 @@ const { create } = require('xmlbuilder2');
 var xml2js = require('xml2js');
 var fs = require('fs');
 
-var requestPendingPath = __dirname + '/data/budget/request/pending/';
-var requestApprovePath = __dirname + '/data/budget/request/approved/';
-var requestDenyPath = __dirname + '/data/budget/request/denied/';
+const requestPendingPath = __dirname + '/data/budget/request/pending/';
+const requestApprovePath = __dirname + '/data/budget/request/approved/';
+const requestDenyPath = __dirname + '/data/budget/request/denied/';
+
 
 var moment = require('moment');
 
@@ -29,6 +30,7 @@ router.get('/LoadData', function (req, res, next) {
 
   try {
     console.log(requestPendingPath);
+
     fs.readdir(requestPendingPath, function (err, files) {
       if (err) {
         res.json({

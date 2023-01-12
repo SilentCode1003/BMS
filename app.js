@@ -23,6 +23,9 @@ var transportationRouter = require('./routes/transportation');
 var monthlyreimburseRouter = require('./routes/monthlyreimburse');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register')
+var testRouter = require('./routes/test')
+
+
 
 var app = express();
 
@@ -72,6 +75,7 @@ app.use('/transportation', transportationRouter);
 app.use('/monthlyreimburse', monthlyreimburseRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
