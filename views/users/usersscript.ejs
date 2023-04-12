@@ -1,0 +1,30 @@
+<script>
+    $(document).ready(function(){
+
+        $('#user-table').DataTable({
+            'destroy': true,
+            'processing': true,
+            'serverSide': true,
+            'paging': false,
+            'searching': false,
+            'info': false,
+            'scrollY': 400,
+            'scrollCollapse': true,
+            'serverMethod': 'get',
+            'ajax': {
+                'url': '/users/load',
+            },
+            'columns': [
+                { data: 'firstname' },
+                { data: 'lastname' },
+                
+            ]
+        });
+
+        $(document).on('click','#clickbtn',function(){
+            var firstname=$('#firstname').val();
+
+            alert(firstname);
+        })
+    })
+</script>
