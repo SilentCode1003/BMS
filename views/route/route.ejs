@@ -9,21 +9,13 @@
     <div>
         <div class="col-xl-4 col-lg-3 col-sm-3"></div>
         <div class="entry-area-row">
-         <center><br><input id="origin" name="origin" type="text" placeholder="Origin" class="entry-area-box"><br>
-            <br><input type="text" placeholder="Destination" class="entry-area-box"><br>
+            <center>
+                <br><input id="origin" name="origin" type="text" placeholder="Origin" class="entry-area-box"><br>
+                <br><input id="destination" name="destination" type="text" placeholder="Destination" class="entry-area-box"><br>
 
-            <br><select center name="origin" id="Transportation" class="entry-area-box"><br>
-                <option value="-">Select Transportation</option>
-                <option value="tricycle">Tricycle</option>
-                <option value="jeep">Jeep</option>
-                <option value="bus">Bus</option>
-                <option value="taxi">Taxi</option>
-                <option value="van">Van</option>
-                <option value="ship">Ship</option>
-            </select><br>
 
-            <br><input type="text" placeholder="Price" class="entry-area-box"><br>
-            <br><input type="button" value="Add" name="add" id="btn" onclick="AddRow()" class="add-btn"></center>
+                 <button class="add-btn" id="addBtn" name="addBtn">ADD</button>
+            </center>
         </div>
 
         <div class="route">
@@ -31,12 +23,13 @@
 
             <table id="route-table">
                 <thead>
-                    <th> RC </th>
+                    <th> ROUTE CODE </th>
                     <th> ORIGIN </th>
                     <th> DESTINATION </th>
-                    <th> Transportation </th>
-                    <th> PRICE </th>
-                    <th> ACTION </th>
+                    <th> STATUS </th>
+                    <th> CREATED BY </th>
+                    <th> CREATED DATE </th>
+                    <th> ACTIONS </th>
                 </thead>
                 <tbody>
                     <tr>

@@ -1,2 +1,97 @@
-<script>src=https//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css</script>
-<script>src=https//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js</script>
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let origin = $('#origin').val();
+            let destination = $('#destination').val();
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/route/save',
+                data: {
+                    origin: origin,
+                    destination: destination
+                },
+                success: function (result) {
+                    LoadTable();
+                    alert('save successfully');
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        })
+
+        function LoadTable() {
+            $('#route-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/route/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var action = '';
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+
+                            finalData.push({
+                                routecode: item.routecode,
+                                origin: item.origin,
+                                destination: item.destination,
+                                status: item.status,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                                action: action,
+                            })
+
+                        })
+
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'routecode' },
+                    { data: 'origin' },
+                    { data: 'destination' },
+                    { data: 'status' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+                    { data: 'action' },
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+
+                }
+            });
+        }
+
+    })
+</script>
