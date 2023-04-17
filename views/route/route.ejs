@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-xl-4 col-lg-3 col-sm-3"></div>
+    <h3>ROUTE MASTER</h3>
+    <div class="col-xl-4 col-lg-3 col-sm-3 entry-area">
+    </div>
+
+    <div class="col-xl-3 col-lg-3 col-sm-3">
+    </div>
+    <div>
+        <div class="col-xl-6 col-lg-3 col-sm-3"></div>
+        <div class="entry-area-row">
+         <center><br><input id="origin" name="origin" type="text" placeholder="Origin"><br>
+            <br><input type="text" placeholder="Destination"><br>
+
+            <br><select center name="origin" id="Transportation"><br>
+                <option value="-">Select Transportation</option>
+                <option value="tricycle">Tricycle</option>
+                <option value="jeep">Jeep</option>
+                <option value="bus">Bus</option>
+                <option value="taxi">Taxi</option>
+                <option value="van">Van</option>
+                <option value="ship">Ship</option>
+            </select><br>
+
+            <br><input type="text" placeholder="Price"><br>
+            <br><input type="button" value="Add" name="add" id="btn" onclick="AddRow()" class="add-btn"></center>
+        </div>
+
+        <div class="route">
+            <hr>
+
+            <table id="route-table">
+                <thead>
+                    <th> RC </th>
+                    <th> ORIGIN </th>
+                    <th> DESTINATION </th>
+                    <th> Transportation </th>
+                    <th> PRICE </th>
+                    <th> ACTION </th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> 1000</td>
+                        <td> Main Office </td>
+                        <td> Pasay City </td>
+                        <td> Tricycle </td>
+                        <td> 30 </td>
+                        <td><button class="add-btn"> Update </button></td>
+                    </tr>
+                </tbody>
+        </div>
+        </table>
+    </div>
+</div>
