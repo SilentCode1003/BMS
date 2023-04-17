@@ -3,13 +3,13 @@ const model = require('../model/budgetmodel');
 require('dotenv').config();
 const crypt = require('./cryptography');
 
-let password = '';
-crypt.Decrypter(process.env._PASSWORD, (err, result) => {
-    if (err) throw err;
+// let password = '';
+// crypt.Decrypter(process.env._PASSWORD, (err, result) => {
+//     if (err) throw err;
 
-    password = result;
-    console.log(`${result} `);
-});
+//     password = result;
+//     console.log(`${result} `);
+// });
 
 
 const connection = mysql.createConnection({
@@ -43,7 +43,7 @@ exports.Select = (sql, table, callback) => {
         connection.connect((err) => { return err; })
         connection.query(sql, (error, results, fields) => {
 
-            // console.log(results);
+            console.log(results);
 
             if (error) {
                 callback(error, null)
@@ -210,7 +210,6 @@ exports.SelectResult = (sql, callback) => {
 exports.InsertTable = (tablename, data, callback) => {
     if (tablename == 'master_employee') {
         let sql = `INSERT INTO master_employee(
-                    me_employeecode,
                     me_employeeid,
                     me_fullname,
                     me_location,
@@ -231,7 +230,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'budget_request_details') {
         let sql = `INSERT INTO budget_request_details(
-            brd_requestid,
             brd_requestby,
             brd_requestdate,
             brd_budget,
@@ -268,7 +266,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'master_route') {
         let sql = `INSERT INTO master_route(
-        mr_routecode,
         mr_origin,
         mr_destination,
         mr_status,
@@ -290,7 +287,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'budget_request_items') {
         let sql = `INSERT INTO budget_request_items(
-            bri_transactionid,
             bri_requestid,
             bri_requestby,
             bri_requestdate,
@@ -313,7 +309,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'master_role_type') {
         let sql = `INSERT INTO master_role_type(
-        mrt_rolecode,
         mrt_rolename,
         mrt_createdby,
         mrt_createddate) VALUES ?`;
@@ -331,8 +326,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'master_route_price') {
         let sql = `INSERT INTO master_price(
-        mrp_routerpricecode,
-        mrp_routecode,
         mrp_currentprice,
         mrp_previouseprice,
         mrp_updateby,
@@ -354,9 +347,7 @@ exports.InsertTable = (tablename, data, callback) => {
 
 
     if (tablename == 'master_transportation') {
-        let sql = `INSERT INTO master_transportation
-    (
-        mr_routecode,
+        let sql = `INSERT INTO master_transportation(
         mr_origin,
         mr_destination,
         mr_status,
@@ -378,7 +369,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'reimbursement_details') {
         let sql = `INSERT INTO reimbursement_details    (
-        rd_reimburseid,
         rd_reimburseby,
         rd_reimbursedate,
         rd_requestid,
@@ -401,7 +391,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'master_access_type') {
         let sql = `INSERT INTO master_access_type    (
-        mat_accesscode,
         mat_accessname,
         mat_createdby,
         mat_createddate) VALUES ?`;
@@ -420,8 +409,7 @@ exports.InsertTable = (tablename, data, callback) => {
 
 
     if (tablename == 'master_position') {
-        let sql = `INSERT INTO master_route(
-        mp_positioncode,
+        let sql = `INSERT INTO master_position(
         mp_positionname,
         mp_createdby,
         mp_createddate) VALUES ?`;
@@ -435,7 +423,6 @@ exports.InsertTable = (tablename, data, callback) => {
 
     if (tablename == 'master_department') {
         let sql = `INSERT INTO master_department(
-                md_departmentcode,
                 md_departmentname,
                 md_createdby,
                 md_createddate) VALUES ? `;
@@ -480,7 +467,6 @@ exports.InsertTable = (tablename, data, callback) => {
     
     if (tablename == 'master_location') {
         let sql = `INSERT INTO master_location(
-                        ml_locationcode,
                         ml_locationname,
                         ml_createdby,
                         ml_createddate) VALUES ? `;

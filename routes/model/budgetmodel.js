@@ -13,6 +13,8 @@ exports.MasterUser = (data) => {
             createddate: key.mu_createddate,
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterEmployee = (data) => {
@@ -64,10 +66,14 @@ exports.MasterRoute = (data) => {
             destination: key.mr_destination,
             status: key.mr_status,
             createdby: key.mr_createdby,
-            creaddate: key.mr_createddate,
+            createddate: key.mr_createddate,
 
         })
+
+        
     })
+
+    return dataresult;
 }
 
 exports.BudgetRequestItems = (data) => {
