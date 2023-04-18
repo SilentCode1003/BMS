@@ -8,6 +8,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var transportationRouter = require('./routes/transportation');
 var routeRouter = require('./routes/route');
+var positionRouter = require('./routes/position');
+var accesstypeRouter = require('./routes/accesstype');
+var locationRouter = require('./routes/location');
+var departmentRouter = require('./routes/department');
+var routepriceRouter = require('./routes/routeprice');
+var storeRouter = require('./routes/store');
+var employeeRouter = require('./routes/employee');
+var roleRouter = require('./routes/role');
 
 var app = express();
 
@@ -25,6 +33,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/transportation', transportationRouter);
 app.use('/route', routeRouter);
+app.use('/position', positionRouter);
+app.use('/accesstype', accesstypeRouter);
+app.use('/department', departmentRouter);
+app.use('/location', locationRouter);
+app.use('/routeprice', routepriceRouter);
+app.use('/store', storeRouter);
+app.use('/employee', employeeRouter);
+app.use('/role', roleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
