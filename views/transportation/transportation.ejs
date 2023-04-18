@@ -1,38 +1,79 @@
-<div>
-    
-    <label for="firstname">Firstname:</label>
-    <input id="firstname type="text" name="fname" placeholder="Enter Firstname:" required>
-<br>
+<div class="row">
+    <div class="col-xl-4 col-lg-3 col-sm-3"></div>
+    <h3>TRANSPORTATION INFO</h3>
+    <div class="col-xl-4 col-lg-3 col-sm-3 entry-area">
+    </div>
 
-    <label for="lastname">Lastname:</label>
-    <input id="lastname type="text" name="lname"  placeholder="Enter Lastname:" required>
-   <br>
-   
-   <label for="position">Position:</label>
-   <input id="position type="text" name="position" placeholder="Enter position:" required>
-<br>
+    <div class="col-xl-4 col-lg-3 col-sm-3">
+    </div>
+    <div>
+        <div class="col-xl-4 col-lg-3 col-sm-3"></div>
+        <div class="entry-area-row">
+         <center>
+            <br><input type="text" placeholder="Transportation Name" class="entry-area-box"><br>
+            <br><input type="button" value="Add" name="add" id="btn" onclick="AddRow()" class="add-btn"></center>
+        </div>
 
-   <label for="department">Department:</label>
-   <input id="department type="text" name="department" placeholder="Enter Department:" required>
-<br>
+        <div class="route">
+            <hr>
+            <table id="route-table">
+                <thead class="table-row">
+                    <th> Transportation Name </th>
+                    <th> Transportation Code </th>
+                    <th> Created By </th>
+                    <th> Created Date </th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Transportation Name"> Tricycle </td>
+                        <td data-label="Transportation Code"> 30001 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
 
-    <input type ="submit" value="Submit" name="submit" id=""btn"
-    onclick="AddRow()">
+                    <tr>
+                        <td data-label="Transportation Name"> Van </td>
+                        <td data-label="Transportation Code"> 30003 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
 
+                    <tr>
+                        <td data-label="Transportation Name"> Taxi </td>
+                        <td data-label="Transportation Code"> 30005 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
 
-</div>
+                    <tr>
+                        <td data-label="Transportation Name"> Ship </td>
+                        <td data-label="Transportation Code"> 30006 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
 
-<hr>
-<div>
-    <table id="user-table2">
-        <thead>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Role</th>
-            <th>Department</th>
+                    <tr>
+                        <td data-label="Transportation Name"> Jeep </td>
+                        <td data-label="Transportation Code"> 30002 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
 
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+                    <tr>
+                        <td data-label="Transportation Name"> Hotel </td>
+                        <td data-label="Transportation Code"> 30007 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="Transportation Name"> Bus </td>
+                        <td data-label="Transportation Code"> 30004 </td>
+                        <td data-label="Created By"> Creator </td>
+                        <td data-label="Created Date"> 2023-04-18 </td>
+                    </tr>
+                </tbody>
+            </div>
+        </table>
+    </div>
 </div>
