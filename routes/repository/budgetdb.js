@@ -28,7 +28,7 @@ exports.InsertMultiple = async (stmt, todos) => {
             if (err) {
                 return console.error(err.message);
             }
-            console.log(`Row inserted: ${ results.affectedRows }`);
+            console.log(`Row inserted: ${results.affectedRows}`);
 
             return 1;
         });
@@ -56,6 +56,7 @@ exports.Select = (sql, table, callback) => {
             if (table == 'MasterEmployee') {
                 callback(null, model.MasterEmployee(results));
             }
+
             if (table == 'BudgetRequestDetails') {
                 callback(null, model.BudgetRequestDetails(results));
             }
@@ -63,37 +64,48 @@ exports.Select = (sql, table, callback) => {
             if (table == 'MasterRoute') {
                 callback(null, model.MasterRoute(results));
             }
+
             if (table == 'BudgetRequestItems') {
                 callback(null, model.BudgetRequestItems(results));
             }
-            if (table == 'MasteRoleType') {
+
+            if (table == 'MasterRoleType') {
                 callback(null, model.MasterRoleType(results));
             }
+
             if (table == 'MasterRoutePrice') {
                 callback(null, model.MasterRoutePrice(results));
             }
+
             if (table == 'MasterTransportation') {
                 callback(null, model.MasterTransportation(results));
             }
+
             if (table == 'ReimbursementDetails') {
                 callback(null, model.ReimbursementDetails(results));
             }
-            if (table == 'MasterAcessType') {
-                callback(null, model.MasterAcessType(results));
+
+            if (table == 'MasterAccessType') {
+                callback(null, model.MasterAccessType(results));
             }
+
             if (table == 'MasterDepartment') {
                 callback(null, model.MasterDepartment(results));
-            
+
             }
+
             if (table == 'MasterPosition') {
                 callback(null, model.MasterPosition(results));
             }
+
             if (table == 'ReimbursementItem') {
                 callback(null, model.ReimbursementItem(results));
             }
+
             if (table == 'MasterLocation') {
                 callback(null, model.MasterLocation(results));
             }
+
             if (table == 'MasterStore') {
                 callback(null, model.MasterStore(results));
             }
@@ -141,7 +153,7 @@ exports.Update = async (sql, callback) => {
             }
             // console.log('Rows affected:', results.affectedRows);
 
-            callback(null, `Rows affected: ${ results.affectedRows }`);
+            callback(null, `Rows affected: ${results.affectedRows}`);
         });
     } catch (error) {
         callback(error, null)
@@ -156,7 +168,7 @@ exports.UpdateMultiple = async (sql, data, callback) => {
             }
             // console.log('Rows affected:', results.affectedRows);
 
-            callback(null, `Rows affected: ${ results.affectedRows }`);
+            callback(null, `Rows affected: ${results.affectedRows}`);
         });
     } catch (error) {
         console.log(error);
@@ -177,7 +189,7 @@ exports.Insert = (stmt, todos, callback) => {
                 callback(err, null);
             }
             // callback(null, Row inserted: ${results});
-            callback(null, `Row inserted: ${ results.affectedRows }`);
+            callback(null, `Row inserted: ${results.affectedRows}`);
             // console.log(Row inserted: ${results.affectedRows});
         });
 
@@ -210,6 +222,7 @@ exports.SelectResult = (sql, callback) => {
 exports.InsertTable = (tablename, data, callback) => {
     if (tablename == 'master_employee') {
         let sql = `INSERT INTO master_employee(
+                    me_employeecode,
                     me_employeeid,
                     me_fullname,
                     me_location,
@@ -280,11 +293,6 @@ exports.InsertTable = (tablename, data, callback) => {
         })
     }
 
-
-
-
-
-
     if (tablename == 'budget_request_items') {
         let sql = `INSERT INTO budget_request_items(
             bri_requestid,
@@ -302,11 +310,6 @@ exports.InsertTable = (tablename, data, callback) => {
         })
     }
 
-
-
-
-
-
     if (tablename == 'master_role_type') {
         let sql = `INSERT INTO master_role_type(
         mrt_rolename,
@@ -321,13 +324,12 @@ exports.InsertTable = (tablename, data, callback) => {
         })
     }
 
-
-
-
     if (tablename == 'master_route_price') {
         let sql = `INSERT INTO master_price(
+        
+        mrp_routerpricecode,
         mrp_currentprice,
-        mrp_previouseprice,
+        mrp_previousprice,
         mrp_updateby,
         mrp_updatedate,
         mrp_createdby,
@@ -341,18 +343,11 @@ exports.InsertTable = (tablename, data, callback) => {
         })
     }
 
-
-
-
-
-
     if (tablename == 'master_transportation') {
         let sql = `INSERT INTO master_transportation(
-        mr_origin,
-        mr_destination,
-        mr_status,
-        mr_createdby,
-        mr_createddate) VALUES ?`;
+        mt_transportationname,
+        mt_createdby,
+        mt_createddate) VALUES ?`;
 
         this.Insert(sql, data, (err, result) => {
             if (err) {
@@ -361,11 +356,6 @@ exports.InsertTable = (tablename, data, callback) => {
             callback(null, result)
         })
     }
-
-
-
-
-
 
     if (tablename == 'reimbursement_details') {
         let sql = `INSERT INTO reimbursement_details    (
@@ -384,11 +374,6 @@ exports.InsertTable = (tablename, data, callback) => {
         })
     }
 
-
-
-
-
-
     if (tablename == 'master_access_type') {
         let sql = `INSERT INTO master_access_type    (
         mat_accessname,
@@ -403,11 +388,6 @@ exports.InsertTable = (tablename, data, callback) => {
         })
     }
 
-
-
-
-
-
     if (tablename == 'master_position') {
         let sql = `INSERT INTO master_position(
         mp_positionname,
@@ -415,32 +395,32 @@ exports.InsertTable = (tablename, data, callback) => {
         mp_createddate) VALUES ?`;
 
         this.Insert(sql, data, (err, result) => {
-        if (err) {
-            callback(err, null);
-        }
-        callback(null, result)
-    })
-
-    if (tablename == 'master_department') {
-        let sql = `INSERT INTO master_department(
-                md_departmentname,
-                md_createdby,
-                md_createddate) VALUES ? `;
-    
-        this.Insert(sql, data, (err, result) => {
             if (err) {
                 callback(err, null);
             }
             callback(null, result)
         })
-    }
-    
-    
-    
-    
-    
-    if (tablename == 'reimbursement_items') {
-        let sql = `INSERT INTO reimbursement_items(
+
+        if (tablename == 'master_department') {
+            let sql = `INSERT INTO master_department(
+                md_departmentname,
+                md_createdby,
+                md_createddate) VALUES ? `;
+
+            this.Insert(sql, data, (err, result) => {
+                if (err) {
+                    callback(err, null);
+                }
+                callback(null, result)
+            })
+        }
+
+
+
+
+
+        if (tablename == 'reimbursement_items') {
+            let sql = `INSERT INTO reimbursement_items(
                     ri_transactionid,
                     ri_requestid,
                     ri_reimbursementid,
@@ -452,39 +432,39 @@ exports.InsertTable = (tablename, data, callback) => {
                     ri_destination,
                     ri_fare,
                     ri_status) VALUES ? `;
-    
-        this.Insert(sql, data, (err, result) => {
-            if (err) {
-                callback(err, null);
-            }
-            callback(null, result)
-        })
-    }
-    
-    
-    
-    
-    
-    if (tablename == 'master_location') {
-        let sql = `INSERT INTO master_location(
+
+            this.Insert(sql, data, (err, result) => {
+                if (err) {
+                    callback(err, null);
+                }
+                callback(null, result)
+            })
+        }
+
+
+
+
+
+        if (tablename == 'master_location') {
+            let sql = `INSERT INTO master_location(
                         ml_locationname,
                         ml_createdby,
                         ml_createddate) VALUES ? `;
-    
-        this.Insert(sql, data, (err, result) => {
-            if (err) {
-                callback(err, null);
-            }
-            callback(null, result)
-        })
-    }
-    
-    
-    
-    
-    
-    if (tablename == 'master_store') {
-        let sql = `INSERT INTO master_store(
+
+            this.Insert(sql, data, (err, result) => {
+                if (err) {
+                    callback(err, null);
+                }
+                callback(null, result)
+            })
+        }
+
+
+
+
+
+        if (tablename == 'master_store') {
+            let sql = `INSERT INTO master_store(
                             ms_storecode,
                             ms_storename,
                             ms_address,
@@ -493,13 +473,13 @@ exports.InsertTable = (tablename, data, callback) => {
                             ms_status,
                             ms_createdby,
                             ms_createddate) VALUES ? `;
-    
-        this.Insert(sql, data, (err, result) => {
-            if (err) {
-                callback(err, null);
-            }
-            callback(null, result)
-        })
-    }
+
+            this.Insert(sql, data, (err, result) => {
+                if (err) {
+                    callback(err, null);
+                }
+                callback(null, result)
+            })
+        }
     }
 }

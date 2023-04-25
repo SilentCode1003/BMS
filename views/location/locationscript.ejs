@@ -1,0 +1,113 @@
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let locationname = $('#locationname').val();
+
+
+            var message = "";
+
+            if (locationname == "") { message += "Location Name" }
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/location/save',
+                    data: {
+                        locationname: locationname,
+                    },
+                    success: function (result) {
+                        LoadTable();
+                        ClearInput();
+                        alert('save successfully');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+
+            }
+
+
+        })
+
+        function LoadTable() {
+            $('#location-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/location/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var action = '';
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+                            finalData.push({
+                                locationcode: item.locationcode,
+                                locationname: item.locationname,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                                action: `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `
+                            })
+
+                        })
+
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'locationcode' },
+                    { data: 'locationname' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+                    
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+
+                }
+            });
+        }
+
+        function ClearInput() {
+            document.getElementById("locationname").value = "";
+        }
+
+    });
+</script>

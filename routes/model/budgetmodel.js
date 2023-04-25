@@ -8,7 +8,7 @@ exports.MasterUser = (data) => {
             username: key.mu_username,
             password: key.mu_password,
             role: key.mu_role,
-            accesstype: key.mu_accestype,
+            accesstype: key.mu_accesstype,
             createdby: key.mu_createdby,
             createddate: key.mu_createddate,
         })
@@ -24,7 +24,7 @@ exports.MasterEmployee = (data) => {
 
         dataresult.push({
             employeecode: key.me_employeecode,
-            emplopyeeid: key.me_employeeid,
+            employeeid: key.me_employeeid,
             fullname: key.me_fullname,
             location: key.me_location,
             department: key.me_department,
@@ -36,6 +36,8 @@ exports.MasterEmployee = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.BudgetRequestDetails = (data) => {
@@ -53,6 +55,8 @@ exports.BudgetRequestDetails = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterRoute = (data) => {
@@ -92,6 +96,8 @@ exports.BudgetRequestItems = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterRoleType = (data) => {
@@ -107,6 +113,8 @@ exports.MasterRoleType = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterRoutePrice = (data) => {
@@ -119,7 +127,7 @@ exports.MasterRoutePrice = (data) => {
             routerpricecode: key.mrp_routerpricecode,
             routecode: key.mrp_routecode,
             currentprice: key.mrp_currentprice,
-            previousprice: key.mrp_previouseprice,
+            previousprice: key.mrp_previousprice,
             updateby: key.mrp_updateby,
             updatedate: key.mrp_updatedate,
             createdby: key.mrp_createdby,
@@ -127,6 +135,8 @@ exports.MasterRoutePrice = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterTransportation = (data) => {
@@ -143,6 +153,8 @@ exports.MasterTransportation = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.ReimbursementDetails = (data) => {
@@ -161,9 +173,11 @@ exports.ReimbursementDetails = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
-exports.MasterAcessType = (data) => {
+exports.MasterAccessType = (data) => {
     let dataresult = [];
 
     data.forEach((key, item) => {
@@ -176,6 +190,8 @@ exports.MasterAcessType = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterDepartment = (data) => {
@@ -192,6 +208,8 @@ exports.MasterDepartment = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterPosition = (data) => {
@@ -208,6 +226,8 @@ exports.MasterPosition = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.ReimbursementItem = (data) => {
@@ -232,6 +252,8 @@ exports.ReimbursementItem = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterLocation = (data) => {
@@ -247,6 +269,8 @@ exports.MasterLocation = (data) => {
 
         })
     })
+
+    return dataresult;
 }
 
 exports.MasterStore = (data) => {
@@ -266,4 +290,6 @@ exports.MasterStore = (data) => {
 
         })
     })
+
+    return dataresult;
 }

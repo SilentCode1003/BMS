@@ -1,0 +1,133 @@
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let storecode = $('#storecode').val();
+            let storename = $('#storename').val();
+            let address = $('#address').val();
+            let email = $('#email').val();
+            let contact = $('#contact').val();
+
+            var message ="";
+           
+            if (storecode == "") { message += "Store Code" }
+            if (storename == "") { message += "Store Name" }
+            if (address == "") { message += "Address" }
+            if (email == "") { message += "Email" }
+            if (contact == "") { message += "Contact" }
+
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+                $.ajax({
+                type: 'POST',
+                url: '/store/save',
+                data: {
+                    storecode: storecode,
+                    storename: storename,
+                    address: address,
+                    email: email,
+                    contact: contact
+
+                },
+                success: function (result) {
+                    LoadTable();
+                    ClearInput();
+                    alert('save successfully');
+                
+                    
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+                
+            }
+            
+         
+        })
+
+        function LoadTable() {
+            $('#store-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/store/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+
+                            finalData.push({
+                                storecode: item.storecode,
+                                storename: item.storename,
+                                address: item.address,
+                                email: item.email,
+                                contact: item.contact,
+                                status: status,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                               
+                            })
+
+                        })
+                
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'storecode' },
+                    { data: 'storename' },
+                    { data: 'address' },
+                    { data: 'email' },
+                    { data: 'contact' },
+                    { data: 'status' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+                    
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+                    
+                }
+            });
+        }
+
+        function ClearInput(){
+            document.getElementById("storecode").value = "";
+            document.getElementById("storename").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("email").value = "";document.getElementById("storename").value = "";
+            document.getElementById("contact").value = "";
+            
+        }
+
+        });
+</script>
