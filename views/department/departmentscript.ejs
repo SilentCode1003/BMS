@@ -1,0 +1,113 @@
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let departmentname = $('#departmentname').val();
+
+
+            var message = "";
+
+            if (departmentname == "") { message += "Department Name" }
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/department/save',
+                    data: {
+                        departmentname: departmentname,
+                    },
+                    success: function (result) {
+                        LoadTable();
+                        ClearInput();
+                        alert('save successfully');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+
+            }
+
+
+        })
+
+        function LoadTable() {
+            $('#department-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/department/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var action = '';
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+                            finalData.push({
+                                departmentcode: item.departmentcode,
+                                departmentname: item.departmentname,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                                action: `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `
+                            })
+
+                        })
+
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'departmentcode' },
+                    { data: 'departmentname' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+                    
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+
+                }
+            });
+        }
+
+        function ClearInput() {
+            document.getElementById("departmentname").value = "";
+        }
+
+    });
+</script>

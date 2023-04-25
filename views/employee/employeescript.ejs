@@ -1,0 +1,148 @@
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let employeecode = $('#employeecode').val();
+            let employeeid = $('#employeeid').val();
+            let fullname = $('#fullname').val();
+            let location = $('#location').val();
+            let department = $('#department').val();
+            let position = $('#position').val();
+            let role = $('#role').val();
+
+
+            var message = "";
+
+            if (employeecode == "") { message += "Employee Code " }
+            if (employeeid == "") { message += "Employee Id " }
+            if (fullname == "") { message += "Fullname " }
+            if (location == "") { message += "Location " }
+            if (department == "") { message += "Department " }
+            if (position == "") { message += "Position " }
+            if (role == "") { message += "Role" }
+
+
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/employee/save',
+                    data: {
+                        employeecode: employeecode,
+                        employeeid: employeeid,
+                        fullname: fullname,
+                        location: location,
+                        department: department,
+                        position: position,
+                        role: role
+                    },
+                    success: function (result) {
+                        LoadTable();
+                        ClearInput();
+                        alert('save successfully');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+
+            }
+
+
+        })
+
+        function LoadTable() {
+            $('#employee-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/employee/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var action = '';
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+
+                            finalData.push({
+                                employeecode: item.employeecode,
+                                employeeid: item.employeeid,
+                                fullname: item.fullname,
+                                location: item.location,
+                                department: item.department,
+                                position: item.position,
+                                role: item.role,
+                                status: item.status,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                                action: action,
+                            })
+
+                        })
+
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'employeecode' },
+                    { data: 'employeeid' },
+                    { data: 'fullname' },
+                    { data: 'location' },
+                    { data: 'department' },
+                    { data: 'position' },
+                    { data: 'role' },
+                    { data: 'status' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+                    { data: 'action' },
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+
+                }
+            });
+        }
+
+        function ClearInput() {
+            document.getElementById("employeecode").value = "";
+            document.getElementById("employeeid").value = "";
+            document.getElementById("fullname").value = "";
+            document.getElementById("location").value = "";
+            document.getElementById("department").value = "";
+            document.getElementById("position").value = "";
+            document.getElementById("role").value = "";
+
+     
+        }
+
+    });
+</script>

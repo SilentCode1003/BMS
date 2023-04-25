@@ -9,36 +9,37 @@
     <div>
         <div class="col-xl-4 col-lg-3 col-sm-3"></div>
         <div class="entry-area-row">
-         <center>
-            <br><input type="text" placeholder="Role Type" class="entry-area-box"><br>
-            <br><input type="button" value="Add" name="add" id="btn" onclick="AddRow()" class="add-btn"></center>
+            <center>
+                <br><input id="rolename" name="rolename" type="text" placeholder="Role Type" class="entry-area-box"><br>
+                <br><button class="add-btn" id="addBtn" name="addBtn">ADD</button>
+            </center>
         </div>
 
         <div class="route">
             <hr>
-            <table id="route-table">
+            <table id="role-table">
                 <thead class="table-row">
-                    <th> Role Name </th>
                     <th> Role Code </th>
+                    <th> Role Name </th>
                     <th> Created By </th>
                     <th> Created Date </th>
                 </thead>
                 <tbody>
                     <tr>
-                        <td data-label="Position Name"> - </td>
-                        <td data-label="Position Code"> - </td>
+                        <td data-label="Role Name"> - </td>
+                        <td data-label="Role Code"> - </td>
                         <td data-label="Created By"> Creator </td>
                         <td data-label="Created Date"> 2023-04-18 </td>
                     </tr>
 
                     <tr>
-                        <td data-label="Position Name"> - </td>
-                        <td data-label="Position Code"> - </td>
+                        <td data-label="Role Name"> - </td>
+                        <td data-label="Role Code"> - </td>
                         <td data-label="Created By"> Creator </td>
                         <td data-label="Created Date"> 2023-04-18 </td>
                     </tr>
                 </tbody>
-            </div>
+        </div>
         </table>
     </div>
 </div>

@@ -10,18 +10,20 @@
         <div class="col-xl-4 col-lg-3 col-sm-3"></div>
         <div class="entry-area-row">
          <center>
-            <br><input type="text" placeholder="Transportation Name" class="entry-area-box"><br>
-            <br><input type="button" value="Add" name="add" id="btn" onclick="AddRow()" class="add-btn"></center>
-        </div>
+           <br><input id="transportationname" name="transportationname" type="text" placeholder="Transportation Name" class="entry-area-box"><br>
+                <br><button class="add-btn" id="addBtn" name="addBtn">ADD</button>
+        </center>
+            </div>
 
         <div class="route">
             <hr>
-            <table id="route-table">
+            <table id="transportation-table">
                 <thead class="table-row">
-                    <th> Transportation Name </th>
                     <th> Transportation Code </th>
+                    <th> Transportation Name </th>
                     <th> Created By </th>
                     <th> Created Date </th>
+                    <th> Actions </th>
                 </thead>
                 <tbody>
                     <tr>
