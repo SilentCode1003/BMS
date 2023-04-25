@@ -1,0 +1,106 @@
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let rolename = $('#rolename').val();
+
+
+            var message = "";
+
+            if (rolename == "") { message += "Role name" }
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/role/save',
+                    data: {
+                        rolename: rolename,
+                    },
+                    success: function (result) {
+                        LoadTable();
+                        ClearInput();
+                        alert('save successfully');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+
+            }
+
+
+        })
+
+        function LoadTable() {
+            $('#role-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/role/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var action = '';
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+                            finalData.push({
+                                rolecode: item.rolecode,
+                                rolename: item.rolename,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                            })
+
+                        })
+
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'rolecode' },
+                    { data: 'rolename' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+
+                }
+            });
+        }
+
+        function ClearInput() {
+            document.getElementById("rolename").value = "";
+        }
+
+    });
+</script>

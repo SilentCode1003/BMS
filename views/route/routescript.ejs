@@ -6,22 +6,36 @@
             let origin = $('#origin').val();
             let destination = $('#destination').val();
 
+            var message = "";
 
-            $.ajax({
-                type: 'POST',
-                url: '/route/save',
-                data: {
-                    origin: origin,
-                    destination: destination
-                },
-                success: function (result) {
-                    LoadTable();
-                    alert('save successfully');
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
+            if (origin == "") { message += "Origin " }
+            if (destination == "") { message += "Destination " }
+
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/route/save',
+                    data: {
+                        origin: origin,
+                        destination: destination
+                    },
+                    success: function (result) {
+                        LoadTable();
+                        ClearInput();
+                        alert('save successfully');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+
+            }
+
+
         })
 
         function LoadTable() {
@@ -93,5 +107,10 @@
             });
         }
 
-    })
+        function ClearInput() {
+            document.getElementById("origin").value = "";
+            document.getElementById("destination").value = "";
+        }
+
+    });
 </script>

@@ -1,67 +1,72 @@
 var express = require('express');
 var router = express.Router();
-var list1 = [];
-var list2 = [];
-var list3 = [];
-var list4 = [];
 
-var n = 1;
-var x = 0;
-function AddRow(){
-
-var AddRow = document.getElementById('user-table2');
-var NewRow = AddRow.insertRow(n);
-
-list1[x] = document.getElementById("fname").value; 
-list2[x] = document.getElementById("lname").value; 
-list3[x] = document.getElementById("position").value; 
-list4[x] = document.getElementById("department").value; 
-
-var cell1 = NewRow.inserCell(0);
-var cell2 = NewRow.inserCell(1);
-var cell3 = NewRow.inserCell(2);
-var cell4 = NewRow.inserCell(3);
-
-cell1.innerHTML = list1[x];
-cell2.innerHTML = list2[x];
-cell3.innerHTML = list3[x];
-cell4.innerHTML = list4[x];
+const helper = require('./repository/customhelper');
+const mysql = require('./repository/budgetdb');
+const dictionary = require('./repository/dictionary');
 
 
-n++;
-x++;
 
-
-}
-
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/* GET users listing. */
+router.get('/', function (req, res, next) {
   res.render('transportation', { title: 'Express' });
 });
 
 module.exports = router;
-
-
-
-
-router.get('/load',(req,res)=>{
+router.get('/load', (req, res) => {
   try {
+    let sql = 'select * from master_transportation';
+
     
-    let data=[];
+    mysql.Select(sql, 'MasterTransportation', (err, result) => {
+      if (err) {
+        return res.json({
+          msg: err
+        })
+      }
 
-    data.push({
-      firstname
-
-    })
-
-    res.json({
-      msg:'success', 
-      data:data
-    })
+      console.log(result);
+    
+      res.json({
+        msg: 'success',
+        data: result
+      })
+    });
   } catch (error) {
     res.json({
-      msg:error
+      msg: error
     })
   }
+})
+
+router.post('/save', (req, res) => {
+  try {
+    let transportationname = req.body.transportationname;
+    let createdby = 'CREATOR';
+    let createdate = helper.GetCurrentDatetime();
+    let data = [];
+
+    console.log(`${transportationname}, ${createdby} ${createdate}`);
+
+    data.push([
+      transportationname,
+      createdby,
+      createdate
+    ])
+
+    console.log(data);
+    mysql.InsertTable('master_transportation', data, (err, result) => {
+      if (err) console.error(err);
+
+      res.json({
+        msg: 'success'
+      })
+    });
+
+  } catch (error) {
+    res.json({
+      msg: error
+    })
+  }
+
 })

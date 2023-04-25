@@ -10,16 +10,17 @@
         <div class="col-xl-4 col-lg-3 col-sm-3"></div>
         <div class="entry-area-row">
          <center>
-            <br><input type="text" placeholder="Position Name" class="entry-area-box"><br>
-            <br><input type="button" value="Add" name="add" id="btn" onclick="AddRow()" class="add-btn"></center>
+            <br><input id="positionname" name="positionname" type="text" placeholder="Position Name" class="entry-area-box"><br>
+            <br><button class="add-btn" id="addBtn" name="addBtn">ADD</button>
+    </center>
         </div>
 
         <div class="route">
             <hr>
-            <table id="route-table">
+            <table id="position-table">
                 <thead class="table-row">
-                    <th> Position Name </th>
                     <th> Position Code </th>
+                    <th> Position Name </th>
                     <th> Created By </th>
                     <th> Created Date </th>
                 </thead>

@@ -1,0 +1,140 @@
+<script>
+    $(document).ready(function () {
+        LoadTable();
+
+        $(document).on('click', '#addBtn', function () {
+            let routerpricecode = $('#routerpricecode').val();
+            let currentprice = $('#currentprice').val();
+            let previousprice = $('#previousprice').val();
+            let updateby = $('#updateby').val();
+            let updatedate = $('#updatedate').val();
+
+
+            var message = "";
+            if (routerpricecode == "") { message += "Router Price Code" }
+            if (currentprice == "") { message += "Current Price" }
+            if (previousprice == "") { message += "Previous Price" }
+            if (updateby == "") { message += "Updateby" }
+            if (updatedate == "") { message += "Update Date" }
+
+
+
+            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
+            else {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/routeprice/save',
+                    data: {
+
+                        routerpricecode: routerpricecode,
+                        currentprice: currentprice,
+                        previousprice: previousprice,
+                        updateby: updateby,
+                        updatedate: updatedate
+
+                    },
+                    success: function (result) {
+                        LoadTable();
+                        ClearInput();
+                        alert('save successfully');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+
+            }
+
+
+        })
+
+        function LoadTable() {
+            $('#routeprice-table').DataTable({
+                'destroy': true,
+                'processing': true,
+                'serverSide': true,
+                'paging': false,
+                'searching': false,
+                'info': false,
+                'scrollY': 550,
+                'scrollCollapse': true,
+                'serverMethod': 'GET',
+                'ajax': {
+                    'url': '/routeprice/load',
+                    'dataSrc': (json) => {
+                        var finalData = [];
+                        var data = json.data;
+
+                        console.log(data);
+                        $.each(data, (key, item) => {
+                            var action = '';
+                            var status = item.status;
+
+                            if (status == 'ACTIVE') {
+                                action = `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `;
+                            }
+                            if (status == 'INACTIVE') {
+                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
+                            }
+                            finalData.push({
+                                routerpricecode: item.routerpricecode,
+                                currentprice: item.currentprice,
+                                previousprice: item.previousprice,
+                                updateby: item.updateby,
+                                updatedate: item.updatedate,
+                                createdby: item.createdby,
+                                createddate: item.createddate,
+                                action: `
+                                <div class="table-button">
+                                    <button id="editBtn" name="editBtn">EDIT</button>
+                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
+                                </div>
+                                `
+                            })
+
+                        })
+
+                        return finalData;
+                    },
+                },
+                'columnDefs': [{
+                    targets: 1,
+                    className: 'td-indent',
+                }],
+                'columns': [
+                    { data: 'routerpricecode' },
+                    { data: 'routecode' },
+                    { data: 'currentprice' },
+                    { data: 'previousprice' },
+                    { data: 'updateby' },
+                    { data: 'updatedate' },
+                    { data: 'createdby' },
+                    { data: 'createddate' },
+               
+                ],
+                initComplete: function () {
+                    console.log('init complete');
+
+                }
+            });
+        }
+
+        function ClearInput() {
+            document.getElementById("routerpricecode").value = "";
+            document.getElementById("currentprice").value = "";
+            document.getElementById("previousprice").value = "";
+            document.getElementById("updateby").value = "";
+            document.getElementById("updatedate").value = "";
+
+        }
+
+    });
+</script>

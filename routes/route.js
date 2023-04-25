@@ -6,6 +6,7 @@ const mysql = require('./repository/budgetdb');
 const dictionary = require('./repository/dictionary');
 
 
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.render('route', { title: 'Express' });
@@ -24,7 +25,7 @@ router.get('/load', (req, res) => {
       }
 
       console.log(result);
-
+    
       res.json({
         msg: 'success',
         data: result
@@ -70,4 +71,5 @@ router.post('/save', (req, res) => {
       msg: error
     })
   }
+
 })
