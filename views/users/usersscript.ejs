@@ -1,107 +1,30 @@
 <script>
-    $(document).ready(function () {
-        LoadTable();
+    $(document).ready(function(){
 
-        $(document).on('click', '#addBtn', function () {
-            let fullname = $('#fullname').val();
-            let username = $('#username').val();
-            let password = $('#password').val();
-            var message = "";
+        $('#user-table').DataTable({
+            'destroy': true,
+            'processing': true,
+            'serverSide': true,
+            'paging': false,
+            'searching': false,
+            'info': false,
+            'scrollY': 400,
+            'scrollCollapse': true,
+            'serverMethod': 'get',
+            'ajax': {
+                'url': '/users/load',
+            },
+            'columns': [
+                { data: 'firstname' },
+                { data: 'lastname' },
+                
+            ]
+        });
 
-            if (fullname == "") { message += "Fullname" }
-            if (username == "") { message += "User" }
-            if (password == "") { message += "Password" }
+        $(document).on('click','#clickbtn',function(){
+            var firstname=$('#firstname').val();
 
-
-            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
-            else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/users/save',
-                    data: {
-                        fullname: fullname,
-                        username: username,
-                        password: password,
-                        role: role
-                    },
-                    success: function (result) {
-                        LoadTable();
-                        ClearInput();
-                        alert('save successfully');
-
-
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                })
-
-            }
-
-
+            alert(firstname);
         })
-
-        function LoadTable() {
-            $('#user-table').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 550,
-                'scrollCollapse': true,
-                'serverMethod': 'GET',
-                'ajax': {
-                    'url': '/users/load',
-                    'dataSrc': (json) => {
-                        var finalData = [];
-                        var data = json.data;
-
-                        console.log(data);
-                        $.each(data, (key, item) => {
-                            var action = '';
-                            var status = item.status;
-
-                            finalData.push({
-                                fullname: item.fullname,
-                                username: item.username,
-                                password: item.password,
-                                role: item.role,
-                                accesstype: item.accesstype,
-                                createdby: item.createdby,
-                                createddate: item.createddate,
-                            })
-                        })
-
-                        return finalData;
-                    },
-                },
-                'columnDefs': [{
-                    targets: 1,
-                    className: 'td-indent',
-                }],
-                'columns': [
-                    { data: 'fullname' },
-                    { data: 'username' },
-                    { data: 'password' },
-                    { data: 'role' },
-                    { data: 'accesstype' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-                ],
-                initComplete: function () {
-                    console.log('init complete');
-
-                }
-            });
-        }
-
-        function ClearInput() {
-            document.getElementById("fullname").value = "";
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-        }
-
-    });
+    })
 </script>
