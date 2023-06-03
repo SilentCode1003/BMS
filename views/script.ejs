@@ -21,3 +21,40 @@
 
 <script src="/stylesheets/css/sb-admin-2.css"></script>
 <script src="/stylesheets/css/sb-admin-2.min.css"></script>
+
+<!-- SWAL-->
+<script src="/javascripts/sweetalert.min.js"></script>
+
+<!-- XLSX -->
+<script src="/javascripts/xlsx.mini.min.js"></script>
+
+<script>
+  function success(title, text) {
+    swal({
+      title: title,
+      text: text,
+      icon: "success",
+    });
+  }
+  function warning(title, text) {
+    swal({
+      title: title,
+      text: text,
+      icon: "warning",
+    });
+  }
+  function info(title, text) {
+    swal({
+      title: title,
+      text: text,
+      icon: "info",
+    });
+  }
+  function errormsg(err) {
+    swal({
+      title: "Error!",
+      text: err,
+      icon: "error",
+    });
+  }
+</script>

@@ -1,107 +1,172 @@
 <script>
-    $(document).ready(function () {
-        LoadTable();
+  $(document).ready(function () {
+    LoadTable();
+    LoadList();
 
-        $(document).on('click', '#addBtn', function () {
-            let fullname = $('#fullname').val();
-            let username = $('#username').val();
-            let password = $('#password').val();
-            var message = "";
+    $(document).on("click", "#addBtn", function () {
+      let fullname = $("#fullname").val();
+      let username = $("#username").val();
+      let password = $("#password").val();
+      let role = $("#rolelist").val();
+      let access = $("#accesslist").val();
+      var message = "";
 
-            if (fullname == "") { message += "Fullname" }
-            if (username == "") { message += "User" }
-            if (password == "") { message += "Password" }
+      if (fullname == "") {
+        message += "Fullname ";
+      }
 
+      if (username == "") {
+        message += "User ";
+      }
 
-            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
-            else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/users/save',
-                    data: {
-                        fullname: fullname,
-                        username: username,
-                        password: password,
-                        role: role
-                    },
-                    success: function (result) {
-                        LoadTable();
-                        ClearInput();
-                        alert('save successfully');
+      if (password == "") {
+        message += "Password ";
+      }
 
+      if (role == "") {
+        message += "Role ";
+      }
 
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                })
+      if (access == "") {
+        message += "Accesss ";
+      }
 
-            }
+      if (message != "") {
+        warning("Empty", "Warning! Must fill-up " + message + "field!");
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/users/save",
+          data: {
+            fullname: fullname,
+            username: username,
+            password: password,
+            role: role,
+            access: access,
+          },
 
-
-        })
-
-        function LoadTable() {
-            $('#user-table').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 550,
-                'scrollCollapse': true,
-                'serverMethod': 'GET',
-                'ajax': {
-                    'url': '/users/load',
-                    'dataSrc': (json) => {
-                        var finalData = [];
-                        var data = json.data;
-
-                        console.log(data);
-                        $.each(data, (key, item) => {
-                            var action = '';
-                            var status = item.status;
-
-                            finalData.push({
-                                fullname: item.fullname,
-                                username: item.username,
-                                password: item.password,
-                                role: item.role,
-                                accesstype: item.accesstype,
-                                createdby: item.createdby,
-                                createddate: item.createddate,
-                            })
-                        })
-
-                        return finalData;
-                    },
-                },
-                'columnDefs': [{
-                    targets: 1,
-                    className: 'td-indent',
-                }],
-                'columns': [
-                    { data: 'fullname' },
-                    { data: 'username' },
-                    { data: 'password' },
-                    { data: 'role' },
-                    { data: 'accesstype' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-                ],
-                initComplete: function () {
-                    console.log('init complete');
-
-                }
-            });
-        }
-
-        function ClearInput() {
-            document.getElementById("fullname").value = "";
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-        }
-
+          success: function (result) {
+            LoadTable();
+            ClearInput();
+            success("Success", "User successfully added");
+          },
+          error: function (err) {
+            errormsg(err);
+          },
+        });
+      }
     });
+
+    function LoadTable() {
+      $("#user-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/users/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var action = "";
+              var status = item.status;
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+
+              finalData.push({
+                fullname: item.fullname,
+                username: item.username,
+                password: item.password,
+                role: item.role,
+                accesstype: item.accesstype,
+                createdby: item.createdby,
+                status: status,
+                createddate: item.createddate,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "fullname" },
+          { data: "username" },
+          { data: "password" },
+          { data: "role" },
+          { data: "accesstype" },
+          { data: "status" },
+          { data: "createdby" },
+          { data: "createddate" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+
+    function ClearInput() {
+      document.getElementById("fullname").value = "";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    }
+
+    function LoadList() {
+      $.ajax({
+        type: "GET",
+        url: "/role/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.rolename, item.rolename);
+            $(options).html(item.rolename);
+            $("#rolelist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "/accesstype/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.accessname, item.accessname);
+            $(options).html(item.accessname);
+            $("#accesslist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+    }
+  });
 </script>
