@@ -1,113 +1,100 @@
 <script>
-    $(document).ready(function () {
-        LoadTable();
+  $(document).ready(function () {
+    LoadTable();
 
-        $(document).on('click', '#addBtn', function () {
-            let accessname = $('#accessname').val();
+    $(document).on("click", "#addBtn", function () {
+      let accessname = $("#accessname").val();
 
+      var message = "";
 
-            var message = "";
+      if (accessname == "") {
+        message += "Access Name";
+      }
 
-            if (accessname == "") { message += "Access Name" }
-
-            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
-            else {
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/accesstype/save',
-                    data: {
-                        accessname: accessname,
-                    },
-                    success: function (result) {
-                        LoadTable();
-                        ClearInput();
-                        alert('save successfully');
-
-
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                })
-
-            }
-
-
-        })
-
-        function LoadTable() {
-            $('#accesstype-table').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 550,
-                'scrollCollapse': true,
-                'serverMethod': 'GET',
-                'ajax': {
-                    'url': '/accesstype/load',
-                    'dataSrc': (json) => {
-                        var finalData = [];
-                        var data = json.data;
-
-                        console.log(data);
-                        $.each(data, (key, item) => {
-                            var action = '';
-                            var status = item.status;
-
-                            if (status == 'ACTIVE') {
-                                action = `
-                                <div class="table-button">
-                                    <button id="editBtn" name="editBtn">EDIT</button>
-                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
-                                </div>
-                                `;
-                            }
-                            if (status == 'INACTIVE') {
-                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
-                            }
-                            finalData.push({
-                                accesscode: item.accesscode,
-                                accessname: item.accessname,
-                                createdby: item.createdby,
-                                createddate: item.createddate,
-                                action: `
-                                <div class="table-button">
-                                    <button id="editBtn" name="editBtn">EDIT</button>
-                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
-                                </div>
-                                `
-                            })
-
-                        })
-
-                        return finalData;
-                    },
-                },
-                'columnDefs': [{
-                    targets: 1,
-                    className: 'td-indent',
-                }],
-                'columns': [
-                    { data: 'accesscode' },
-                    { data: 'accessname' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-                    
-                ],
-                initComplete: function () {
-                    console.log('init complete');
-
-                }
-            });
-        }
-
-        function ClearInput() {
-            document.getElementById("accessname").value = "";
-        }
-
+      if (message != "") {
+        warning("Empty", "Warning! Must fill-up " + message + "field!");
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/accesstype/save",
+          data: {
+            accessname: accessname,
+          },
+          success: function (result) {
+            LoadTable();
+            ClearInput();
+            success("Success", "Access Name save successfully");
+          },
+          error: function (err) {
+            errormsg(err);
+          },
+        });
+      }
     });
+
+    function LoadTable() {
+      $("#accesstype-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/accesstype/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+            var action = "";
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var status = item.status;
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+              finalData.push({
+                accesscode: item.accesscode,
+                accessname: item.accessname,
+                createdby: item.createdby,
+                createddate: item.createddate,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "accesscode" },
+          { data: "accessname" },
+          { data: "createdby" },
+          { data: "createddate" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+
+    function ClearInput() {
+      document.getElementById("accessname").value = "";
+    }
+  });
 </script>
