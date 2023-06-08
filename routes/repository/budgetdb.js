@@ -18,6 +18,16 @@ const connection = mysql.createConnection({
   database: process.env._DATABASE,
 });
 
+exports.CheckConnection = () => {
+  connection.connect((err) => {
+    if (err) {
+      console.error("Error connection to MYSQL databases: ", err);
+      return;
+    }
+    console.log("MySQL database connection established successfully!");
+  });
+};
+
 exports.InsertMultiple = async (stmt, todos) => {
   try {
     connection.connect((err) => {
