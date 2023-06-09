@@ -1,81 +1,80 @@
-<div class="row">
-    <div class="col-xl-4 col-lg-3 col-sm-3"></div>
-    <h3>TRANSPORTATION INFO</h3>
-    <div class="col-xl-4 col-lg-3 col-sm-3 entry-area">
-    </div>
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h1 class="page-title">TRANSPORTATION INFO</h1>
+  </div>
 
-    <div class="col-xl-4 col-lg-3 col-sm-3">
-    </div>
-    <div>
-        <div class="col-xl-4 col-lg-3 col-sm-3"></div>
-        <div class="entry-area-row">
-         <center>
-           <br><input id="transportationname" name="transportationname" type="text" placeholder="Transportation Name" class="entry-area-box"><br>
-                <br><button class="add-btn" id="addBtn" name="addBtn">ADD</button>
-        </center>
+  <div class="row mb-2">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label" for="transportationname"
+                >TRANSPORTATION NAME</label
+              >
+              <input
+                id="transportationname"
+                name="transportationname"
+                type="text"
+                class="form-control"
+                placeholder="Enter Transportation Name"
+                aria-label="transportationname"
+                aria-describedby="basic-addon1"
+              />
             </div>
-
-        <div class="route">
-            <hr>
-            <table id="transportation-table">
-                <thead class="table-row">
-                    <th> Transportation Code </th>
-                    <th> Transportation Name </th>
-                    <th> Created By </th>
-                    <th> Created Date </th>
-                    <th> Actions </th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td data-label="Transportation Name"> Tricycle </td>
-                        <td data-label="Transportation Code"> 30001 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Transportation Name"> Van </td>
-                        <td data-label="Transportation Code"> 30003 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Transportation Name"> Taxi </td>
-                        <td data-label="Transportation Code"> 30005 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Transportation Name"> Ship </td>
-                        <td data-label="Transportation Code"> 30006 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Transportation Name"> Jeep </td>
-                        <td data-label="Transportation Code"> 30002 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Transportation Name"> Hotel </td>
-                        <td data-label="Transportation Code"> 30007 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Transportation Name"> Bus </td>
-                        <td data-label="Transportation Code"> 30004 </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-                </tbody>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mt-4">
+              <button
+                id="addBtn"
+                name="addBtn"
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+              >
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add
+              </button>
             </div>
-        </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <h6 class="m-0 font-weight-bold table-title">User Table</h6>
+        </div>
+        <div class="col-md-6">
+          <input
+            id="search"
+            name="search"
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            aria-label="search"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive-sm">
+          <table
+            id="transportation-table"
+            class="table table-bordered table-sm"
+          >
+            <thead class="table-dark">
+              <th>Transportation Code</th>
+              <th>Transportation Name</th>
+              <th>Created By</th>
+              <th>Created Date</th>
+              <th>Actions</th>
+            </thead>
+            <tbody class="table-light"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
