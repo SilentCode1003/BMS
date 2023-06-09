@@ -99,6 +99,7 @@ exports.MasterRoleType = (data) => {
       rolename: key.mrt_rolename,
       createdby: key.mrt_createdby,
       createddate: key.mrt_createddate,
+      status: key.mrt_status,
     });
   });
 
@@ -118,6 +119,7 @@ exports.MasterRoutePrice = (data) => {
       updatedate: key.mrp_updatedate,
       createdby: key.mrp_createdby,
       createddate: key.mrp_createddate,
+      status: key.mrp_status,
     });
   });
 
@@ -133,6 +135,7 @@ exports.MasterTransportation = (data) => {
       transportationname: key.mt_transportationname,
       createdby: key.mt_createdby,
       createddate: key.mt_createddate,
+      status: key.mt_status,
     });
   });
 
@@ -166,6 +169,7 @@ exports.MasterAccessType = (data) => {
       accessname: key.mat_accessname,
       createdby: key.mat_createdby,
       createddate: key.mat_createddate,
+      status: key.mat_status,
     });
   });
 
@@ -181,6 +185,7 @@ exports.MasterDepartment = (data) => {
       departmentname: key.md_departmentname,
       createdby: key.md_createdby,
       createddate: key.md_createddate,
+      status: key.md_status,
     });
   });
 
@@ -196,6 +201,7 @@ exports.MasterPosition = (data) => {
       positionname: key.mp_positionname,
       createdby: key.mp_createdby,
       createddate: key.mp_createddate,
+      status: key.mp_status,
     });
   });
 
@@ -233,6 +239,7 @@ exports.MasterLocation = (data) => {
       locationname: key.ml_locationname,
       createdby: key.ml_createdby,
       createddate: key.ml_createddate,
+      status: key.ml_status,
     });
   });
 

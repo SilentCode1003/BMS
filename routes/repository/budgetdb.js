@@ -318,7 +318,8 @@ exports.InsertTable = (tablename, data, callback) => {
     let sql = `INSERT INTO master_role_type(
         mrt_rolename,
         mrt_createdby,
-        mrt_createddate) VALUES ?`;
+        mrt_createddate,
+        mrt_status) VALUES ?`;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
@@ -337,7 +338,8 @@ exports.InsertTable = (tablename, data, callback) => {
         mrp_updateby,
         mrp_updatedate,
         mrp_createdby,
-        mrp_createddate) VALUES ?`;
+        mrp_createddate,
+        mrp_status) VALUES ?`;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
@@ -351,7 +353,8 @@ exports.InsertTable = (tablename, data, callback) => {
     let sql = `INSERT INTO master_transportation(
         mt_transportationname,
         mt_createdby,
-        mt_createddate) VALUES ?`;
+        mt_createddate,
+        mt_status) VALUES ?`;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
@@ -382,7 +385,8 @@ exports.InsertTable = (tablename, data, callback) => {
     let sql = `INSERT INTO master_access_type    (
         mat_accessname,
         mat_createdby,
-        mat_createddate) VALUES ?`;
+        mat_createddate,
+        mat_status) VALUES ?`;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
@@ -396,7 +400,8 @@ exports.InsertTable = (tablename, data, callback) => {
     let sql = `INSERT INTO master_position(
         mp_positionname,
         mp_createdby,
-        mp_createddate) VALUES ?`;
+        mp_createddate,
+        mp_status) VALUES ?`;
     this.Insert(sql, data, (err, result) => {
       if (err) {
         callback(err, null);
@@ -409,7 +414,8 @@ exports.InsertTable = (tablename, data, callback) => {
     let sql = `INSERT INTO master_department(
               md_departmentname,
               md_createdby,
-              md_createddate) VALUES ? `;
+              md_createddate,
+              md_status) VALUES ? `;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
@@ -445,7 +451,8 @@ exports.InsertTable = (tablename, data, callback) => {
     let sql = `INSERT INTO master_location(
                       ml_locationname,
                       ml_createdby,
-                      ml_createddate) VALUES ? `;
+                      ml_createddate,
+                      ml_status) VALUES ? `;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
