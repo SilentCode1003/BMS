@@ -397,6 +397,19 @@ exports.InsertTable = (tablename, data, callback) => {
         mp_positionname,
         mp_createdby,
         mp_createddate) VALUES ?`;
+    this.Insert(sql, data, (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    });
+  }
+
+  if (tablename == "master_department") {
+    let sql = `INSERT INTO master_department(
+              md_departmentname,
+              md_createdby,
+              md_createddate) VALUES ? `;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {
@@ -404,74 +417,60 @@ exports.InsertTable = (tablename, data, callback) => {
       }
       callback(null, result);
     });
+  }
 
-    if (tablename == "master_department") {
-      let sql = `INSERT INTO master_department(
-                md_departmentname,
-                md_createdby,
-                md_createddate) VALUES ? `;
+  if (tablename == "reimbursement_items") {
+    let sql = `INSERT INTO reimbursement_items(
+                  ri_transactionid,
+                  ri_requestid,
+                  ri_reimbursementid,
+                  ri_reiburseby,
+                  ri_reimbursedate,
+                  ri_ticket,
+                  ri_store,
+                  ri_origin,
+                  ri_destination,
+                  ri_fare,
+                  ri_status) VALUES ? `;
 
-      this.Insert(sql, data, (err, result) => {
-        if (err) {
-          callback(err, null);
-        }
-        callback(null, result);
-      });
-    }
+    this.Insert(sql, data, (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    });
+  }
 
-    if (tablename == "reimbursement_items") {
-      let sql = `INSERT INTO reimbursement_items(
-                    ri_transactionid,
-                    ri_requestid,
-                    ri_reimbursementid,
-                    ri_reiburseby,
-                    ri_reimbursedate,
-                    ri_ticket,
-                    ri_store,
-                    ri_origin,
-                    ri_destination,
-                    ri_fare,
-                    ri_status) VALUES ? `;
+  if (tablename == "master_location") {
+    let sql = `INSERT INTO master_location(
+                      ml_locationname,
+                      ml_createdby,
+                      ml_createddate) VALUES ? `;
 
-      this.Insert(sql, data, (err, result) => {
-        if (err) {
-          callback(err, null);
-        }
-        callback(null, result);
-      });
-    }
+    this.Insert(sql, data, (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    });
+  }
 
-    if (tablename == "master_location") {
-      let sql = `INSERT INTO master_location(
-                        ml_locationname,
-                        ml_createdby,
-                        ml_createddate) VALUES ? `;
+  if (tablename == "master_store") {
+    let sql = `INSERT INTO master_store(
+                          ms_storecode,
+                          ms_storename,
+                          ms_address,
+                          ms_email,
+                          ms_contact,
+                          ms_status,
+                          ms_createdby,
+                          ms_createddate) VALUES ? `;
 
-      this.Insert(sql, data, (err, result) => {
-        if (err) {
-          callback(err, null);
-        }
-        callback(null, result);
-      });
-    }
-
-    if (tablename == "master_store") {
-      let sql = `INSERT INTO master_store(
-                            ms_storecode,
-                            ms_storename,
-                            ms_address,
-                            ms_email,
-                            ms_contact,
-                            ms_status,
-                            ms_createdby,
-                            ms_createddate) VALUES ? `;
-
-      this.Insert(sql, data, (err, result) => {
-        if (err) {
-          callback(err, null);
-        }
-        callback(null, result);
-      });
-    }
+    this.Insert(sql, data, (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    });
   }
 };

@@ -36,15 +36,41 @@
       class="nav-link collapsed"
       href="#"
       data-toggle="collapse"
-      data-target="#collapseTwo"
+      data-target="#collapseEmployee"
       aria-expanded="true"
-      aria-controls="collapseTwo"
+      aria-controls="collapseEmployee"
     >
-      <i class="fas fa-fw fa-cog"></i>
+      <i class="fas fa-fw fa-database"></i>
+      <span>Masters</span>
+    </a>
+    <div
+      id="collapseEmployee"
+      class="collapse"
+      aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar"
+    >
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="/position">Position</a>
+        <a class="collapse-item" href="/role">Role</a>
+        <a class="collapse-item" href="/accesstype">Access Type</a>
+        <a class="collapse-item" href="/department">Department</a>
+        <a class="collapse-item" href="/location">Location</a>
+      </div>
+    </div>
+
+    <a
+      class="nav-link collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseAuthentication"
+      aria-expanded="true"
+      aria-controls="collapseAuthentication"
+    >
+      <i class="fas fa-fw fa-users"></i>
       <span>Authentication</span>
     </a>
     <div
-      id="collapseTwo"
+      id="collapseAuthentication"
       class="collapse"
       aria-labelledby="headingTwo"
       data-parent="#accordionSidebar"
@@ -52,16 +78,74 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Items:</h6>
         <a class="collapse-item" href="/users">Users</a>
+      </div>
+    </div>
+
+    <a
+      class="nav-link collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseRoute"
+      aria-expanded="true"
+      aria-controls="collapseRoute"
+    >
+      <i class="fas fa-fw fa-route"></i>
+      <span>Routes</span>
+    </a>
+    <div
+      id="collapseRoute"
+      class="collapse"
+      aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar"
+    >
+      <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item" href="/transportation">Transportation</a>
         <a class="collapse-item" href="/route">Route</a>
-        <a class="collapse-item" href="/position">Position</a>
-        <a class="collapse-item" href="/role">Role</a>
-        <a class="collapse-item" href="/accesstype">Access Type</a>
-        <a class="collapse-item" href="/department">Department</a>
-        <a class="collapse-item" href="/location">Location</a>
         <a class="collapse-item" href="/routeprice">Route Price</a>
-        <a class="collapse-item" href="/store">Store</a>
+      </div>
+    </div>
+
+    <a
+      class="nav-link collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseMaster"
+      aria-expanded="true"
+      aria-controls="collapseMaster"
+    >
+      <i class="fas fa-fw fa-user-tie"></i>
+      <span>Employee</span>
+    </a>
+    <div
+      id="collapseMaster"
+      class="collapse"
+      aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar"
+    >
+      <div class="bg-white py-2 collapse-inner rounded">
         <a class="collapse-item" href="/employee">Employee</a>
+      </div>
+    </div>
+
+    <a
+      class="nav-link collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseClient"
+      aria-expanded="true"
+      aria-controls="collapseClient"
+    >
+      <i class="fas fa-fw fa-handshake"></i>
+      <span>Cient</span>
+    </a>
+    <div
+      id="collapseClient"
+      class="collapse"
+      aria-labelledby="headingTwo"
+      data-parent="#accordionSidebar"
+    >
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="/store">Store</a>
       </div>
     </div>
   </li>
