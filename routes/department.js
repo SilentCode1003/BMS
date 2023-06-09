@@ -41,9 +41,10 @@ router.post("/save", (req, res) => {
     let departmentname = req.body.departmentname;
     let createdby = "CREATOR";
     let createddate = helper.GetCurrentDatetime();
+    let status = dictionary.GetValue(dictionary.ACT());
     let data = [];
 
-    data.push([departmentname, createdby, createddate]);
+    data.push([departmentname, createdby, createddate, status]);
 
     console.log(data);
     mysql.InsertTable("master_department", data, (err, result) => {

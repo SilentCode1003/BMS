@@ -12,7 +12,7 @@
       }
 
       if (message != "") {
-        alert("Warning! Must fill-up " + message + "field!");
+        warning("Empty", "Must fill-up " + message + "field!");
       } else {
         $.ajax({
           type: "POST",
@@ -23,10 +23,10 @@
           success: function (result) {
             LoadTable();
             ClearInput();
-            alert("save successfully");
+            success("Success", "Data saved!");
           },
           error: function (err) {
-            alert(err);
+            errormsg(err);
           },
         });
       }
