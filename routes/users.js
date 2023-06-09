@@ -4,6 +4,7 @@ var router = express.Router();
 const helper = require("./repository/customhelper");
 const mysql = require("./repository/budgetdb");
 const dictionary = require("./repository/dictionary");
+const crypto = require("./repository/cryptography");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -48,25 +49,29 @@ router.post("/save", (req, res) => {
     let createdate = helper.GetCurrentDatetime();
     let data = [];
 
-    data.push([
-      fullname,
-      username,
-      password,
-      role,
-      access,
-      status,
-      createdby,
-      createdate,
-    ]);
+    crypto.Encrypter(password, (err, encrypted) => {
+      if (err) console.error("Error: ", err);
 
-    console.log(data);
-    mysql.InsertTable("master_user", data, (err, result) => {
-      if (err) console.error(err);
+      data.push([
+        fullname,
+        username,
+        encrypted,
+        role,
+        access,
+        status,
+        createdby,
+        createdate,
+      ]);
 
-      console.log(result);
+      console.log(data);
+      mysql.InsertTable("master_user", data, (err, result) => {
+        if (err) console.error(err);
 
-      res.json({
-        msg: "success",
+        console.log(result);
+
+        res.json({
+          msg: "success",
+        });
       });
     });
   } catch (error) {
