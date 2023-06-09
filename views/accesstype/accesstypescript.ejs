@@ -8,11 +8,11 @@
       var message = "";
 
       if (accessname == "") {
-        message += "Access Name";
+        message += "Access Name ";
       }
 
       if (message != "") {
-        warning("Empty", "Warning! Must fill-up " + message + "field!");
+        warning("Empty", "Must fill-up " + message + "field!");
       } else {
         $.ajax({
           type: "POST",
@@ -23,7 +23,7 @@
           success: function (result) {
             LoadTable();
             ClearInput();
-            success("Success", "Access Name save successfully");
+            success("Success", "Data saved!");
           },
           error: function (err) {
             errormsg(err);
