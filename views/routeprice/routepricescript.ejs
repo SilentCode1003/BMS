@@ -1,140 +1,189 @@
 <script>
-    $(document).ready(function () {
-        LoadTable();
+  $(document).ready(function () {
+    LoadTable();
+    LoadList();
 
-        $(document).on('click', '#addBtn', function () {
-            let routerpricecode = $('#routerpricecode').val();
-            let currentprice = $('#currentprice').val();
-            let previousprice = $('#previousprice').val();
-            let updateby = $('#updateby').val();
-            let updatedate = $('#updatedate').val();
+    $(document).on("click", "#addBtn", function () {
+      let routelist = $("#routelist").val();
+      let currentprice = $("#currentprice").val();
+      let transportationlist = $("#transportationlist").val();
 
+      var message = "";
+      if (routelist == "") {
+        message += "Route ";
+      }
+      if (currentprice == "") {
+        message += "Current Price ";
+      }
+      if (transportationlist == "") {
+        message += "Transporation ";
+      }
 
-            var message = "";
-            if (routerpricecode == "") { message += "Router Price Code" }
-            if (currentprice == "") { message += "Current Price" }
-            if (previousprice == "") { message += "Previous Price" }
-            if (updateby == "") { message += "Updateby" }
-            if (updatedate == "") { message += "Update Date" }
+      if (message != "") {
+        warning("Empty", "Warning! Must fill-up " + message + "field!");
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/routeprice/save",
+          data: {
+            routecode: routelist,
+            currentprice: currentprice,
+            transportation: transportationlist,
+          },
+          success: function (result) {
+            LoadTable();
+            ClearInput();
 
-
-
-            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
-            else {
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/routeprice/save',
-                    data: {
-
-                        routerpricecode: routerpricecode,
-                        currentprice: currentprice,
-                        previousprice: previousprice,
-                        updateby: updateby,
-                        updatedate: updatedate
-
-                    },
-                    success: function (result) {
-                        LoadTable();
-                        ClearInput();
-                        alert('save successfully');
-
-
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                })
-
+            if (result.msg == "success") {
+              success("Success", "Data saved!");
             }
 
-
-        })
-
-        function LoadTable() {
-            $('#routeprice-table').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 550,
-                'scrollCollapse': true,
-                'serverMethod': 'GET',
-                'ajax': {
-                    'url': '/routeprice/load',
-                    'dataSrc': (json) => {
-                        var finalData = [];
-                        var data = json.data;
-
-                        console.log(data);
-                        $.each(data, (key, item) => {
-                            var action = '';
-                            var status = item.status;
-
-                            if (status == 'ACTIVE') {
-                                action = `
-                                <div class="table-button">
-                                    <button id="editBtn" name="editBtn">EDIT</button>
-                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
-                                </div>
-                                `;
-                            }
-                            if (status == 'INACTIVE') {
-                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
-                            }
-                            finalData.push({
-                                routerpricecode: item.routerpricecode,
-                                currentprice: item.currentprice,
-                                previousprice: item.previousprice,
-                                updateby: item.updateby,
-                                updatedate: item.updatedate,
-                                createdby: item.createdby,
-                                createddate: item.createddate,
-                                action: `
-                                <div class="table-button">
-                                    <button id="editBtn" name="editBtn">EDIT</button>
-                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
-                                </div>
-                                `
-                            })
-
-                        })
-
-                        return finalData;
-                    },
-                },
-                'columnDefs': [{
-                    targets: 1,
-                    className: 'td-indent',
-                }],
-                'columns': [
-                    { data: 'routerpricecode' },
-                    { data: 'routecode' },
-                    { data: 'currentprice' },
-                    { data: 'previousprice' },
-                    { data: 'updateby' },
-                    { data: 'updatedate' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-               
-                ],
-                initComplete: function () {
-                    console.log('init complete');
-
-                }
-            });
-        }
-
-        function ClearInput() {
-            document.getElementById("routerpricecode").value = "";
-            document.getElementById("currentprice").value = "";
-            document.getElementById("previousprice").value = "";
-            document.getElementById("updateby").value = "";
-            document.getElementById("updatedate").value = "";
-
-        }
-
+            if (result.msg == "update") {
+              success("Success", "Update successfully!");
+            }
+          },
+          error: function (err) {
+            errormsg(err);
+          },
+        });
+      }
     });
+
+    $("#search").on("keyup", function () {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("routeprice-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
+
+    function LoadTable() {
+      $("#routeprice-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/routeprice/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var action = "";
+              var status = item.status;
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+              finalData.push({
+                routerpricecode: item.routerpricecode,
+                routecode: item.routecode,
+                currentprice: item.currentprice,
+                transportation: item.transportation,
+                previousprice: item.previousprice,
+                updateby: item.updateby,
+                updatedate: item.updatedate,
+                createdby: item.createdby,
+                createddate: item.createddate,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "routerpricecode" },
+          { data: "routecode" },
+          { data: "currentprice" },
+          { data: "transportation" },
+          { data: "previousprice" },
+          { data: "updateby" },
+          { data: "updatedate" },
+          { data: "createdby" },
+          { data: "createddate" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+
+    function LoadList() {
+      $.ajax({
+        type: "GET",
+        url: "/route/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(
+              `${item.origin} to ${item.destination}`,
+              `${item.origin} to ${item.destination}`
+            );
+            $(options).html(`${item.origin} to ${item.destination}`);
+            $("#routelist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "/transportation/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(
+              item.transportationname,
+              item.transportationname
+            );
+            $(options).html(item.transportationname);
+            $("#transportationlist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+    }
+
+    function ClearInput() {
+      document.getElementById("routelist").value = "";
+      document.getElementById("currentprice").value = "";
+    }
+  });
 </script>

@@ -114,6 +114,7 @@ exports.MasterRoutePrice = (data) => {
       routerpricecode: key.mrp_routerpricecode,
       routecode: key.mrp_routecode,
       currentprice: key.mrp_currentprice,
+      transportation: key.mrp_transportation,
       previousprice: key.mrp_previousprice,
       updateby: key.mrp_updateby,
       updatedate: key.mrp_updatedate,
