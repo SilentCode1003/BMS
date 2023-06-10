@@ -113,6 +113,7 @@ exports.MasterRoutePrice = (data) => {
     dataresult.push({
       routerpricecode: key.mrp_routerpricecode,
       routecode: key.mrp_routecode,
+      routedescription: key.mrp_routedescription,
       currentprice: key.mrp_currentprice,
       transportation: key.mrp_transportation,
       previousprice: key.mrp_previousprice,

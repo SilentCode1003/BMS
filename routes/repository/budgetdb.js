@@ -332,6 +332,7 @@ exports.InsertTable = (tablename, data, callback) => {
   if (tablename == "master_route_price") {
     let sql = `INSERT INTO master_route_price(
         mrp_routecode,
+        mrp_routedescription,
         mrp_currentprice,
         mrp_transportation,
         mrp_previousprice,

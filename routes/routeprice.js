@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+require("dotenv").config();
 
 const helper = require("./repository/customhelper");
 const mysql = require("./repository/budgetdb");
@@ -7,7 +8,7 @@ const dictionary = require("./repository/dictionary");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  res.render("routeprice", { title: "Express" });
+  res.render("routeprice", { title: process.env._TITLE });
 });
 
 module.exports = router;
@@ -39,6 +40,7 @@ router.get("/load", (req, res) => {
 router.post("/save", (req, res) => {
   try {
     let routecode = req.body.routecode;
+    let routedescription = req.body.routedescription;
     let currentprice = req.body.currentprice;
     let transportation = req.body.transportation;
     let previousprice = "";
@@ -76,6 +78,7 @@ router.post("/save", (req, res) => {
       } else {
         data.push([
           routecode,
+          routedescription,
           currentprice,
           transportation,
           "",
@@ -95,6 +98,40 @@ router.post("/save", (req, res) => {
           });
         });
       }
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
+router.post("/getrouteprice", (req, res) => {
+  try {
+    let origin = req.body.origin;
+    let destination = req.body.destination;
+    let transportation = req.body.transportation;
+    let sql = `select 
+    mr_origin as origin, 
+    mr_destination as destination,
+    mrp_transportation as transportation,
+    mrp_currentprice  as currentprice
+    from master_route
+    inner join master_route_price on mr_routecode = mrp_routecode
+    where mr_origin = '${origin}'
+    and mr_destination = '${destination}'
+    and mrp_transportation = '${transportation}'
+    order by mr_routecode`;
+
+    mysql.SelectResult(sql, (err, result) => {
+      if (err) console.error("Error: ", err);
+
+      console.log(result);
+
+      res.json({
+        msg: "success",
+        data: result,
+      });
     });
   } catch (error) {
     res.json({

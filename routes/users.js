@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+require('dotenv').config();
 
 const helper = require("./repository/customhelper");
 const mysql = require("./repository/budgetdb");
@@ -8,7 +9,7 @@ const crypto = require("./repository/cryptography");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  res.render("user", { title: "Express" });
+  res.render("user", { title: process.env._TITLE });
 });
 
 module.exports = router;

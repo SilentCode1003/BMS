@@ -28,7 +28,15 @@
           success: function (result) {
             LoadTable();
             ClearInput();
-            success("Success", "Data saved!");
+            if (result.msg == "success") {
+              success("Success", "Data saved!");
+            }
+            if (result.msg == "duplicate") {
+              warning(
+                "Duplicate",
+                `Origin: ${origin} Destination: ${destination} route already ready`
+              );
+            }
           },
           error: function (err) {
             errormsg(err);
