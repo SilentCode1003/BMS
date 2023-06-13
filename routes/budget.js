@@ -12,3 +12,28 @@ router.get("/", function (req, res, next) {
 });
 
 module.exports = router;
+
+router.get("/load", (req, res) => {
+  try {
+    let sql = "select * from employee_budget";
+
+    mysql.Select(sql, "EmployeeBudget", (err, result) => {
+      if (err) {
+        return res.json({
+          msg: err,
+        });
+      }
+
+      console.log(result);
+
+      res.json({
+        msg: "success",
+        data: result,
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});

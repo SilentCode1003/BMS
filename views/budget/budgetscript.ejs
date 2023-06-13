@@ -1,0 +1,85 @@
+<script>
+  $(document).ready(function () {
+    LoadTable();
+
+    $("#search").on("keyup", function () {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("budget-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
+
+    function LoadTable() {
+      $("#budget-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/budget/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+            var action = "";
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var status = item.status;
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+              finalData.push({
+                employeeid: item.employeeid,
+                balance: item.balance,
+                createdby: item.createdby,
+                createddate: item.createddate,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "employeeid" },
+          { data: "balance" },
+          { data: "createdby" },
+          { data: "createddate" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+  });
+</script>
