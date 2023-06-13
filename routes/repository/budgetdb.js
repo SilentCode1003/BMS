@@ -119,6 +119,14 @@ exports.Select = (sql, table, callback) => {
       if (table == "MasterStore") {
         callback(null, model.MasterStore(results));
       }
+
+      if (table == "EmployeeBudget") {
+        callback(null, model.EmployeeBudget(results));
+      }
+
+      if (table == "EmployeeBudgetHistory") {
+        callback(null, model.EmployeeBudgetHistory(results));
+      }
     });
   } catch (error) {
     console.log(error);
@@ -474,6 +482,39 @@ exports.InsertTable = (tablename, data, callback) => {
                           ms_status,
                           ms_createdby,
                           ms_createddate) VALUES ? `;
+
+    this.Insert(sql, data, (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    });
+  }
+
+  if (tablename == "employee_budget") {
+    let sql = `INSERT INTO employee_budget(
+                            eb_employeeid,
+                            eb_balance,
+                            eb_status,
+                            eb_createdby,
+                            eb_createddate) VALUES ? `;
+
+    this.Insert(sql, data, (err, result) => {
+      if (err) {
+        callback(err, null);
+      }
+      callback(null, result);
+    });
+  }
+
+  if (tablename == "employee_budget_history") {
+    let sql = `INSERT INTO employee_budget_history(
+                            ebh_date,
+                            ebh_employeeid,
+                            ebh_amount,
+                            ebh_status,
+                            ebh_createdby,
+                            ebh_createddate) VALUES ? `;
 
     this.Insert(sql, data, (err, result) => {
       if (err) {

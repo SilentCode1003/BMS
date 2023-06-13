@@ -268,3 +268,37 @@ exports.MasterStore = (data) => {
 
   return dataresult;
 };
+
+exports.EmployeeBudget = (data) => {
+  let dataresult = [];
+
+  data.forEach((key, item) => {
+    dataresult.push({
+      employeeid: key.eb_employeeid,
+      balance: key.eb_balance,
+      status: key.eb_status,
+      createdby: key.eb_createdby,
+      createddate: key.eb_createddate,
+    });
+  });
+
+  return dataresult;
+};
+
+exports.EmployeeBudgetHistory = (data) => {
+  let dataresult = [];
+
+  data.forEach((key, item) => {
+    dataresult.push({
+      transactionid: key.ebh_transactionid,
+      date: key.ebh_date,
+      employeeid: key.ebh_employeeid,
+      amount: key.ebh_amount,
+      status: key.ebh_status,
+      createdby: key.ebh_createdby,
+      createddate: key.ebh_createddate,
+    });
+  });
+
+  return dataresult;
+};
