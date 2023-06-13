@@ -18,6 +18,8 @@ var routepriceRouter = require("./routes/routeprice");
 var storeRouter = require("./routes/store");
 var employeeRouter = require("./routes/employee");
 var roleRouter = require("./routes/role");
+var budgetRouter = require("./routes/budget");
+var historyRouter = require("./routes/history");
 
 const mysql = require("./routes/repository/budgetdb");
 
@@ -50,6 +52,8 @@ app.use("/routeprice", routepriceRouter);
 app.use("/store", storeRouter);
 app.use("/employee", employeeRouter);
 app.use("/role", roleRouter);
+app.use("/history", historyRouter);
+app.use("/budget", budgetRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
