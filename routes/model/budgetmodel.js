@@ -25,13 +25,15 @@ exports.MasterEmployee = (data) => {
       employeecode: key.me_employeecode,
       employeeid: key.me_employeeid,
       fullname: key.me_fullname,
+      username: key.me_username,
+      password: key.me_password,
       location: key.me_location,
       department: key.me_department,
       position: key.me_position,
       role: key.me_role,
       status: key.me_status,
       createdby: key.me_createdby,
-      createdby: key.me_createddate,
+      createddate: key.me_createddate,
     });
   });
 

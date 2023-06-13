@@ -1,68 +1,214 @@
-<div class="row">
-    <div class="col-xl-4 col-lg-3 col-sm-3"></div>
-    <h3>EMPLOYEE INFO</h3>
-    <div class="col-xl-4 col-lg-3 col-sm-3 entry-area">
-    </div>
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h1 class="page-title">EMPLOYEE INFO</h1>
+  </div>
 
-    <div class="col-xl-4 col-lg-3 col-sm-3">
-    </div>
-    <div>
-        <div class="col-xl-4 col-lg-3 col-sm-3"></div>
-        <div class="entry-area-row">
-            <center>
-                <br><input id="employeecode" name="employeecode" type="text" placeholder="Employee Code" class="entry-area-box">
-                <br><input id="employeeid" name="employeeid" type="text" placeholder="Employee ID" class="entry-area-box">
-                <br><input id="fullname" name="fullname" type="text" placeholder="Full Name" class="entry-area-box">
-                <br><input id="location" name="location" type="text" placeholder="Location" class="entry-area-box">
-                <br><input id="department" name="department" type="text" placeholder="Department" class="entry-area-box">
-                <br><input id="position" name="position" type="text" placeholder="Position" class="entry-area-box">
-                <br><input id="role" name="role" type="text" placeholder="Role" class="entry-area-box">
-
-                 <button class="add-btn" id="addBtn" name="addBtn">ADD</button>
-            </center>
-        </div>
-
-        <div class="route">
-            <hr>
-
-            <table id="employee-table">
-                <thead class="table-row">
-                    <th> Employee ID </th>
-                    <th> Full Name </th>
-                    <th> Location </th>
-                    <th> Department </th>
-                    <th> Position </th>
-                    <th> Role </th>
-                    <th> Status </th>
-                    <th> Created By </th>
-                    <th> Created Date </th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td data-label="Employee ID"> - </td>
-                        <td data-label="Full Name"> - </td>
-                        <td data-label="Location"> - </td>
-                        <td data-label="Department"> - </td>
-                        <td data-label="Position"> - </td>
-                        <td data-label="Role"> - </td>
-                        <td data-label="Status"> - </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Employee ID"> - </td>
-                        <td data-label="Full Name"> - </td>
-                        <td data-label="Location"> - </td>
-                        <td data-label="Department"> - </td>
-                        <td data-label="Position"> - </td>
-                        <td data-label="Role"> - </td>
-                        <td data-label="Status"> - </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-                </tbody>
+  <div class="row mb-2">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <label class="form-label" for="employeeid">Employee ID</label>
+              <input
+                id="employeeid"
+                name="employeeid"
+                type="text"
+                class="form-control"
+                placeholder="Enter Employeeid"
+                aria-label="employeeid"
+                aria-describedby="basic-addon1"
+                maxlength="6"
+              />
             </div>
-        </table>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <label class="form-label" for="fullname">Fullname</label>
+              <input
+                id="fullname"
+                name="fullname"
+                type="text"
+                class="form-control"
+                placeholder="Enter Fullname"
+                aria-label="fullname"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label" for="departmentlist">Department</label>
+              <select
+                class="form-select form-control"
+                aria-label="Default select example"
+                name="departmentlist"
+                id="departmentlist"
+              >
+                <option value="">Select Department</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="locationlist">Location</label>
+              <select
+                class="form-select form-control"
+                aria-label="Default select example"
+                name="locationlist"
+                id="locationlist"
+              >
+                <option value="">Select Location</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label" for="">Username</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                class="form-control"
+                placeholder="Enter Username"
+                aria-label="username"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                class="form-control"
+                placeholder="Enter Password"
+                aria-label="password"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label" for="rolelist">Role</label>
+              <select
+                class="form-select form-control"
+                aria-label="Default select example"
+                name="rolelist"
+                id="rolelist"
+              >
+                <option value="">Select Role</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="positionlist">Position</label>
+              <select
+                class="form-select form-control"
+                aria-label="Default select example"
+                name="positionlist"
+                id="positionlist"
+              >
+                <option value="">Select Position</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mt-4">
+              <button
+                id="addBtn"
+                name="addBtn"
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+              >
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-lg-12">
+      <div class="d-sm-flex align-items-center justify-content-between mb-3">
+        <h1 class="body-title">BATCH UPLOAD</h1>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="row md-4">
+            <div class="col-md-4">
+              <input
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+                type="file"
+                name="excel"
+                id="excel"
+              />
+            </div>
+            <div class="col-md-4">
+              <button
+                id="uploadBtn"
+                name="uploadBtn"
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+              >
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <h6 class="m-0 font-weight-bold table-title">User Table</h6>
+        </div>
+        <div class="col-md-6">
+          <input
+            id="search"
+            name="search"
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            aria-label="search"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive-sm">
+          <table
+            id="employee-table"
+            class="table table-bordered table-sm table-hover"
+          >
+            <thead class="table-dark">
+              <th>Employee ID</th>
+              <th>Full Name</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Location</th>
+              <th>Department</th>
+              <th>Position</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th>Created Date</th>
+              <th>Actions</th>
+            </thead>
+            <tbody class="table-light"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

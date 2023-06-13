@@ -1,148 +1,376 @@
 <script>
-    $(document).ready(function () {
-        LoadTable();
+  $(document).ready(function () {
+    LoadTable();
+    LoadList();
 
-        $(document).on('click', '#addBtn', function () {
-            let employeecode = $('#employeecode').val();
-            let employeeid = $('#employeeid').val();
-            let fullname = $('#fullname').val();
-            let location = $('#location').val();
-            let department = $('#department').val();
-            let position = $('#position').val();
-            let role = $('#role').val();
+    $(document).on("click", "#addBtn", function () {
+      let employeeid = $("#employeeid").val();
+      let username = $("#username").val();
+      let password = $("#password").val();
+      let fullname = $("#fullname").val();
+      let location = $("#locationlist").val();
+      let department = $("#departmentlist").val();
+      let position = $("#positionlist").val();
+      let role = $("#rolelist").val();
 
+      var message = "";
 
-            var message = "";
+      if (employeeid == "") {
+        message += "Employee ID ";
+      }
+      if (username == "") {
+        message += "Username ";
+      }
+      if (password == "") {
+        message += "Password ";
+      }
+      if (fullname == "") {
+        message += "Fullname ";
+      }
+      if (location == "") {
+        message += "Location ";
+      }
+      if (department == "") {
+        message += "Department ";
+      }
+      if (position == "") {
+        message += "Position ";
+      }
+      if (role == "") {
+        message += "Role";
+      }
 
-            if (employeecode == "") { message += "Employee Code " }
-            if (employeeid == "") { message += "Employee Id " }
-            if (fullname == "") { message += "Fullname " }
-            if (location == "") { message += "Location " }
-            if (department == "") { message += "Department " }
-            if (position == "") { message += "Position " }
-            if (role == "") { message += "Role" }
-
-
-
-            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
-            else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/employee/save',
-                    data: {
-                        employeecode: employeecode,
-                        employeeid: employeeid,
-                        fullname: fullname,
-                        location: location,
-                        department: department,
-                        position: position,
-                        role: role
-                    },
-                    success: function (result) {
-                        LoadTable();
-                        ClearInput();
-                        alert('save successfully');
-
-
-                    },
-                    error: function (err) {
-                        alert(err);
-                    }
-                })
-
+      if (message != "") {
+        warning("Empty", "Warning! Must fill-up " + message + "field!");
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/employee/save",
+          data: {
+            employeeid: employeeid,
+            fullname: fullname,
+            username: username,
+            password: password,
+            location: location,
+            department: department,
+            position: position,
+            role: role,
+          },
+          success: function (result) {
+            LoadTable();
+            ClearInput();
+            if (result.msg != "success") {
+              warning(
+                "Duplicate",
+                `Some data already exist on the database employeeid[${result.data}]`
+              );
+            } else {
+              success("Success", "Data save succesfully");
             }
-
-
-        })
-
-        function LoadTable() {
-            $('#employee-table').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 550,
-                'scrollCollapse': true,
-                'serverMethod': 'GET',
-                'ajax': {
-                    'url': '/employee/load',
-                    'dataSrc': (json) => {
-                        var finalData = [];
-                        var data = json.data;
-
-                        console.log(data);
-                        $.each(data, (key, item) => {
-                            var action = '';
-                            var status = item.status;
-
-                            if (status == 'ACTIVE') {
-                                action = `
-                                <div class="table-button">
-                                    <button id="editBtn" name="editBtn">EDIT</button>
-                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
-                                </div>
-                                `;
-                            }
-                            if (status == 'INACTIVE') {
-                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
-                            }
-
-                            finalData.push({
-                                employeecode: item.employeecode,
-                                employeeid: item.employeeid,
-                                fullname: item.fullname,
-                                location: item.location,
-                                department: item.department,
-                                position: item.position,
-                                role: item.role,
-                                status: item.status,
-                                createdby: item.createdby,
-                                createddate: item.createddate,
-                                action: action,
-                            })
-
-                        })
-
-                        return finalData;
-                    },
-                },
-                'columnDefs': [{
-                    targets: 1,
-                    className: 'td-indent',
-                }],
-                'columns': [
-                    { data: 'employeecode' },
-                    { data: 'employeeid' },
-                    { data: 'fullname' },
-                    { data: 'location' },
-                    { data: 'department' },
-                    { data: 'position' },
-                    { data: 'role' },
-                    { data: 'status' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-                    { data: 'action' },
-                ],
-                initComplete: function () {
-                    console.log('init complete');
-
-                }
-            });
-        }
-
-        function ClearInput() {
-            document.getElementById("employeecode").value = "";
-            document.getElementById("employeeid").value = "";
-            document.getElementById("fullname").value = "";
-            document.getElementById("location").value = "";
-            document.getElementById("department").value = "";
-            document.getElementById("position").value = "";
-            document.getElementById("role").value = "";
-
-     
-        }
-
+          },
+          error: function (err) {
+            errormsg(err);
+          },
+        });
+      }
     });
+
+    $(document).on("click", "#uploadBtn", function () {
+      console.log("clicked!");
+      showloader();
+      UploadProcess();
+    });
+
+    $("#search").on("keyup", function () {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("employee-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
+
+    function LoadTable() {
+      $("#employee-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/employee/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var action = "";
+              var status = item.status;
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+
+              finalData.push({
+                employeeid: item.employeeid,
+                fullname: item.fullname,
+                username: item.username,
+                password: item.password,
+                location: item.location,
+                department: item.department,
+                position: item.position,
+                role: item.role,
+                status: item.status,
+                createdby: item.createdby,
+                createddate: item.createddate,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "employeeid" },
+          { data: "fullname" },
+          { data: "username" },
+          { data: "password" },
+          { data: "location" },
+          { data: "department" },
+          { data: "position" },
+          { data: "role" },
+          { data: "status" },
+          { data: "createdby" },
+          { data: "createddate" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+
+    function LoadList() {
+      $.ajax({
+        type: "GET",
+        url: "/role/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.rolename, item.rolename);
+            $(options).html(item.rolename);
+            $("#rolelist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "/position/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.positionname, item.positionname);
+            $(options).html(item.positionname);
+            $("#positionlist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "/department/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.departmentname, item.departmentname);
+            $(options).html(item.departmentname);
+            $("#departmentlist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "/location/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.locationname, item.locationname);
+            $(options).html(item.locationname);
+            $("#locationlist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+    }
+
+    function ClearInput() {
+      document.getElementById("employeeid").value = "";
+      document.getElementById("fullname").value = "";
+      document.getElementById("locationlist").value = "";
+      document.getElementById("departmentlist").value = "";
+      document.getElementById("positionlist").value = "";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+      document.getElementById("rolelist").value = "";
+    }
+
+    function UploadProcess() {
+      //Reference the FileUpload element.
+      var fileUpload = document.getElementById("excel");
+
+      //Validate whether File is valid Excel file.
+      var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx|.csv|.ods)$/;
+      if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof FileReader != "undefined") {
+          var reader = new FileReader();
+
+          //For Browsers other than IE.
+          if (reader.readAsBinaryString) {
+            reader.onload = function (e) {
+              GetTableFromExcel(e.target.result);
+            };
+            reader.readAsBinaryString(fileUpload.files[0]);
+          } else {
+            //For IE Browser.
+            reader.onload = function (e) {
+              var data = "";
+              var bytes = new Uint8Array(e.target.result);
+              for (var i = 0; i < bytes.byteLength; i++) {
+                data += String.fromCharCode(bytes[i]);
+              }
+              GetTableFromExcel(data);
+            };
+            reader.readAsArrayBuffer(fileUpload.files[0]);
+          }
+        } else {
+          warning("Upload", "This browser does not support HTML5.");
+        }
+      } else {
+        warning("Upload", "Please upload a valid Excel file.");
+      }
+    }
+
+    function GetTableFromExcel(data) {
+      //Read the Excel File data in binary
+      var workbook = XLSX.read(data, {
+        type: "binary",
+      });
+
+      //get the name of First Sheet.
+      var Sheet = workbook.SheetNames[0];
+
+      //Read all rows from First Sheet into an JSON array.
+      var excelRows = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets[Sheet]
+      );
+      var columns = Object.keys(excelRows[0]);
+
+      //Create a HTML Table element.
+      var myTable = document.createElement("table");
+      myTable.border = "1";
+
+      //Add the header row.
+      var row = myTable.insertRow(-1);
+
+      var dataExcelArr = [];
+      //Add the data rows from Excel file.
+      for (var i = 0; i < excelRows.length; i++) {
+        //Add the data row.
+        var data = [];
+        var row = myTable.insertRow(-1);
+        for (var j = 0; j < columns.length; j++) {
+          var cell = row.insertCell(-1);
+          cell.innerHTML = excelRows[i][columns[j]];
+          data.push({
+            item: excelRows[i][columns[j]],
+          });
+        }
+
+        console.log(data);
+
+        dataExcelArr.push({
+          employeeid: data[0].item,
+          fullname: `${data[1].item} ${data[2].item} ${data[3].item}`,
+          department: data[4].item,
+          location: data[7].item,
+          role: "Employee",
+          position: data[5].item,
+        });
+      }
+      excelDataSave(dataExcelArr);
+    }
+
+    function excelDataSave(data) {
+      var dataraw = JSON.stringify(data, null, 2);
+      $.ajax({
+        type: "POST",
+        url: "/employee/excelsave",
+        data: {
+          data: dataraw,
+        },
+        success: function (result) {
+          LoadTable();
+          console.log(result);
+
+          if (result.msg != "success") {
+            warning(
+              "Duplicate",
+              `Some data already exist on the database employeeid[${result.data}]`
+            );
+          } else {
+            success("Saved!", "Data saved!");
+          }
+
+          // $('#item-tbl').DataTable().ajax.reload();
+        },
+        error: function (result) {
+          error(result.data);
+        },
+      });
+      hideloader();
+    }
+  });
 </script>

@@ -54,7 +54,7 @@ exports.Select = (sql, table, callback) => {
       return err;
     });
     connection.query(sql, (error, results, fields) => {
-      console.log(results);
+      // console.log(results);
 
       if (error) {
         callback(error, null);
@@ -227,9 +227,10 @@ exports.SelectResult = (sql, callback) => {
 exports.InsertTable = (tablename, data, callback) => {
   if (tablename == "master_employee") {
     let sql = `INSERT INTO master_employee(
-                    me_employeecode,
                     me_employeeid,
                     me_fullname,
+                    me_username,
+                    me_password,
                     me_location,
                     me_department,
                     me_position,
@@ -481,4 +482,18 @@ exports.InsertTable = (tablename, data, callback) => {
       callback(null, result);
     });
   }
+};
+
+exports.isDataExist = (sql, tablename) => {
+  return new Promise((resolve, reject) => {
+    this.Select(sql, tablename, (err, result) => {
+      if (err) reject(err);
+
+      if (result.length != 0) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
 };
