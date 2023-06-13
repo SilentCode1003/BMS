@@ -1,63 +1,171 @@
-<div class="row">
-    <div class="col-xl-4 col-lg-3 col-sm-3"></div>
-    <h3>STORE INFO</h3>
-    <div class="col-xl-4 col-lg-3 col-sm-3 entry-area">
-    </div>
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h1 class="page-title">STORE INFO</h1>
+  </div>
 
-    <div class="col-xl-4 col-lg-3 col-sm-3">
-    </div>
-    <div>
-        <div class="col-xl-4 col-lg-3 col-sm-3"></div>
-        <div class="entry-area-row">
-            <center>
-                <br><input id="storecode" name="storecode" type="text" placeholder="Store Code" class="entry-area-box">
-                <br><input id="storename" name="storename" type="text" placeholder="Store Name" class="entry-area-box">
-                <br><input id="address" name="address" type="text" placeholder="Store Address" class="entry-area-box">
-                <br><input id="email" name="email" type="text" placeholder="Store Email" class="entry-area-box">
-                <br><input id="contact" name="contact" type="text" placeholder="Store Contact" class="entry-area-box">
-
-                 <button class="add-btn" id="addBtn" name="addBtn">ADD</button>
-            </center>
-        </div>
-
-        <div class="route">
-            <hr>
-
-            <table id="store-table">
-                <thead class="table-row">
-                    <th> Store Code </th>
-                    <th> Store Name </th>
-                    <th> Store Address </th>
-                    <th> Store Email </th>
-                    <th> Store Contact </th>
-                    <th> Status </th>
-                    <th> Created By </th>
-                    <th> Created Date </th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td data-label="Store Code"> - </td>
-                        <td data-label="Store Name"> - </td>
-                        <td data-label="Store Address"> - </td>
-                        <td data-label="Store Email"> 123456@gmail.com </td>
-                        <td data-label="Store Contact"> - </td>
-                        <td data-label="Status"> Completed </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-
-                    <tr>
-                        <td data-label="Store Code"> - </td>
-                        <td data-label="Store Name"> - </td>
-                        <td data-label="Store Address"> - </td>
-                        <td data-label="Store Email"> 123456@gmail.com </td>
-                        <td data-label="Store Contact"> - </td>
-                        <td data-label="Status"> Completed </td>
-                        <td data-label="Created By"> Creator </td>
-                        <td data-label="Created Date"> 2023-04-18 </td>
-                    </tr>
-                </tbody>
+  <div class="row mb-2">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label" for="storecode">Store Code</label>
+              <input
+                id="storecode"
+                name="storecode"
+                type="text"
+                class="form-control"
+                placeholder="Enter Store Code"
+                aria-label="storecode"
+                aria-describedby="basic-addon1"
+              />
             </div>
-        </table>
+
+            <div class="col-md-4">
+              <label class="form-label" for="storename">Store Name</label>
+              <input
+                id="storename"
+                name="storename"
+                type="text"
+                class="form-control"
+                placeholder="Enter Store Name"
+                aria-label="storename"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label" for="address">Address</label>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                class="form-control"
+                placeholder="Enter Address"
+                aria-label="address"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label" for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="text"
+                class="form-control"
+                placeholder="Enter Email"
+                aria-label="email"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <label class="form-label" for="contact">Contact</label>
+              <input
+                id="contact"
+                name="contact"
+                type="text"
+                class="form-control"
+                placeholder="Enter contact"
+                aria-label="contact"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mt-4">
+              <button
+                id="addBtn"
+                name="addBtn"
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+              >
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-lg-12">
+      <div class="d-sm-flex align-items-center justify-content-between mb-3">
+        <h1 class="page-title">BATCH UPLOAD</h1>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="row md-4">
+            <div class="col-md-4">
+              <input
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+                type="file"
+                name="excel"
+                id="excel"
+              />
+            </div>
+            <div class="col-md-4">
+              <button
+                id="uploadBtn"
+                name="uploadBtn"
+                class="d-none d-sm-inline-block btn btn-sm btn-outline-primary shadow-sm w-50"
+              >
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <h6 class="m-0 font-weight-bold table-title">User Table</h6>
+        </div>
+        <div class="col-md-6">
+          <input
+            id="search"
+            name="search"
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            aria-label="search"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive-sm">
+          <table
+            id="store-table"
+            class="table table-bordered table-sm table-hover"
+          >
+            <thead class="table-dark">
+              <th>Store Code</th>
+              <th>Store Name</th>
+              <th>Store Address</th>
+              <th>Store Email</th>
+              <th>Store Contact</th>
+              <th>Status</th>
+              <th>Created By</th>
+              <th>Created Date</th>
+              <th>Actions</th>
+            </thead>
+            <tbody class="table-light"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

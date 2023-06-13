@@ -1,133 +1,274 @@
 <script>
-    $(document).ready(function () {
-        LoadTable();
+  $(document).ready(function () {
+    LoadTable();
 
-        $(document).on('click', '#addBtn', function () {
-            let storecode = $('#storecode').val();
-            let storename = $('#storename').val();
-            let address = $('#address').val();
-            let email = $('#email').val();
-            let contact = $('#contact').val();
+    $(document).on("click", "#addBtn", function () {
+      let storecode = $("#storecode").val();
+      let storename = $("#storename").val();
+      let address = $("#address").val();
+      let email = $("#email").val();
+      let contact = $("#contact").val();
 
-            var message ="";
-           
-            if (storecode == "") { message += "Store Code" }
-            if (storename == "") { message += "Store Name" }
-            if (address == "") { message += "Address" }
-            if (email == "") { message += "Email" }
-            if (contact == "") { message += "Contact" }
+      var message = "";
 
+      if (storecode == "") {
+        message += "Store Code";
+      }
+      if (storename == "") {
+        message += "Store Name";
+      }
+      if (address == "") {
+        message += "Address";
+      }
+      if (email == "") {
+        message += "Email";
+      }
+      if (contact == "") {
+        message += "Contact";
+      }
 
-            if (message != "") { alert("Warning! Must fill-up " + message + "field!") }
-            else {
-                $.ajax({
-                type: 'POST',
-                url: '/store/save',
-                data: {
-                    storecode: storecode,
-                    storename: storename,
-                    address: address,
-                    email: email,
-                    contact: contact
-
-                },
-                success: function (result) {
-                    LoadTable();
-                    ClearInput();
-                    alert('save successfully');
-                
-                    
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
-                
-            }
-            
-         
-        })
-
-        function LoadTable() {
-            $('#store-table').DataTable({
-                'destroy': true,
-                'processing': true,
-                'serverSide': true,
-                'paging': false,
-                'searching': false,
-                'info': false,
-                'scrollY': 550,
-                'scrollCollapse': true,
-                'serverMethod': 'GET',
-                'ajax': {
-                    'url': '/store/load',
-                    'dataSrc': (json) => {
-                        var finalData = [];
-                        var data = json.data;
-
-                        console.log(data);
-                        $.each(data, (key, item) => {
-                            var status = item.status;
-
-                            if (status == 'ACTIVE') {
-                                action = `
-                                <div class="table-button">
-                                    <button id="editBtn" name="editBtn">EDIT</button>
-                                    <button id="inactiveBtn" name="inactiveBtn">INACTIVE</button>
-                                </div>
-                                `;
-                            }
-                            if (status == 'INACTIVE') {
-                                action = '<button id="editBtn" name="editBtn">EDIT</button> <button id="activeBtn" name="activeBtn">ACTIVE</button>';
-                            }
-
-                            finalData.push({
-                                storecode: item.storecode,
-                                storename: item.storename,
-                                address: item.address,
-                                email: item.email,
-                                contact: item.contact,
-                                status: status,
-                                createdby: item.createdby,
-                                createddate: item.createddate,
-                               
-                            })
-
-                        })
-                
-                        return finalData;
-                    },
-                },
-                'columnDefs': [{
-                    targets: 1,
-                    className: 'td-indent',
-                }],
-                'columns': [
-                    { data: 'storecode' },
-                    { data: 'storename' },
-                    { data: 'address' },
-                    { data: 'email' },
-                    { data: 'contact' },
-                    { data: 'status' },
-                    { data: 'createdby' },
-                    { data: 'createddate' },
-                    
-                ],
-                initComplete: function () {
-                    console.log('init complete');
-                    
-                }
-            });
-        }
-
-        function ClearInput(){
-            document.getElementById("storecode").value = "";
-            document.getElementById("storename").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("email").value = "";document.getElementById("storename").value = "";
-            document.getElementById("contact").value = "";
-            
-        }
-
+      if (message != "") {
+        warning("Empty", "Warning! Must fill-up " + message + "field!");
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/store/save",
+          data: {
+            storecode: storecode,
+            storename: storename,
+            address: address,
+            email: email,
+            contact: contact,
+          },
+          success: function (result) {
+            LoadTable();
+            ClearInput();
+            success("Success", "User successfully added");
+          },
+          error: function (err) {
+            errormsg(err);
+          },
         });
+      }
+    });
+
+    $(document).on("click", "#uploadBtn", function () {
+      console.log("clicked!");
+      showloader();
+      UploadProcess();
+    });
+
+    $("#search").on("keyup", function () {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("store-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
+
+    function LoadTable() {
+      $("#store-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/store/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var status = item.status;
+              var action = "";
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+
+              finalData.push({
+                storecode: item.storecode,
+                storename: item.storename,
+                address: item.address,
+                email: item.email,
+                contact: item.contact,
+                status: status,
+                createdby: item.createdby,
+                createddate: item.createddate,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "storecode" },
+          { data: "storename" },
+          { data: "address" },
+          { data: "email" },
+          { data: "contact" },
+          { data: "status" },
+          { data: "createdby" },
+          { data: "createddate" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+
+    function ClearInput() {
+      document.getElementById("storecode").value = "";
+      document.getElementById("storename").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("storename").value = "";
+      document.getElementById("contact").value = "";
+    }
+
+    function UploadProcess() {
+      //Reference the FileUpload element.
+      var fileUpload = document.getElementById("excel");
+
+      //Validate whether File is valid Excel file.
+      var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx|.csv|.ods)$/;
+      if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof FileReader != "undefined") {
+          var reader = new FileReader();
+
+          //For Browsers other than IE.
+          if (reader.readAsBinaryString) {
+            reader.onload = function (e) {
+              GetTableFromExcel(e.target.result);
+            };
+            reader.readAsBinaryString(fileUpload.files[0]);
+          } else {
+            //For IE Browser.
+            reader.onload = function (e) {
+              var data = "";
+              var bytes = new Uint8Array(e.target.result);
+              for (var i = 0; i < bytes.byteLength; i++) {
+                data += String.fromCharCode(bytes[i]);
+              }
+              GetTableFromExcel(data);
+            };
+            reader.readAsArrayBuffer(fileUpload.files[0]);
+          }
+        } else {
+          warning("Upload", "This browser does not support HTML5.");
+        }
+      } else {
+        warning("Upload", "Please upload a valid Excel file.");
+      }
+    }
+
+    function GetTableFromExcel(data) {
+      //Read the Excel File data in binary
+      var workbook = XLSX.read(data, {
+        type: "binary",
+      });
+
+      //get the name of First Sheet.
+      var Sheet = workbook.SheetNames[0];
+
+      //Read all rows from First Sheet into an JSON array.
+      var excelRows = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets[Sheet]
+      );
+      var columns = Object.keys(excelRows[0]);
+
+      //Create a HTML Table element.
+      var myTable = document.createElement("table");
+      myTable.border = "1";
+
+      //Add the header row.
+      var row = myTable.insertRow(-1);
+
+      var dataExcelArr = [];
+      //Add the data rows from Excel file.
+      for (var i = 0; i < excelRows.length; i++) {
+        //Add the data row.
+        var data = [];
+        var row = myTable.insertRow(-1);
+        for (var j = 0; j < columns.length; j++) {
+          var cell = row.insertCell(-1);
+          cell.innerHTML = excelRows[i][columns[j]];
+          data.push({
+            item: excelRows[i][columns[j]],
+          });
+        }
+
+        console.log(data);
+
+        dataExcelArr.push({
+          storecode: data[0].item,
+          storename: data[1].item,
+          address: data[2].item,
+          email: data[3].item,
+          contact: data[4].item,
+        });
+      }
+      excelDataSave(dataExcelArr);
+    }
+
+    function excelDataSave(data) {
+      var dataraw = JSON.stringify(data, null, 2);
+      $.ajax({
+        type: "POST",
+        url: "/store/excelsave",
+        data: {
+          data: dataraw,
+        },
+        success: function (result) {
+          LoadTable();
+          console.log(result);
+
+          if (result.msg != "success") {
+            warning(
+              "Duplicate",
+              `Some data already exist on the database employeeid[${result.data}]`
+            );
+          } else {
+            success("Saved!", "Data saved!");
+          }
+
+          // $('#item-tbl').DataTable().ajax.reload();
+        },
+        error: function (result) {
+          errormsg(result);
+        },
+      });
+      hideloader();
+    }
+  });
 </script>
