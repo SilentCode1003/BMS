@@ -52,7 +52,8 @@ router.post("/save", (req, res) => {
     let createdby = "CREATOR";
     let createddate = helper.GetCurrentDatetime();
     let dup_data = "";
-    let data = [];
+    let master_employee = [];
+    let employe_budget = [];
 
     crypto.Encrypter(password, (err, result) => {
       if (err) console.error("Error: ", err);
@@ -70,7 +71,7 @@ router.post("/save", (req, res) => {
               data: dup_data,
             });
           } else {
-            data.push([
+            master_employee.push([
               employeeid,
               fullname,
               username,
@@ -83,14 +84,34 @@ router.post("/save", (req, res) => {
               createdby,
               createddate,
             ]);
-          }
-          mysql.InsertTable("master_employee", data, (err, result) => {
-            if (err) console.error(err);
 
-            res.json({
-              msg: "success",
-            });
-          });
+            employe_budget.push([
+              employeeid,
+              0,
+              status,
+              createdby,
+              createddate,
+            ]);
+          }
+
+          mysql.InsertTable(
+            "master_employee",
+            master_employee,
+            (err, result) => {
+              if (err) console.error(err);
+
+              mysql.InsertTable(
+                "employee_budget",
+                employe_budget,
+                (err, result) => {
+                  if (err) console.error(err);
+                  res.json({
+                    msg: "success",
+                  });
+                }
+              );
+            }
+          );
         })
         .catch((error) => {
           res.json({
@@ -114,7 +135,8 @@ router.post("/excelsave", (req, res) => {
     data = JSON.parse(data);
     let counter = 0;
     let dup_data = "";
-    master_employee = [];
+    let master_employee = [];
+    let employe_budget = [];
 
     data.forEach((key, item) => {
       let username = key.employeeid;
@@ -148,6 +170,14 @@ router.post("/excelsave", (req, res) => {
                 createdby,
                 createddate,
               ]);
+
+              employe_budget.push([
+                key.employeeid,
+                0,
+                status,
+                createdby,
+                createddate,
+              ]);
             }
 
             counter += 1;
@@ -155,27 +185,32 @@ router.post("/excelsave", (req, res) => {
             if (data.length == counter) {
               if (master_employee.length != 0) {
                 console.log("Insert Data");
+
                 mysql.InsertTable(
                   "master_employee",
                   master_employee,
                   (err, result) => {
                     if (err) {
-                      console.log(err);
-                      return res.json({
-                        msg: "error",
-                        error: err,
-                      });
+                      console.error(err);
                     } else {
-                      if (isDuplicate) {
-                        return res.json({
-                          msg: "duplicate",
-                          data: dup_data,
-                        });
-                      }
+                      mysql.InsertTable(
+                        "employee_budget",
+                        employe_budget,
+                        (err, result) => {
+                          if (err) console.error(err);
 
-                      res.json({
-                        msg: "success",
-                      });
+                          if (isDuplicate) {
+                            return res.json({
+                              msg: "duplicate",
+                              data: dup_data,
+                            });
+                          } else {
+                            return res.json({
+                              msg: "success",
+                            });
+                          }
+                        }
+                      );
                     }
                   }
                 );
