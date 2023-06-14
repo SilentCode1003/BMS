@@ -1,0 +1,141 @@
+<script>
+  $(document).ready(function () {
+    LoadTable();
+
+    function LoadTable() {
+      $("#requestbudget-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/requestbudget/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+            var action = "";
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var status = item.status;
+
+              if (status == "REQUEST BUDGET") {
+                action =
+                  '<button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">CANCEL</button>';
+              }
+
+              if (status == "APPROVED") {
+                action =
+                  '<button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">CANCEL</button>';
+              }
+
+              if (status == "REQUEST BUDGET") {
+                action =
+                  '<button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">CANCEL</button>';
+              }
+              finalData.push({
+                requestid: item.requestid,
+                requestby: item.requestby,
+                requestdate: item.requestdate,
+                budget: item.budget,
+                details: item.details,
+                status: item.status,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "requestid" },
+          { data: "requestby" },
+          { data: "requestdate" },
+          { data: "budget" },
+          { data: "details" },
+          { data: "status" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+
+      $("#reimbursement-table").DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        paging: false,
+        searching: false,
+        info: false,
+        scrollY: 550,
+        scrollCollapse: true,
+        serverMethod: "GET",
+        ajax: {
+          url: "/reimbursement/load",
+          dataSrc: (json) => {
+            var finalData = [];
+            var data = json.data;
+            var action = "";
+
+            console.log(data);
+            $.each(data, (key, item) => {
+              var status = item.status;
+
+              if (status == "ACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+              }
+              if (status == "INACTIVE") {
+                action =
+                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
+              }
+              finalData.push({
+                reimbursementid: item.reimbursementid,
+                reimbursementby: item.reimbursementby,
+                reimbursementdate: item.reimbursementdate,
+                requestid: item.requestid,
+                details: item.details,
+                totalreimburse: item.totalreimburse,
+                status: item.status,
+                action: action,
+              });
+            });
+
+            return finalData;
+          },
+        },
+        columnDefs: [
+          {
+            targets: 1,
+            className: "td-indent",
+          },
+        ],
+        columns: [
+          { data: "reimbursementid" },
+          { data: "reimbursementby" },
+          { data: "reimbursementdate" },
+          { data: "requestid" },
+          { data: "details" },
+          { data: "totalreimburse" },
+          { data: "status" },
+          { data: "action" },
+        ],
+        initComplete: function () {
+          console.log("init complete");
+        },
+      });
+    }
+  });
+</script>
