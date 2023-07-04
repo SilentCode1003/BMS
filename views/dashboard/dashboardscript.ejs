@@ -1,7 +1,86 @@
 <script>
   $(document).ready(function () {
+    let requestid = "";
+    let requestby = "";
+    let requestbudget = "";
+    let requeststatus = "";
+
     LoadTable();
 
+    $("#requestbudget-table tbody").on("click", "tr", function () {
+      var dataRow = [];
+      $(this)
+        .closest("tr")
+        .find("td")
+        .each(function () {
+          dataRow.push($(this).text());
+        });
+      console.log(dataRow);
+      requestid = dataRow[0];
+      requestby = dataRow[1];
+      requestbudget = dataRow[3];
+      requeststatus = dataRow[5];
+    });
+
+    $(document).on("click", "#approveBtn", function () {
+      $.ajax({
+        type: "POST",
+        url: "/requestbudget/approve",
+        data: {
+          requestid: requestid,
+          requestby: requestby,
+          budget: requestbudget,
+        },
+        success: function (result) {
+          LoadTable();
+          success("Success", "Budget Approved!");
+        },
+        error: function (error) {
+          errormsg(error);
+        },
+      });
+    });
+
+    $("#searchrequest").on("keyup", function () {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchrequest");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("requestbudget-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
+
+    let reimburseid = "";
+    let reimburseby = "";
+
+    $("#searchreimburse").on("keyup", function () {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchreimburse");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("reimbursement-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
     function LoadTable() {
       $("#requestbudget-table").DataTable({
         destroy: true,
@@ -25,19 +104,16 @@
               var status = item.status;
 
               if (status == "REQUEST BUDGET") {
-                action =
-                  '<button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">CANCEL</button>';
+                action = `<button id="cancelBtn" class="btn btn-outline-primary w-75" name="cancelBtn">CANCEL</button><br/>
+                  <button id="reviewBtn" class="btn btn-outline-primary w-75" name="reviewBtn">REVIEW</button><br/>
+                  <button id="approveBtn" class="btn btn-outline-primary w-75" name="approveBtn">APPROVE</button>`;
               }
 
               if (status == "APPROVED") {
                 action =
-                  '<button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">CANCEL</button>';
+                  'NEED TO REIMBURSE';
               }
 
-              if (status == "REQUEST BUDGET") {
-                action =
-                  '<button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">CANCEL</button>';
-              }
               finalData.push({
                 requestid: item.requestid,
                 requestby: item.requestby,

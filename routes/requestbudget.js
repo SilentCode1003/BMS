@@ -61,17 +61,22 @@ router.post("/save", (req, res) => {
     let budget = req.body.budget;
     let details = req.body.details;
     let status = dictionary.GetValue(dictionary.REQB());
+    let approve = dictionary.GetValue(dictionary.APD());
     let request_budget = [];
     let employee_budget_history = [];
-    let sql_check = `select * from master_employee where me_employeeid='${requestby}'`;
+    let sql_check = `select * from budget_request_details where brd_requestby='${requestby}' and brd_status='${approve}'`;
 
     console.log(details);
 
     mysql
-      .isDataExist(sql_check, "MasterEmployee")
+      .isDataExist(sql_check, "BudgetRequestDetails")
       .then((fullname) => {
         console.log(fullname);
         if (fullname) {
+          return res.json({
+            msg: "notreimburse",
+          });
+        } else {
           request_budget.push([
             requestby,
             requestdate,
@@ -111,10 +116,6 @@ router.post("/save", (req, res) => {
               );
             }
           );
-        } else {
-          return res.json({
-            msg: "idnotexist",
-          });
         }
       })
       .catch((error) => {
@@ -166,6 +167,60 @@ router.post("/getrequest", (req, res) => {
         msg: "success",
         data: result,
       });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
+router.post("/approve", (req, res) => {
+  try {
+    let requestid = req.body.requestid;
+    let requestby = req.body.requestby;
+    let budget = req.body.budget;
+    let approve = dictionary.GetValue(dictionary.APD());
+
+    let sql_budget_request_detail = `update budget_request_details 
+                  set brd_status=? 
+                  where brd_requestid=?`;
+    let update_budget_request_detail = [approve, requestid];
+
+    let sql_employee_budget = `update employee_budget set eb_balance=? where eb_employeeid=?`;
+    let sql_check_employee_budget = `select eb_balance as balance from employee_budget where eb_employeeid='${requestby}'`;
+
+    mysql.SelectResult(sql_check_employee_budget, (err, result) => {
+      if (err) console.error("Error: ", err);
+      console.log(result[0].balance);
+
+      let current_balance = parseFloat(result[0].balance);
+      let total_balance = parseFloat(budget) + current_balance;
+      let update_employee_budget = [`${total_balance}`, requestby];
+
+      mysql.UpdateMultiple(
+        //employee_budget
+        sql_employee_budget,
+        update_employee_budget,
+        (err, result) => {
+          if (err) console.error("Error: ", err);
+          console.log(result);
+
+          mysql.UpdateMultiple(
+            //budget_request_detail
+            sql_budget_request_detail,
+            update_budget_request_detail,
+            (err, result) => {
+              if (err) console.error("Error: ", err);
+              console.log(result);
+
+              res.json({
+                msg: "success",
+              });
+            }
+          );
+        }
+      );
     });
   } catch (error) {
     res.json({
