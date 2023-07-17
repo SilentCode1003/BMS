@@ -74,6 +74,27 @@ router.post("/save", (req, res) => {
   }
 });
 
+router.get("/getorigin", (req, res) => {
+  try {
+    let sql = `select distinct(mr_origin) as origin from master_route;`;
+
+    mysql.SelectResult(sql, (err, result) => {
+      if (err) console.error("Error: ", err);
+      
+      console.log(result);
+
+      res.json({
+        msg: "success",
+        data: result,
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
 router.post("/getdestination", (req, res) => {
   try {
     let origin = req.body.origin;

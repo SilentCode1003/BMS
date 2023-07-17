@@ -62,17 +62,19 @@ router.post("/save", (req, res) => {
     let details = req.body.details;
     let status = dictionary.GetValue(dictionary.REQB());
     let approve = dictionary.GetValue(dictionary.APD());
+    let status_done = dictionary.GetValue(dictionary.DND());
+    let status_cancelled = dictionary.GetValue(dictionary.CNL());
     let request_budget = [];
     let employee_budget_history = [];
-    let sql_check = `select * from budget_request_details where brd_requestby='${requestby}' and brd_status='${approve}'`;
+    let sql_check = `select * from budget_request_details where brd_requestby='${requestby}' and not brd_status IN ('${status_done}','${status_cancelled}')`;
 
     console.log(details);
 
     mysql
       .isDataExist(sql_check, "BudgetRequestDetails")
-      .then((fullname) => {
-        console.log(fullname);
-        if (fullname) {
+      .then((result) => {
+        console.log(result);
+        if (result) {
           return res.json({
             msg: "notreimburse",
           });
@@ -89,7 +91,7 @@ router.post("/save", (req, res) => {
             requestby,
             budget,
             status,
-            fullname,
+            requestby,
             transactiondate,
           ]);
 
@@ -221,6 +223,94 @@ router.post("/approve", (req, res) => {
           );
         }
       );
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
+router.post("/gettotalrequest", (req, res) => {
+  try {
+    let requestby = req.body.requestby;
+    let status = dictionary.GetValue(dictionary.APD());
+    let datefrom = helper.GetCurrentMonthFirstDay();
+    let dateto = helper.GetCurrentMonthLastDay();
+    let sql = `select sum(brd_budget) as total
+         from budget_request_details 
+         where brd_status='${status}' 
+         and brd_requestby='${requestby}' 
+         and brd_requestdate between '${datefrom}' and '${dateto}'`;
+
+    mysql.SelectResult(sql, (err, result) => {
+      if (err) console.error("Error: ", err);
+      let total = result[0].total == null ? 0 : result[0].total;
+      let data = [];
+
+      data.push({
+        total: total,
+      });
+
+      console.log(total);
+
+      res.json({
+        msg: "success",
+        data: data,
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
+router.post("/getrequestdetail", (req, res) => {
+  try {
+    let requestid = req.body.requestid;
+    let sql = `select brd_details as details from budget_request_details where brd_requestid='${requestid}'`;
+
+    mysql.SelectResult(sql, (err, result) => {
+      if (err) console.error("Error: ", err);
+      var detailJson = JSON.parse(result[0].details);
+      var storename = [];
+
+      detailJson.forEach((key, item) => {
+        storename.push({
+          storename: key.storename,
+        });
+      });
+
+      res.json({
+        msg: "success",
+        data: storename,
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
+router.post("/cancel", (req, res) => {
+  try {
+    let requestid = req.body.requestid;
+    let status = dictionary.GetValue(dictionary.CNL());
+    let budget_request_details = [status, requestid];
+    let sql_update = `update budget_request_details 
+    set brd_status=? 
+    where brd_requestid=?`;
+
+    mysql.UpdateMultiple(sql_update, budget_request_details, (err, result) => {
+      if (err) console.error("Error: ", err);
+
+      console.log(result);
+
+      res.json({
+        msg: "success",
+      });
     });
   } catch (error) {
     res.json({

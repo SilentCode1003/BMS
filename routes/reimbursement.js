@@ -69,3 +69,83 @@ router.post("/save", (req, res) => {
     res.json({ msg: error });
   }
 });
+
+router.post("/gettotalreimburse", (req, res) => {
+  try {
+    let requestby = req.body.requestby;
+    let status = dictionary.GetValue(dictionary.APD());
+    let datefrom = helper.GetCurrentMonthFirstDay();
+    let dateto = helper.GetCurrentMonthLastDay();
+    let sql = `select sum(rd_totalreimburse) as total
+        from reimbursement_details 
+        where rd_status='${status}' 
+        and rd_reimburseby='${requestby}' 
+        and rd_reimbursedate between '${datefrom}' and '${dateto}'`;
+
+    mysql.SelectResult(sql, (err, result) => {
+      if (err) console.error("Error: ", err);
+      let total = result[0].total == null ? 0 : result[0].total;
+      let data = [];
+
+      data.push({
+        total: total,
+      });
+
+      console.log(total);
+
+      res.json({
+        msg: "success",
+        data: data,
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
+
+router.post("/getreimburse", (req, res) => {
+  try {
+    let requestby = req.body.requestby;
+    let status = dictionary.GetValue(dictionary.DND());
+    let sql = `select * from reimbursement_details where not rd_status='${status}' and rd_reimburseby='${requestby}'`;
+
+    console.log(requestby);
+
+    mysql.Select(sql, "ReimbursementDetails", (err, result) => {
+      if (err) console.error("Error: ", err);
+      let data = [];
+
+      console.log(`${requestby} ${status}`);
+
+      result.forEach((key, item) => {
+        let details = "";
+        var detail = key.details;
+        detail = JSON.parse(detail);
+
+        // detail.forEach((key, item) => {
+        //   details += `${key.ticketid} ${key.concern} ${key.issue} [${key.storename}], `;
+        // });
+
+        // data.push({
+        //   requestid: key.requestid,
+        //   requestby: key.requestby,
+        //   requestdate: key.requestdate,
+        //   budget: key.budget,
+        //   details: details,
+        //   status: key.status,
+        // });
+      });
+
+      res.json({
+        msg: "success",
+        data: result,
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});

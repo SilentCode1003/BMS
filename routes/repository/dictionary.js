@@ -26,6 +26,7 @@ exports.GetValue = (abr) => {
   if (abr == "CHCK") return "CHECKING";
   if (abr == "RBRD") return "REIMBURSED";
   if (abr == "DND") return "DONE";
+  if (abr == "CNL") return "CANCELLED";
 };
 
 //#region STATUS CODE
@@ -135,5 +136,9 @@ exports.RBRD = () => {
 
 exports.DND = () => {
   return "DND";
+};
+
+exports.CNL = () => {
+  return "CNL";
 };
 //#endregion
