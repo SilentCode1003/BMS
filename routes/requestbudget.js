@@ -16,7 +16,7 @@ module.exports = router;
 router.get("/load", (req, res) => {
   try {
     let status = dictionary.GetValue(dictionary.DND());
-    let sql = `select * from budget_request_details where not brd_status='${status}'`;
+    let sql = `select * from budget_request_details where not brd_status='${status}' order by brd_requestid desc`;
 
     mysql.Select(sql, "BudgetRequestDetails", (err, result) => {
       if (err) console.error("Error: ", err);
@@ -135,8 +135,9 @@ router.post("/save", (req, res) => {
 router.post("/getrequest", (req, res) => {
   try {
     let requestby = req.body.requestby;
-    let status = dictionary.GetValue(dictionary.DND());
-    let sql = `select * from budget_request_details where not brd_status='${status}' and brd_requestby='${requestby}'`;
+    let status_done = dictionary.GetValue(dictionary.DND());
+    let status_cancelled = dictionary.GetValue(dictionary.CNL());
+    let sql = `select * from budget_request_details where not brd_status in ('${status_done}','${status_cancelled}') and brd_requestby='${requestby}'`;
 
     console.log(requestby);
 
@@ -144,7 +145,7 @@ router.post("/getrequest", (req, res) => {
       if (err) console.error("Error: ", err);
       let data = [];
 
-      console.log(`${requestby} ${status}`);
+      console.log(`${requestby} ${status_done}`);
 
       result.forEach((key, item) => {
         let details = "";

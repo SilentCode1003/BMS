@@ -292,6 +292,7 @@ exports.InsertTable = (tablename, data, callback) => {
 
   if (tablename == "master_route") {
     let sql = `INSERT INTO master_route(
+        mr_location,
         mr_origin,
         mr_destination,
         mr_status,

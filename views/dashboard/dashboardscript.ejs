@@ -110,8 +110,11 @@
               }
 
               if (status == "APPROVED") {
-                action =
-                  'NEED TO REIMBURSE';
+                action = "NEED TO REIMBURSE";
+              }
+
+              if (status == "CANCELLED") {
+                action = "CANCELLED REQUEST";
               }
 
               finalData.push({

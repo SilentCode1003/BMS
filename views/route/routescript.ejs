@@ -1,8 +1,10 @@
 <script>
   $(document).ready(function () {
     LoadTable();
+    LoadList();
 
     $(document).on("click", "#addBtn", function () {
+      let location = $("#locationlist").val();
       let origin = $("#origin").val();
       let destination = $("#destination").val();
 
@@ -22,6 +24,7 @@
           type: "POST",
           url: "/route/save",
           data: {
+            location: location,
             origin: origin,
             destination: destination,
           },
@@ -99,6 +102,7 @@
                 routecode: item.routecode,
                 origin: item.origin,
                 destination: item.destination,
+                location: item.location,
                 status: item.status,
                 createdby: item.createdby,
                 createddate: item.createddate,
@@ -119,6 +123,7 @@
           { data: "routecode" },
           { data: "origin" },
           { data: "destination" },
+          { data: "location" },
           { data: "status" },
           { data: "createdby" },
           { data: "createddate" },
@@ -133,6 +138,25 @@
     function ClearInput() {
       document.getElementById("origin").value = "";
       document.getElementById("destination").value = "";
+    }
+
+    function LoadList() {
+      $.ajax({
+        type: "GET",
+        url: "/location/load",
+        success: function (result) {
+          var data = result.data;
+
+          $.each(data, function (key, item) {
+            var options = new Option(item.locationname, item.locationname);
+            $(options).html(item.locationname);
+            $("#locationlist").append(options);
+          });
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
     }
   });
 </script>

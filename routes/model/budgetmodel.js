@@ -63,6 +63,7 @@ exports.MasterRoute = (data) => {
   data.forEach((key, item) => {
     dataresult.push({
       routecode: key.mr_routecode,
+      location: key.mr_location,
       origin: key.mr_origin,
       destination: key.mr_destination,
       status: key.mr_status,

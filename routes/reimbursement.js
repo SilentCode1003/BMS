@@ -42,6 +42,9 @@ router.post("/save", (req, res) => {
     let status = dictionary.GetValue(dictionary.RBRD());
     let reimbursementdate = helper.GetCurrentDate();
     let reimbursement_details = [];
+    let budget_request_detail = [reimbursementby, status];
+    let sql_update_budget_request_detail =
+      "update budget_request_detail set brd_status=? where brd_reimburseby=?";
 
     reimbursement_details.push([
       reimbursementby,
@@ -57,12 +60,19 @@ router.post("/save", (req, res) => {
       reimbursement_details,
       (err, result) => {
         if (err) console.error("Error: ", err);
-
         console.log(result);
 
-        res.json({
-          msg: "success",
-        });
+        mysql.UpdateMultiple(
+          sql_update_budget_request_detail,
+          budget_request_detail,
+          (err, result) => {
+            if (err) console.error("Error: ", err);
+            console.log(result);
+            res.json({
+              msg: "success",
+            });
+          }
+        );
       }
     );
   } catch (error) {

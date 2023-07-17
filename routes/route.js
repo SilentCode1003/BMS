@@ -39,6 +39,7 @@ router.get("/load", (req, res) => {
 
 router.post("/save", (req, res) => {
   try {
+    let location = req.body.location;
     let origin = req.body.origin;
     let destination = req.body.destination;
     let status = dictionary.GetValue(dictionary.ACT());
@@ -55,7 +56,14 @@ router.post("/save", (req, res) => {
           msg: "duplicate",
         });
       } else {
-        data.push([origin, destination, status, createdby, createdate]);
+        data.push([
+          location,
+          origin,
+          destination,
+          status,
+          createdby,
+          createdate,
+        ]);
 
         console.log(data);
         mysql.InsertTable("master_route", data, (err, result) => {
@@ -74,13 +82,14 @@ router.post("/save", (req, res) => {
   }
 });
 
-router.get("/getorigin", (req, res) => {
+router.post("/getorigin", (req, res) => {
   try {
-    let sql = `select distinct(mr_origin) as origin from master_route;`;
+    let location = req.body.location;
+    let sql = `select distinct(mr_origin) as origin from master_route where mr_location='${location}'`;
 
     mysql.SelectResult(sql, (err, result) => {
       if (err) console.error("Error: ", err);
-      
+
       console.log(result);
 
       res.json({
