@@ -28,20 +28,18 @@ exports.CheckConnection = () => {
   });
 };
 
-exports.InsertMultiple = async (stmt, todos) => {
+exports.InsertMultiple = async (stmt, data, callback) => {
   try {
     connection.connect((err) => {
       return err;
     });
     // console.log(statement: ${stmt} data: ${todos});
 
-    connection.query(stmt, [todos], (err, results, fields) => {
+    connection.query(stmt, data, (err, results, fields) => {
       if (err) {
-        return console.error(err.message);
+        callback(err.message, null);
       }
-      console.log(`Row inserted: ${results.affectedRows}`);
-
-      return 1;
+      callback(null, `Row inserted: ${results.affectedRows}`);
     });
   } catch (error) {
     console.log(error);
@@ -537,5 +535,38 @@ exports.isDataExist = (sql, tablename) => {
         resolve(false);
       }
     });
+  });
+};
+
+exports.isDataExistCallback = (sql, tablename, callback) => {
+  this.Select(sql, tablename, (err, result) => {
+    if (err) callback(err, null);
+
+    if (result.length != 0) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  });
+};
+
+exports.SelectResultPromise = (sql) => {
+  return new Promise((resolve, reject) => {
+    try {
+      connection.connect((err) => {
+        reject(err);
+      });
+      connection.query(sql, (error, results, fields) => {
+        // console.log(results);
+
+        if (error) {
+          reject(error);
+        }
+
+        resolve(results);
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 };

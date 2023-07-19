@@ -125,3 +125,108 @@ router.post("/getdestination", (req, res) => {
     });
   }
 });
+
+router.post("/excelsave", (req, res) => {
+  try {
+    let data = req.body.data;
+    let status = dictionary.GetValue(dictionary.ACT());
+    let createdby = "CREATOR";
+    let createddate = helper.GetCurrentDatetime();
+    data = JSON.parse(data);
+    let master_route = [];
+    let master_route_price = [];
+    let router_transporation = [];
+    let counter = 0;
+
+    data.forEach((key, item) => {
+      let location = key.location;
+      let origin = key.origin;
+      let destination = key.destination;
+      let modeoftransportation = key.modeoftransportation;
+      let price = key.price;
+
+      if (origin != undefined) {
+        master_route.push([
+          location,
+          origin,
+          destination,
+          status,
+          createdby,
+          createddate,
+        ]);
+
+        router_transporation.push([
+          origin,
+          destination,
+          modeoftransportation,
+          price,
+        ]);
+      }
+    });
+
+    let master_route_refine = helper.removeDuplicateSets(master_route);
+    mysql.InsertTable("master_route", master_route_refine, (err, result) => {
+      if (err) console.error("Error: ", err);
+      console.log(result);
+    });
+
+    let master_route_price_refine =
+      helper.removeDuplicateSets(router_transporation);
+    master_route_price_refine.forEach((item) => {
+      let origin = item[0];
+      let destination = item[1];
+      let transportation = item[2];
+      let price = item[3];
+
+      var sql_check = `select mr_routecode as routecode
+      from master_route
+      where mr_origin='${origin}'
+      and mr_destination='${destination}'`;
+
+      mysql.SelectResult(sql_check, (err, result) => {
+        if (err) console.error("Error: ", err);
+
+        let routecode = result[0].routecode;
+        let routedescription = `${origin} to ${destination}`;
+
+        if (transportation == null) {
+          console.log(`${transportation} ${origin} ${destination}`);
+        }
+
+        master_route_price.push([
+          `${routecode}`,
+          routedescription,
+          `${price}`,
+          transportation,
+          "",
+          "",
+          "",
+          createdby,
+          createddate,
+          status,
+        ]);
+
+        counter += 1;
+
+        if (master_route_price_refine.length == counter) {
+          mysql.InsertTable(
+            "master_route_price",
+            master_route_price,
+            (err, result) => {
+              if (err) console.error("Error: ", err);
+
+              console.log(result);
+              res.json({
+                msg: "success",
+              });
+            }
+          );
+        }
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error,
+    });
+  }
+});
