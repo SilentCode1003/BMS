@@ -5,6 +5,11 @@
     let requestbudget = "";
     let requeststatus = "";
 
+    let reimburseid = "";
+    let reimburseby = "";
+    let reimburserequestid = "";
+    let totalreimburse = "";
+
     LoadTable();
 
     $("#requestbudget-table tbody").on("click", "tr", function () {
@@ -20,6 +25,21 @@
       requestby = dataRow[1];
       requestbudget = dataRow[3];
       requeststatus = dataRow[5];
+    });
+
+    $("#reimbursement-table tbody").on("click", "tr", function () {
+      var dataRow = [];
+      $(this)
+        .closest("tr")
+        .find("td")
+        .each(function () {
+          dataRow.push($(this).text());
+        });
+      console.log(dataRow);
+      reimburseid = dataRow[0];
+      reimburseby = dataRow[1];
+      reimburserequestid = dataRow[3];
+      totalreimburse = dataRow[5];
     });
 
     $(document).on("click", "#approveBtn", function () {
@@ -60,9 +80,6 @@
       }
     });
 
-    let reimburseid = "";
-    let reimburseby = "";
-
     $("#searchreimburse").on("keyup", function () {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("searchreimburse");
@@ -81,6 +98,27 @@
         }
       }
     });
+
+    $(document).on("click",'#approveReimburseBtn', function () {
+      $.ajax({
+        type: "POST",
+        url: "/reimbursement/approve",
+        data: {
+          reimburseid: reimburseid,
+          requestid: reimburserequestid,
+          totalreimburse: totalreimburse,
+          reimburseby: reimburseby,
+        },
+        success: function (result) {
+          // LoadTable();
+          success("Success", "Reimburse Approved Successfully!");
+        },
+        error: function (err) {
+          errormsg(err);
+        },
+      });
+    });
+
     function LoadTable() {
       $("#requestbudget-table").DataTable({
         destroy: true,
@@ -172,14 +210,11 @@
             $.each(data, (key, item) => {
               var status = item.status;
 
-              if (status == "ACTIVE") {
+              if (status == "REIMBURSED") {
                 action =
-                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="inactiveBtn" class="btn btn-outline-primary" name="inactiveBtn">INACTIVE</button>';
+                  '<button id="checkBtn" class="btn btn-outline-primary w-75" name="checkBtn">CHECK</button><button id="approveReimburseBtn" class="btn btn-outline-primary w-75" name="approveReimburseBtn">APPROVE</button>';
               }
-              if (status == "INACTIVE") {
-                action =
-                  '<button id="editBtn" class="btn btn-outline-primary" name="editBtn" data-toggle="modal" data-target="#employeeModal">EDIT</button> <button id="activeBtn" class="btn btn-outline-primary" name="activeBtn">ACTIVE</button>';
-              }
+
               finalData.push({
                 reimbursementid: item.reimbursementid,
                 reimbursementby: item.reimbursementby,

@@ -16,6 +16,7 @@ module.exports = router;
 router.get("/load", (req, res) => {
   try {
     let status = dictionary.GetValue(dictionary.DND());
+    let statusReimburse = dictionary.GetValue(dictionary.RBRD());
     let sql = `select * from budget_request_details where not brd_status='${status}' order by brd_requestid desc`;
 
     mysql.Select(sql, "BudgetRequestDetails", (err, result) => {
@@ -235,12 +236,12 @@ router.post("/approve", (req, res) => {
 router.post("/gettotalrequest", (req, res) => {
   try {
     let requestby = req.body.requestby;
-    let status = dictionary.GetValue(dictionary.APD());
+    let status = dictionary.GetValue(dictionary.CNL());
     let datefrom = helper.GetCurrentMonthFirstDay();
     let dateto = helper.GetCurrentMonthLastDay();
     let sql = `select sum(brd_budget) as total
          from budget_request_details 
-         where brd_status='${status}' 
+         where not brd_status='${status}' 
          and brd_requestby='${requestby}' 
          and brd_requestdate between '${datefrom}' and '${dateto}'`;
 
